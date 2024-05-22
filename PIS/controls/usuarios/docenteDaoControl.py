@@ -3,7 +3,7 @@ from controls.dao.daoAdapter import DaoAdapter
 from models.usuarios.docente import Docente
 
 
-class docenteDaoControl(DaoAdapter):
+class DocenteControl(DaoAdapter):
     def __init__(self):
         super().__init__(Docente) 
         self.__docente = None
@@ -23,7 +23,6 @@ class docenteDaoControl(DaoAdapter):
 
     @property
     def save(self):
-        self._docente._id = self._lista()._length + 1
         self._save(self._docente)
 
     def merge(self, pos):

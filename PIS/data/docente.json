@@ -1,0 +1,14 @@
+[
+    {
+        "titulo": "Magister",
+        "cubiculo": "A-1",
+        "idiomas": "Ingles",
+        "tipoContrato": "Tiempo Completo"
+    },
+    {
+        "titulo": "Doctor",
+        "cubiculo": "B-1",
+        "idiomas": "Frances",
+        "tipoContrato": "Medio Tiempo"
+    }
+]
