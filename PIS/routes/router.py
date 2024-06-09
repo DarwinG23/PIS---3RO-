@@ -19,6 +19,6 @@ cors = CORS(router, resource={
 
 @router.route('/') #SON GETS
 def home():
-    return render_template('index.html')
+    return render_template('login.html')
 
 
