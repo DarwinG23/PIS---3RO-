@@ -17,8 +17,24 @@ cors = CORS(router, resource={
 #GET: PARA PRESENTAR DATOS
 #POST: GUARDA DATOS, MODIFICA DATOS Y EL INICIO DE SESION, EVIAR DATOS AL SERVIDOR
 
-@router.route('/') #SON GETS
-def home():
+@router.route('/', ) #SON GETS
+def inicio():
     return render_template('login.html')
+
+@router.route('/login',  methods=["POST"])
+def login():
+    data = request.form
+    
+    print(data["correo"])
+    print(data["contrasenia"])
+    
+    return redirect('/home')
+
+
+@router.route('/home')
+def home():
+    return render_template('index.html')
+
+
 
 
