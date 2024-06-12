@@ -1,6 +1,6 @@
-from flask import Blueprint, jsonify, abort , request, render_template, redirect, make_response
-from flask import flash
+from flask import Blueprint, jsonify, abort , request, render_template, redirect, make_response, url_for, flash, Flask
 from flask_cors import CORS
+from controls.login.cuentaDaoControl import CuentaDaoControl
 import time
 router = Blueprint('router', __name__)
 
@@ -23,13 +23,22 @@ def inicio():
 
 @router.route('/login',  methods=["POST"])
 def login():
+    
     data = request.form
+    cc = CuentaDaoControl()
+    cuenta = cc._list().binary_search_models(data["correo"], "_correo")
+                       
+    if cuenta == -1:
+        flash('Usuario no encontrado', 'error')
+        return redirect(url_for('router.inicio'))
+    elif cuenta._contrasenia == data["contrasenia"]:
+        return redirect('/home')
+    else:
+        flash('Contraseña incorrecta', 'error')
+        return redirect(url_for('router.inicio'))
     
-    print(data["correo"])
-    print(data["contrasenia"])
-    
-    return redirect('/home')
-
+ 
+   
 
 @router.route('/home')
 def home():

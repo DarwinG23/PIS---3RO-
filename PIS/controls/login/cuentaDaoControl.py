@@ -1,6 +1,6 @@
 from typing import Type
 from controls.dao.daoAdapter import DaoAdapter
-from models.login.cuenta import Cuenta
+from models.cuenta import Cuenta
 
 
 class CuentaDaoControl(DaoAdapter):

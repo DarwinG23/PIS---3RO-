@@ -1,5 +1,5 @@
 from controls.dao.daoAdapter import DaoAdapter
-from models.login.rol import Rol
+from models.rol import Rol
 
 
 class RolDaoControl(DaoAdapter):

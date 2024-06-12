@@ -1,6 +1,6 @@
 from typing import Type
 from controls.dao.daoAdapter import DaoAdapter
-from  models.administrativo.cursa import Cursa
+from  models.cursa import Cursa
 
 class CursaControl(DaoAdapter):
     def __init__(self):

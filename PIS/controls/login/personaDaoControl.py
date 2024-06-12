@@ -1,5 +1,5 @@
 from controls.dao.daoAdapter import DaoAdapter
-from models.login.persona import Persona
+from models.persona import Persona
 
 class PersonaDaoControl(DaoAdapter):
     

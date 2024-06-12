@@ -1,5 +1,5 @@
 from controls.dao.daoAdapter import DaoAdapter
-from models.seguimiento.unidad import Unidad
+from models.unidad import Unidad
 
 class UnidadControl(DaoAdapter):
     def _init_(self):
