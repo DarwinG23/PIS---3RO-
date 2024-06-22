@@ -1,5 +1,5 @@
 from controls.dao.daoAdapter import DaoAdapter
-from models.seguimiento.asignacion import Asignacion
+from models.asignacion import Asignacion
 
 class AsignacionControl(DaoAdapter):
     def _init_(self):
