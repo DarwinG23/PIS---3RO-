@@ -56,7 +56,10 @@ class Cuenta:
         cuenta._contrasenia = dic["contrasenia"]
         cuenta._estado = dic["estado"]
         return cuenta
-
+    
+    
+    def __str__(self):
+        return self.__correo
 
 
         
