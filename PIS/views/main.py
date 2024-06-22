@@ -5,25 +5,23 @@ from controls.usuarios.docenteDaoControl import DocenteControl
 
 from controls.usuarios.estudianteDaoControl import EstudianteControl
 from controls.login.cuentaDaoControl import CuentaDaoControl
+from controls.academico.mallaCurricularControl import MallaCurricularControl
+from controls.academico.cicloControl import CicloControl
+
 
 
 dc = DocenteControl()
 ec = EstudianteControl()
 cc = CuentaDaoControl()
+cic = CicloControl()
+mcc = MallaCurricularControl()
 
 try:
-   listaInt = Linked_List()
    
-   for i in range(0, 10):
-      listaInt.addNode(i)
-      
-   listaInt.print
-
-   print(listaInt.binary_search(22))
-   
-   cc._list().print
-   
-   print(cc._list().binary_search_models("darwin.sarango@unl.edu.ec", "_correo"))
+   cic._ciclo._descripcion = 'Ciclo 1'
+   cic._ciclo._vigencia = True
+   cic._ciclo._malla_curricular = 1
+   cic.save
    
    
    # cc._cuenta._correo = "darwin.sarango@unl.edu.ec"
