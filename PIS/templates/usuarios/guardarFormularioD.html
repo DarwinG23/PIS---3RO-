@@ -1,0 +1,33 @@
+{% extends "docentes.html" %}
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <table id="tabla" class="table table-striped table-bordered text-center">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Nro</th>
+                    <th>Titulo</th>
+                    <th>Cubiculo</th>
+                    <th>Idiomas</th>
+                    <th>TipoContrato</th>
+                    <th>Acciones</th>
+                    <th>Eliminar</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in lista %}
+                    <tr>
+                        <td>{{ item.id }}</td>
+                        <td>{{ item.titulo }}</td>
+                        <td>{{ item.cubiculo }}</td>
+                        <td>{{ item.idiomas }}</td>
+                        <td>{{ item.tipoContrato }}</td>   
+                        <td><a href="/docentes/editar/{{ item.id }}" class="btn btn-info btn-sm">Modificar</a></td>
+                        <td><a href="/docentes/eliminar/{{ item.id }}" class="btn btn-danger btn-sm">Eliminar</a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
