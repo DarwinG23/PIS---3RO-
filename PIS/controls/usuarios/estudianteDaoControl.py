@@ -1,6 +1,6 @@
 from typing import Type
 from controls.dao.daoAdapter import DaoAdapter
-from models.usuarios.estudiante import Estudiante
+from models.estudiante import Estudiante
 
 
 class EstudianteControl(DaoAdapter):
