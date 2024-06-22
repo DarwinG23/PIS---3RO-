@@ -3,8 +3,11 @@ from controls.exception.linkedEmpty import LinkedEmpty
 from controls.exception.arrayPositionException import ArrayPositionException
 #from controls.tdaArray import TDAArray
 from numbers import Number
-from controls.tda.linked.burbuja import Burbuja
 from controls.tda.linked.insercion import Insercion
+from controls.tda.linked.burbuja import Burbuja
+from controls.tda.linked.quicksort import QuickSort
+from controls.tda.linked.mergesort import MergeSort
+from controls.tda.linked.shellsort import ShellSort
 
 class Linked_List(object):
     def __init__(self):
@@ -146,17 +149,17 @@ class Linked_List(object):
             self.addLast(i)
 
 
-    def dicToListLast(self, array_dict):
+    def dicToListLast(self, array_dict, clase):
         for i in range(0, len(array_dict)):
-            #data = Atencion().deserializar(array_dict[i])                
-            #self.addLast(data)
-            pass #QUITAR CUANDO SE DESCOMENTE EL CODIGO DE ARRIBA
+            data = clase.deserializar(array_dict[i])                
+            self.addLast(data)
 
-    def dicToListFirst(self, array_dict):
+
+    def dicToListFirst(self, array_dict, clase):
         for i in range(0, len(array_dict)):
-            # a = Atencion().deserializar(array_dict[i])           
-            # self.addFirst(a)
-            pass #QUITAR CUANDO SE DESCOMENTE EL CODIGO DE ARRIBA
+            a = clase.deserializar(array_dict[i])           
+            self.addFirst(a)
+
             
     
     def delete(self, poss = 0 ):
@@ -196,9 +199,9 @@ class Linked_List(object):
     
 
     @classmethod
-    def deserializar(self, array_dict):
+    def deserializar(self, array_dict, clase):
         linked = Linked_List()
-        linked.dicToListLast(array_dict)
+        linked.dicToListLast(array_dict, clase)
         return linked
     
     @property
@@ -230,7 +233,7 @@ class Linked_List(object):
         
     
               
-    def sort(self, type = 1):
+    def sort(self, type = 1, method = 3):
         if self.isEmpty:
             raise LinkedEmpty("List is Empty")
         else:  
@@ -238,34 +241,85 @@ class Linked_List(object):
             self.clear
             #datos primitivos
             if isinstance(array[0], Number) or isinstance(array[0], str):
-                #order = Burbuja()
-                order = Insercion()
                 if type == 1:
-                    #array = order.sort_burbuja_number_ascent(array)
-                    array = order.sort_primitive_ascent(array)
+                    if method == 1:
+                        order = Burbuja()
+                        array = order.sort_burbuja_number_ascent(array)
+                    elif method == 2:
+                        order = Insercion()
+                        array = order.sort_primitive_ascent(array)
+                    elif method == 3:
+                        order = QuickSort()
+                        array = order.quicksort_numbers_ascent(array, 0, len(array) - 1)
+                    elif method == 4:
+                        order = MergeSort()
+                        array = order.mergeSort_number_ascent(array)
+                    elif method == 5:
+                        order = ShellSort()
+                        array = order.shell_number_ascent(array)
+
                 else:
-                    #array = order.sort_burbuja_number_descent(array)
-                    array = order.sort_primitive_descent(array)
+                    if method == 1:
+                        order = Burbuja()
+                        array = order.sort_burbuja_number_descent(array)
+                    elif method == 2:
+                        order = Insercion()
+                        array = order.sort_primitive_descent(array)
+                    elif method == 3:
+                        order = QuickSort()
+                        array = order.quicksort_numbers_descent(array, 0, len(array) - 1)
+                    elif method == 4:
+                        order = MergeSort()
+                        array = order.mergeSort_number_descent(array)
+                    elif method == 5:
+                        order = ShellSort()
+                        array = order.shell_number_descent(array)
           
             self.toList(array)
+
             
-    def  sort_models(self, atribute ,type = 1 ):
+    def  sort_models(self, atribute ,type = 1, method = 3):
         if self.isEmpty:
             raise LinkedEmpty("List is Empty")
         else:  
             array = self.toArray
             self.clear
             if isinstance(array[0], object): 
-                #order = Burbuja()
-                order = Insercion()
-                if type == 1:                  
-                    #array = order.sort_burbuja_atribute_ascent(array, atribute)
-                    array = order.sort_models_ascent(array, atribute)
+                if type == 1:
+                    if method == 1:
+                        order = Burbuja()
+                        array = order.sort_burbuja_atribute_ascent(array, atribute)                  
+                    elif method == 2:
+                        order = Insercion()
+                        array = order.sort_models_ascent(array, atribute)
+                    elif method == 3:
+                        order = QuickSort()
+                        array = order.quicksort_models_ascent(array, 0, len(array) - 1, atribute)
+                    elif method == 4:
+                        order = MergeSort()
+                        array = order.mergeSort_models_ascent(array, atribute)
+                    elif method == 5:
+                        order = ShellSort()
+                        array = order.shell_models_ascent(array, atribute)
                 else:
-                    #array = order.sort_burbuja_atribute_descent(array, atribute)
-                    array = order.sort_models_descent(array, atribute)
+                    if method == 1:
+                        order = Burbuja()
+                        array = order.sort_burbuja_atribute_descent(array, atribute)
+                    elif method == 2:
+                        order = Insercion()
+                        array = order.sort_models_descent(array, atribute)
+                    elif method == 3:
+                        order = QuickSort()
+                        array = order.quicksort_models_descent(array, 0, len(array) - 1, atribute)
+                    elif method == 4:
+                        print("entro en merge descent")
+                        order = MergeSort()
+                        array = order.mergeSort_models_descent(array, atribute)
+                    elif method == 5:
+                        order = ShellSort()
+                        array = order.shell_models_descent(array, atribute)
             self.toList(array)
-        return self
+       
       
     def search_equals(self, data):
         list = Linked_List()
@@ -278,9 +332,9 @@ class Linked_List(object):
                     list.addNode(array[i], list._length)
         return list  
     
-    def binary_search(self, data):
-        self.sort(1)
-        self.print
+    
+    def binary_search_number(self, data):
+        self.sort()
         arr = self.toArray
         left = 0
         right = len(arr) - 1
@@ -292,19 +346,29 @@ class Linked_List(object):
                 left = mid + 1
             else:
                 right = mid - 1
-        return -1 
+        return -1
     
-    # def sort_models_ascent(self, array, atribute):
-        
-    #     for i in range(1, len(array)):
-    #         j =  i -1 
-    #         t = array[i]
-    #         while j>=0 and getattr(t, atribute) < getattr(array[j], atribute):
-    #             array[j+1] = array[j]
-    #             j = j - 1
-    #         array[j+1] = t
-    #     return array
+    def lineal_binary_search_number(self, data):
+        self.sort()
+        arr = self.toArray
+        left = 0
+        right = len(arr) - 1
+        list = Linked_List()
+        while left <= right:
+            mid = (left + right) // 2
+            if arr[mid] == data:
+                for i in range(left, len(arr)):
+                    if arr[i] == data:
+                        list.addNode(arr[i], list._length)
+                break
+            elif arr[mid] < data:
+                left = mid + 1
+            else:
+                right = mid - 1
+        return -1
     
+    
+    #busqueda binaria
     def binary_search_models(self, data, atribute):
         self.sort_models(atribute)
         arr = self.toArray
@@ -319,5 +383,28 @@ class Linked_List(object):
             else:
                 right = mid - 1
         return -1   
+    
+    
+    #busqueda lineal-binaria
+    def lineal_binary_search_models(self, data, atribute):       
+        self.sort_models(atribute)
+        arr = self.toArray
+        left = 0
+        right = len(arr) - 1
+        list = Linked_List()
+        
+        while left <= right:
+            mid = (left + right) // 2
+            if getattr(arr[mid], atribute).lower() == data.lower():  
+                for i in range(left, len(arr)):
+                    if getattr(arr[i], atribute).lower() == data.lower():  
+                        list.addNode(arr[i], list._length)         
+                break                  
+            elif getattr(arr[mid], atribute).lower() < data.lower():
+                left = mid + 1
+            else:
+                right = mid - 1
+        return list
+    
    
     
