@@ -1,1 +1,23 @@
-[{"id": 1, "correo": "darwin.granda@unl.edu.ec", "contrasenia": "1234", "estado": true},{"id": 2, "correo": "alexander.sanchez@unl.edu.ec", "contrasenia": "4321", "estado": true},{"id": 3, "correo": "darwin.sarango@unl.edu.ec", "contrasenia": "0987", "estado": true}]
+[
+    {
+        "id": 1,
+        "correo": "darwin.granda@unl.edu.ec",
+        "contrasenia": "1234",
+        "estado": true,
+        "idPersona": 1
+    },
+    {
+        "id": 2,
+        "correo": "alexander.sanchez@unl.edu.ec",
+        "contrasenia": "4321",
+        "estado": true,
+        "idPersona": 2
+    },
+    {
+        "id": 3,
+        "correo": "darwin.sarango@unl.edu.ec",
+        "contrasenia": "0987",
+        "estado": true,
+        "idPersona": 3
+    }
+]
