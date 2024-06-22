@@ -1,8 +1,21 @@
+from controls.tda.linked.linkedList import Linked_List
+from models.cursa import Cursa  
+
 class PeriodoAcademico:
     def __init__(self):
         self.__id = 0
-        self.__fecha_inicio = None
-        self.__fecha_fin = None
+        self.__fecha_inicio = " "
+        self.__fecha_fin = " "
+        self.__cursas = Linked_List()
+
+    @property
+    def _cursas(self):
+        return self.__cursas
+
+    @_cursas.setter
+    def _cursas(self, value):
+        self.__cursas = value
+
 
     @property
     def id(self):
@@ -32,15 +45,18 @@ class PeriodoAcademico:
     def serializable(self):
         return{
             "id": self.__id,
-            "fecha_inicio": str(self.__fecha_inicio),
-            "fecha_fin": str(self.__fecha_fin)
+            "fecha_inicio": self.__fecha_inicio,
+            "fecha_fin": self.__fecha_fin,
+            "cursas": self.__cursas.serializable
         }
     @classmethod
     def deserializar(data):
         periodo_academico = PeriodoAcademico()
         periodo_academico.id = data["id"]
         periodo_academico.fecha_inicio = data["fecha_inicio"]
-        periodo_academico.fecha_fin = data["fecha_fin"]
+        periodo_academico.fecha_fin = data["fecha_fin"],
+        clase = Cursa()
+        periodo_academico._cursas = Linked_List().deserializar(data["cursas"], clase)
         return periodo_academico
     
     def __str__(self) -> str:

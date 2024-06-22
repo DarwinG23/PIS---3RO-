@@ -1,8 +1,20 @@
+from controls.tda.linked.linkedList import Linked_List
+from models.cursa import Cursa
+
 class Estudiante:
     def __init__(self):
         self.__nota = ""
         self.__asistencia = ""
         self.__colegioProcedencia = ""
+        self.__cursas = Linked_List()
+
+    @property
+    def _cursas(self):
+        return self.__cursas
+
+    @_cursas.setter
+    def _cursas(self, value):
+        self.__cursas = value
 
     @property
     def _nota(self):
@@ -33,7 +45,8 @@ class Estudiante:
         return {
             "nota": self.__nota,
             "asistencia": self.__asistencia,
-            "colegioProcedencia": self.__colegioProcedencia
+            "colegioProcedencia": self.__colegioProcedencia,
+            "cursas": self.__cursas.serializable
         }
     
     def deserializar(data):
@@ -41,6 +54,8 @@ class Estudiante:
         estudiante._nota = data["nota"]
         estudiante._asistencia = data["asistencia"]
         estudiante._colegioProcedencia = data["colegioProcedencia"]
+        clase = Cursa()
+        estudiante._cursas = Linked_List().deserializar(data["cursas"], clase)
         return estudiante
     
     def __str__(self) -> str:
