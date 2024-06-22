@@ -56,5 +56,8 @@ class Rol:
         rol._descripcion = dic["descripcion"]
         rol._estado = dic["estado"]
         return rol
+    
+    def __str__(self):
+        return f"{self.__nombre} - {self.__descripcion}"
 
     
