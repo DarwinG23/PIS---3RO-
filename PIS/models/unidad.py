@@ -5,6 +5,16 @@ class Unidad:
         self.__estado = False
         self.__fecha_inicio = ''
         self.__fecha_limite = ''
+        self.__asignacion = 0
+
+    @property
+    def _asignacion(self):
+        return self.__asignacion
+
+    @_asignacion.setter
+    def _asignacion(self, value):
+        self.__asignacion = value
+
 
     @property
     def _id(self):
@@ -55,7 +65,8 @@ class Unidad:
             "nota": self.__nota,
             "estado": self.__estado,
             "fecha_inicio": self.__fecha_inicio,
-            "fecha_limite": self.__fecha_limite
+            "fecha_limite": self.__fecha_limite,
+            "asignacion": self.__asignacion
         }
 
     def deserializar(data):
@@ -65,6 +76,7 @@ class Unidad:
         unidad._estado = data["estado"]
         unidad._fecha_inicio = data["fecha_inicio"]
         unidad._fecha_limite = data["fecha_limite"]
+        unidad._asignacion = data["asignacion"]
         return unidad
     
     def _str_(self) -> str:

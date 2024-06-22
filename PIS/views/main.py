@@ -2,74 +2,38 @@ import sys
 sys.path.append('../')
 from controls.tda.linked.linkedList import Linked_List
 from controls.usuarios.docenteDaoControl import DocenteControl
-
 from controls.usuarios.estudianteDaoControl import EstudianteControl
 from controls.login.cuentaDaoControl import CuentaDaoControl
-
+from controls.academico.mallaCurricularControl import MallaCurricularControl
+from controls.academico.cicloControl import CicloControl
+from controls.login.personaDaoControl import PersonaDaoControl
+from controls.login.rolDaoControl import RolDaoControl
+from models.persona import Persona
 
 dc = DocenteControl()
 ec = EstudianteControl()
-
 cc = CuentaDaoControl()
+mc = MallaCurricularControl()
+cic = CicloControl()
+pc = PersonaDaoControl()  # Instanciar correctamente
+rc = RolDaoControl()
 
 try:
-   # listaInt = Linked_List()
-   
-   # for i in range(0, 10):
-   #    listaInt.addNode(i)
-      
-   # listaInt.print
+   listaRoles = rc._list()
 
-   # print(listaInt.binary_search(22))
+   # Crear y configurar una instancia de Persona
+   persona = Persona()
+   persona._dni = '1106006123'
+   persona._nombre = 'Darwin'
+   persona._apellido = 'Granda'
+   persona._fechaNacimiento = '1997-05-25'
+   persona._numTelefono = '0979411882'
+   persona._idCuenta = 1
+   persona._roles = listaRoles
    
-   # cc._list().print
-   
-   # print(cc._list().binary_search_models("darwin.sarango@unl.edu.ec", "_correo"))
-   
-   
-   # cc._cuenta._correo = "darwin.sarango@unl.edu.ec"
-   # cc._cuenta._contrasenia = "0987"
-   # cc._cuenta._estado = True
-   # cc.save
-   # cc._cuenta = None
-   
-   
-   dc._docente._titulo = 'Magister'
-   dc._docente._cubiculo = 'A-1'
-   dc._docente._idiomas = 'Ingles'
-   dc._docente._tipoContrato = 'Tiempo Completo'
-   dc.save
+   # Asignar la persona al controlador y guardar
+   pc._persona = persona
+   pc.save  # Acceder a la propiedad save
 
-   dc._docente._titulo = 'Doctor'
-   dc._docente._cubiculo = 'B-1'
-   dc._docente._idiomas = 'Frances'
-   dc._docente._tipoContrato = 'Medio Tiempo'
-   dc.save
-
-   dc._docente._titulo = 'Ingeniero'
-   dc._docente._cubiculo = 'C-1'
-   dc._docente._idiomas = 'Aleman'
-   dc._docente._tipoContrato = 'Por horas'
-   dc.save
-
-   ec._estudiante._nota = '10'
-   ec._estudiante._asistencia = '100%'
-   ec._estudiante._colegioProcedencia = 'Daniel Alvarez Burneo'
-   ec.save
-
-   ec._estudiante._nota = '9'
-   ec._estudiante._asistencia = '90%'
-   ec._estudiante._colegioProcedencia = 'San Jose'
-   ec.save
-
-   ec._estudiante._nota = '8'
-   ec._estudiante._asistencia = '80%'
-   ec._estudiante._colegioProcedencia = 'Bernardo Valdiviezo'
-   ec.save
-
-
-   
 except Exception as error:
    print(error)
-
-

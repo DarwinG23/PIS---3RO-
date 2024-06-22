@@ -5,6 +5,16 @@ class Cuenta:
         self.__correo = ""
         self.__contrasenia = ""
         self.__estado = False
+        self.__idPersona = 0
+
+    @property
+    def _idPersona(self):
+        return self.__idPersona
+
+    @_idPersona.setter
+    def _idPersona(self, value):
+        self.__idPersona = value
+
 
     @property
     def _id(self):
@@ -45,7 +55,8 @@ class Cuenta:
             "id": self.__id,
             "correo": self.__correo,
             "contrasenia": self.__contrasenia,
-            "estado": self.__estado
+            "estado": self.__estado,
+            "idPersona": self.__idPersona
         }
     
     @classmethod
@@ -55,6 +66,7 @@ class Cuenta:
         cuenta._correo = dic["correo"]
         cuenta._contrasenia = dic["contrasenia"]
         cuenta._estado = dic["estado"]
+        cuenta._idPersona = dic["idPersona"]
         return cuenta
     
     

@@ -1,4 +1,5 @@
-
+from controls.tda.linked.linkedList import Linked_List
+from models.rol import Rol
 class Persona:
     def __init__(self):
         self.__id = 0
@@ -7,6 +8,8 @@ class Persona:
         self.__apellido = ""
         self.__fechaNacimiento = ""
         self.__numTelefono = ""
+        self.__idCuenta = 0
+        self.__roles = Linked_List()
 
     @property
     def _id(self):
@@ -57,6 +60,23 @@ class Persona:
         self.__numTelefono = value
 
     @property
+    def _idCuenta(self):
+        return self.__idCuenta
+
+    @_idCuenta.setter
+    def _idCuenta(self, value):
+        self.__idCuenta = value
+
+    @property
+    def _roles(self):
+        return self.__roles
+
+    @_roles.setter
+    def _roles(self, value):
+        self.__roles = value
+
+
+    @property
     def serializable(self):
         return {
             "id": self.__id,
@@ -64,7 +84,9 @@ class Persona:
             "nombre": self.__nombre,
             "apellido": self.__apellido,
             "fechaNacimiento": self.__fechaNacimiento,
-            "numTelefono": self.__numTelefono
+            "numTelefono": self.__numTelefono,
+            "idCuenta": self.__idCuenta,
+            "roles": self.__roles.serializable
         }
     
 
@@ -78,5 +100,7 @@ class Persona:
         persona._apellido = data["apellido"]
         persona._fechaNacimiento = data["fechaNacimiento"]
         persona._numTelefono = data["numTelefono"]
-
+        persona._idCuenta = data["idCuenta"]
+        clase = Rol()
+        persona._roles = clase.deserializar(data["roles"], clase)
         return persona
