@@ -1,9 +1,12 @@
-class Docente:
+from models.persona import Persona
+class Docente(Persona):
     def __init__(self):
         self.__titulo = ""
         self.__cubiculo = ""
         self.__idiomas = ""
         self.__tipoContrato = ""
+    
+    
 
     @property
     def _titulo(self):
