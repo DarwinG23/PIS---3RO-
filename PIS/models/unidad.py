@@ -7,45 +7,47 @@ class Unidad:
         self.__fecha_limite = ''
 
     @property
-    def id(self):
+    def _id(self):
         return self.__id
 
-    @id.setter
-    def id(self, value):
+    @_id.setter
+    def _id(self, value):
         self.__id = value
 
     @property
-    def nota(self):
+    def _nota(self):
         return self.__nota
 
-    @nota.setter
-    def nota(self, value):
+    @_nota.setter
+    def _nota(self, value):
         self.__nota = value
 
     @property
-    def estado(self):
+    def _estado(self):
         return self.__estado
 
-    @estado.setter
-    def estado(self, value):
+    @_estado.setter
+    def _estado(self, value):
         self.__estado = value
 
     @property
-    def fecha_inicio(self):
+    def _fecha_inicio(self):
         return self.__fecha_inicio
 
-    @fecha_inicio.setter
-    def fecha_inicio(self, value):
+    @_fecha_inicio.setter
+    def _fecha_inicio(self, value):
         self.__fecha_inicio = value
 
     @property
-    def fecha_limite(self):
+    def _fecha_limite(self):
         return self.__fecha_limite
 
-    @fecha_limite.setter
-    def fecha_limite(self, value):
+    @_fecha_limite.setter
+    def _fecha_limite(self, value):
         self.__fecha_limite = value
 
+
+    
     @property
     def serializable(self):
         return {
