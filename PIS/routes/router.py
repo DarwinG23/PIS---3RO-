@@ -19,7 +19,7 @@ cors = CORS(router, resource={
 
 @router.route('/', ) #SON GETS
 def inicio():
-    return render_template('login.html')
+    return render_template('login/login.html')
 
 @router.route('/login',  methods=["POST"])
 def login():
