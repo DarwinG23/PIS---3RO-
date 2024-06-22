@@ -36,6 +36,22 @@ class DaoAdapter(Generic[T]):
 
         return aux
     
+    def to_dic_lista(self, lista):
+        aux = []
+        arreglo = lista.toArray
+        for i in range(0, lista._length):
+            aux.append(arreglo[i].serializable)
+        return aux
+        
+        
+    def _get(self, id):
+        list = self._list()
+        array = list.toArray
+        for i in range(0, len(array)):
+            if array[i]._id == id:
+                return array[i]
+        return None
+    
     def to_dic(self):
         aux = []
         self._list()

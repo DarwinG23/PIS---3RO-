@@ -51,7 +51,7 @@ def home():
 def lista_docente():
     dc = DocenteControl()
     list = dc._list()
-    return render_template('usuarios/guardarFomulario.html', lista=dc.to_dict(list))
+    return render_template('usuarios/guardarFomulario.html', lista=dc.to_dic_lista(list))
 
 
 
