@@ -11,6 +11,8 @@ class Persona:
         self.__idCuenta = 0
         self.__roles = Linked_List()
 
+
+
     @property
     def _id(self):
         return self.__id

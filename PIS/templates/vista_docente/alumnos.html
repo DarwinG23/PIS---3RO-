@@ -20,6 +20,15 @@
                     <a class="nav-link" href="/home/materias/{{idPersona}}">Materias</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="/home/personas">Docentes</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/home/estudiantes">Estudiante</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/home/personas/agrgar">Registro</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="/">Salir</a>
                 </li>
                 <li class="nav-item ml-md-4">
@@ -30,10 +39,11 @@
     </div>
 </nav><!-- End of Page Navbar -->   
 {%endblock%}
-
+<br>
+<br>
 <div class="container my-4">
     <div class="text-center mb-4">
-        <h1 class="display-4 text-white">ESTUDIANTES</h1>
+        <h1 class="display-4 text-dark">ESTUDIANTES</h1>
     </div>
     
     <div class="card mb-4">
@@ -41,13 +51,13 @@
             <div class="row mb-3">
                 <div class="col-md-4">
                     <label for="criterio">Criterio:</label>
-                    <select id="criterio" class="custom-select">
+                    <select id="criterio" class="custom-select"style="margin-left: 15%">
                         <option value="_nombre">Nombre</option>
                         <option value="_apellido">Apellido</option>
                     </select>
                 </div>
                 <div class="col-md-4 d-flex align-items-end">
-                    <div class="custom-control custom-checkbox">
+                    <div class="custom-control custom-checkbox" style="margin-left: 15%">
                         <input type="checkbox" class="custom-control-input" id="tipo">
                         <label class="custom-control-label" for="tipo">DESCENDENTE</label>
                     </div>
@@ -55,9 +65,9 @@
                 </div>
             </div>
             <div class="row mb-3">
-                <div class="col-md-4">
-                    <label for="valor">Valor a buscar:</label>
-                    <input type="text" id="valor" class="form-control" placeholder="Ingrese el valor a buscar">
+                <div class="col-md-4" >
+                    <label for="valor">Texto::</label>
+                    <input type="text" id="valor" class="form-control" placeholder="Ingrese el valor a buscar" style="margin-left: 15%">
                 </div>
                 <div class="col-md-4 align-self-end">
                     <button class="btn btn-info ml-3" id="busca">BUSCAR</button>    
