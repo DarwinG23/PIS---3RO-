@@ -6,6 +6,7 @@ class Cursa:
         self.__asignacion = 0
         self.__periodoAcademico = 0
 
+
     @property
     def _idEstudiante(self):
         return self.__idEstudiante

@@ -72,6 +72,7 @@ class Estudiante(Persona):
         estudiante._cursas = Linked_List().deserializar(data["cursas"], clase)
         return estudiante
     
+    
     def __str__(self) -> str:
         return f'{self.__nota} {self.__asistencia} {self.__colegioProcedencia}'
 
