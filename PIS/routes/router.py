@@ -146,10 +146,11 @@ def ver_estudiantes(idMateria, idPersona):
 #---------------------------------------------Usuarios-----------------------------------------------------#
  
 #Lista Docentes
-@router.route('/home/personas')
+@router.route('/home/docentes')
 def lista_docente():
     dc = DocenteControl()
     list = dc._list()
+    list.print
     return render_template('usuarios/guardarFormularioD.html', lista=dc.to_dic_lista(list))
 
 
@@ -161,36 +162,37 @@ def lista_estudiante():
     return render_template('usuarios/guardarFormularioE.html', lista=ec.to_dic_lista(list))
 
 
-@router.route('/home/estudiantes/<tipo>/<attr>/<metodo>') 
-def lista_personas_ordenar(tipo, attr, metodo):
+@router.route('/home/docentes/<tipo>/<attr>/<metodo>') 
+def lista_personas_ordenar_docentes(tipo, attr, metodo):
     dc = DocenteControl()
-    ec = EstudianteControl()
     
     # E y D - Ordenar
-    lista_estudiantes = ec._list()
     lista_docentes = dc._list()
     #-----------------------------------------------------#
-    lista_estudiantes.sort_models(attr, int(tipo), int(metodo))
     lista_docentes.sort_models(attr, int(tipo), int(metodo))
     
-    lista_personas = lista_estudiantes + lista_docentes
     
     return make_response(
-        jsonify({"msg": "OK", "code": 200, "data": dc.to_dic_lista(lista_personas)}),
+        jsonify({"msg": "OK", "code": 200, "data": dc.to_dic_lista(lista_docentes)}),
         200
     )
-    
-@router.route('/home/busqueda/personas/<tipo>/<data>/<attr>')
-def buscar_persona(tipo, data, attr):
-    dc = DocenteControl()
-    ec = EstudianteControl()
 
-    if tipo == "1":
-        list = ec._list().lineal_binary_search_models(data, attr)
+#"http://localhost:5000/home/docentes/busqueda/"+valor+"/"+atributo
+
+@router.route('/home/docentes/busqueda/<data>/<attr>')
+def buscar_docente(data, attr):
+    print("**********************************")
+    print(data, attr)
+    dc = DocenteControl()
+    list = Linked_List()
+    
+    if attr == "_nombre" or attr == "_apellido" or attr == "_dni" or attr == "_titulo" or attr == "_cubiculo" or attr == "_idiomas" or attr == "_tipoContrato":
         list = dc._list().lineal_binary_search_models(data, attr)
-    elif tipo == "2":
-        list = ec._list().binary_search_models(data, attr)
-        list = dc._list().binary_search_models(data, attr)
+    else:
+        docente = dc._list().binary_search_models(data, attr)
+        list.addNode(docente)
+    
+    
     
     return make_response(
         jsonify({"msg": "OK", "code": 200, "data": dc.to_dic_lista(list)}),

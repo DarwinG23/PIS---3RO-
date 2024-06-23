@@ -12,7 +12,13 @@
 
     <!-- Bootstrap + Creative Design main styles -->
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/creative-design.css')}}">
+     <!-- Font Icon -->
+     <link rel="stylesheet" href="{{ url_for('static', filename='fonts/material-icon/css/material-design-iconic-font.min.css') }}">
 
+     <!-- Main css -->
+     <link rel="stylesheet" href="{{ url_for('static', filename='css/style01.css') }}">
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
         body {
             background-color: #201616da; /* Cambia el color a tu preferencia */
@@ -23,36 +29,7 @@
 <body data-spy="scroll" data-target=".navbar" data-offset="40" id="home">
     
     {%block barra%}
-    <!-- Page Navbar -->
-    <nav id="scrollspy" class="navbar page-navbar navbar-expand-md navbar-brand fixed-top" data-spy="affix" data-offset-top="20">
-        <div class="container">
-            <a class="navbar-brand" href="#"><strong class="text-primary">Seguimiento</strong> <span class="text-dark">Estudiantil</span></a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav ml-auto">
-                    
-                    <li class="nav-item">
-                        <a class="nav-link" href="/home">Inico</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="home/materias">Materias</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="home/crear">Crear</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/">Salir</a>
-                    </li>
-                    <li class="nav-item ml-md-4">
-                        <a class="nav-link btn btn-primary" href="components.html">Components</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav><!-- End of Page Navbar -->   
+    
 
     {%endblock%}
 
