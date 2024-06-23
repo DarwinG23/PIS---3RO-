@@ -1,4 +1,5 @@
-
+from controls.tda.linked.linkedList import Linked_List
+from models.rol import Rol
 class Persona:
     def __init__(self):
         self.__id = 0
@@ -7,6 +8,8 @@ class Persona:
         self.__apellido = ""
         self.__fechaNacimiento = ""
         self.__numTelefono = ""
+
+
 
     @property
     def _id(self):
@@ -71,12 +74,11 @@ class Persona:
     @classmethod
     def deserializar(self, data):
         persona = Persona()
-
         persona._id = data["id"]
         persona._dni = data["dni"]
         persona._nombre = data["nombre"]
         persona._apellido = data["apellido"]
         persona._fechaNacimiento = data["fechaNacimiento"]
         persona._numTelefono = data["numTelefono"]
-
         return persona
+    

@@ -15,6 +15,7 @@ class Linked_List(object):
         self.__last = None
         self.__length = 0
     
+    
 
     @property
     def _atype(self):

@@ -5,8 +5,9 @@ class Docente(Persona):
         self.__cubiculo = ""
         self.__idiomas = ""
         self.__tipoContrato = ""
+        
     
-    
+
 
     @property
     def _titulo(self):
