@@ -2,8 +2,8 @@ from controls.dao.daoAdapter import DaoAdapter
 from models.unidad import Unidad
 
 class UnidadControl(DaoAdapter):
-    def _init_(self):
-        super()._init_(Unidad)
+    def __init__(self):
+        super().__init__(Unidad)
         self.__unidad = None
 
     @property

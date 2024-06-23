@@ -73,7 +73,7 @@ class Materia:
         }
         
     @classmethod
-    def deserializar(cls, dic):
+    def deserializar(self, dic):
         materia = Materia()
         materia._id = dic["id"]
         materia._nombre = dic["nombre"]

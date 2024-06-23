@@ -50,7 +50,7 @@ class PeriodoAcademico:
             "cursas": self.__cursas.serializable
         }
     @classmethod
-    def deserializar(data):
+    def deserializar(self, data):
         periodo_academico = PeriodoAcademico()
         periodo_academico.id = data["id"]
         periodo_academico.fecha_inicio = data["fecha_inicio"]

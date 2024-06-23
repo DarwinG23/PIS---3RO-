@@ -11,13 +11,20 @@
         "correo": "alexander.sanchez@unl.edu.ec",
         "contrasenia": "4321",
         "estado": true,
-        "idPersona": 2
+        "idPersona": 3
     },
     {
         "id": 3,
         "correo": "darwin.sarango@unl.edu.ec",
         "contrasenia": "0987",
         "estado": true,
-        "idPersona": 3
+        "idPersona": 4
+    },
+    {
+        "id": 4,
+        "correo": "abel.mora@unl.edu.ec",
+        "contrasenia": "1234",
+        "estado": true,
+        "idPersona": 2
     }
 ]

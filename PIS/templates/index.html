@@ -13,11 +13,18 @@
     <!-- Bootstrap + Creative Design main styles -->
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/creative-design.css')}}">
 
+    <style>
+        body {
+            background-color: #201616da; /* Cambia el color a tu preferencia */
+        }
+    </style>
+
 </head>
 <body data-spy="scroll" data-target=".navbar" data-offset="40" id="home">
     
+    {%block barra%}
     <!-- Page Navbar -->
-    <nav id="scrollspy" class="navbar page-navbar navbar-light navbar-expand-md fixed-top" data-spy="affix" data-offset-top="20">
+    <nav id="scrollspy" class="navbar page-navbar navbar-expand-md navbar-brand fixed-top" data-spy="affix" data-offset-top="20">
         <div class="container">
             <a class="navbar-brand" href="#"><strong class="text-primary">Seguimiento</strong> <span class="text-dark">Estudiantil</span></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -26,14 +33,15 @@
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ml-auto">
+                    
                     <li class="nav-item">
-                        <a class="nav-link" href="#home">Home</a>
+                        <a class="nav-link" href="/home">Inico</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/home/materias">Materias</a>
+                        <a class="nav-link" href="home/materias">Materias</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#testmonial">Sobre nosotros</a>
+                        <a class="nav-link" href="home/crear">Crear</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/">Salir</a>
@@ -46,61 +54,13 @@
         </div>
     </nav><!-- End of Page Navbar -->   
 
-    <!-- Page Header -->
-    <header id="home" class="header">
-        <div class="overlay"></div>
-        <div class="header-content">
-        </div>      
-    </header><!-- End of Page Header -->    
+    {%endblock%}
+
+    <header id="home" class="" style="position: relative; height: 100vh; overflow: hidden;">
+        {% block content %}
+        {% endblock %}
+    </header>   
     
-
-    <!-- Testmonial Section -->
-    <section class="text-center pt-5" id="testmonial">
-        <!-- Container -->
-        <div class="container">
-            <h3 class="mt-3 mb-5 pb-5">Integrantes</h3>
-            <!-- Row -->
-            <div class="row">
-                <div class="col-sm-10 col-md-4 m-auto">
-                    <div class="testmonial-wrapper">
-                        <img src="{{ url_for('static', filename='imgs/avatar1.jpg')}}" alt="Client Image">
-                        <h6 class="title mb-3">Angeli</h6>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Praesentium voluptates voluptatem eum nisi cumque veniam est id reprehenderit atque rerum, cum sit perspiciatis, harum cupiditate nostrum quibusdam perferendis accusamus, illo.</p>
-                    </div>
-                </div>
-                <div class="col-sm-10 col-md-4 m-auto">
-                    <div class="testmonial-wrapper">
-                        <img src="{{ url_for('static', filename='imgs/darwin.jpeg')}}" alt="Client Image">
-                        <h6 class="title mb-3">Darwin Granda</h6>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Praesentium voluptates voluptatem eum nisi cumque veniam est id reprehenderit atque rerum, cum sit perspiciatis, harum cupiditate nostrum quibusdam perferendis accusamus, illo.</p>
-                    </div>
-                </div>
-                <div class="col-sm-10 col-md-4 m-auto">
-                    <div class="testmonial-wrapper">
-                        <img src="{{ url_for('static', filename='imgs/avatar3.jpg')}}" alt="Client Image">
-                        <h6 class="title mb-3">Alexander Sanchez</h6>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Praesentium voluptates voluptatem eum nisi cumque veniam est id reprehenderit atque rerum, cum sit perspiciatis, harum cupiditate nostrum quibusdam perferendis accusamus, illo.</p>
-                    </div>
-                </div>
-                <div class="col-sm-10 col-md-4 m-auto">
-                    <div class="testmonial-wrapper">
-                        <img src="{{ url_for('static', filename='imgs/avatar3.jpg')}}" alt="Client Image">
-                        <h6 class="title mb-3">Erika</h6>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Praesentium voluptates voluptatem eum nisi cumque veniam est id reprehenderit atque rerum, cum sit perspiciatis, harum cupiditate nostrum quibusdam perferendis accusamus, illo.</p>
-                    </div>
-                </div>
-                <div class="col-sm-10 col-md-4 m-auto">
-                    <div class="testmonial-wrapper">
-                        <img src="{{ url_for('static', filename='imgs/avatar3.jpg')}}" alt="Client Image">
-                        <h6 class="title mb-3">Erika</h6>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Praesentium voluptates voluptatem eum nisi cumque veniam est id reprehenderit atque rerum, cum sit perspiciatis, harum cupiditate nostrum quibusdam perferendis accusamus, illo.</p>
-                    </div>
-                </div>
-            </div><!-- end of Row -->           
-        </div><!-- End of Cotanier -->  
-    </section><!-- End of Testmonial Section -->
-
-
 
     <!-- core  -->
     <script src="{{ url_for('static', filename='vendors/jquery/jquery-3.4.1.js')}}"></script>

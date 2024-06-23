@@ -1,0 +1,16 @@
+[
+    {
+        "id": 1,
+        "paralelo": "A",
+        "idEstudiante": 1,
+        "asignacion": 1,
+        "periodoAcademico": 1
+    },
+    {
+        "id": 2,
+        "paralelo": "A",
+        "idEstudiante": 1,
+        "asignacion": 1,
+        "periodoAcademico": 1
+    }
+]

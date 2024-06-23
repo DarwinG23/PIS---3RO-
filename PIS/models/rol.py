@@ -60,7 +60,7 @@ class Rol:
     
 
     @classmethod
-    def deserializar(cls, dic):
+    def deserializar(self, dic):
         rol = Rol()
         rol._id = dic["id"]
         rol._nombre = dic["nombre"]

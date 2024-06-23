@@ -23,5 +23,23 @@
                 "idPersona": 0
             }
         ]
+    },
+    {
+        "id": 2,
+        "dni": "1104526322",
+        "nombre": "Abel",
+        "apellido": "Mora",
+        "fechaNacimiento": "1997-05-25",
+        "numTelefono": "0932415532",
+        "idCuenta": 2,
+        "roles": [
+            {
+                "id": 1,
+                "nombre": "Estudiante",
+                "descripcion": "Rol de Estudiante",
+                "estado": true,
+                "idPersona": 0
+            }
+        ]
     }
 ]
