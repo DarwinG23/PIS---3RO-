@@ -93,7 +93,6 @@ class Persona:
     @classmethod
     def deserializar(self, data):
         persona = Persona()
-
         persona._id = data["id"]
         persona._dni = data["dni"]
         persona._nombre = data["nombre"]
@@ -102,5 +101,8 @@ class Persona:
         persona._numTelefono = data["numTelefono"]
         persona._idCuenta = data["idCuenta"]
         clase = Rol()
-        persona._roles = clase.deserializar(data["roles"], clase)
+        persona._roles = Linked_List().deserializar(data["roles"], clase)
         return persona
+    
+    def __str__(self):
+        return f"{self.__id} - {self.__nombre} {self.__apellido}"
