@@ -71,8 +71,8 @@ class Asignacion:
             "unidades": self.__unidades.serializable  
         }
 
-
-    def deserializar(data):
+    @classmethod
+    def deserializar(self, data):
         asignacion = Asignacion()
         asignacion._id = data["id"]
         asignacion._numero_unidades = data["numero_unidades"]
@@ -83,5 +83,7 @@ class Asignacion:
         asignacion._unidades = Linked_List().deserializar(data["unidades"], clase)
         return asignacion
     
-    def _str_(self) -> str:
-        return self.__cedula_docente
+    
+    
+    def __str__(self):
+        return self._cedula_docente

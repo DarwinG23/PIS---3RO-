@@ -1,10 +1,23 @@
 from controls.tda.linked.linkedList import Linked_List
-from models.cursa import Cursa  
-class Estudiante:
+from models.cursa import Cursa
+from models.persona import Persona
+from models.rol import Rol
+
+class Estudiante(Persona):
     def __init__(self):
+        super().__init__()
         self.__nota = ""
         self.__asistencia = ""
         self.__colegioProcedencia = ""
+        self.__cursas = Linked_List()
+
+    @property
+    def _cursas(self):
+        return self.__cursas
+
+    @_cursas.setter
+    def _cursas(self, value):
+        self.__cursas = value
 
     @property
     def _nota(self):
@@ -32,18 +45,31 @@ class Estudiante:
     
     @property
     def serializable(self):
-        return {
+        data = super().serializable
+        
+        data.update({
             "nota": self.__nota,
             "asistencia": self.__asistencia,
             "colegioProcedencia": self.__colegioProcedencia,
-
-        }
+            "cursas": self.__cursas.serializable
+        })
+        return data
     
     def deserializar(data):
         estudiante = Estudiante()
+        estudiante._dni = data["dni"]
+        estudiante._nombre = data["nombre"]
+        estudiante._apellido = data["apellido"]
+        estudiante._fechaNacimiento = data["fechaNacimiento"]
+        estudiante._numTelefono = data["numTelefono"]
+        estudiante._idCuenta = data["idCuenta"]
+        clase = Rol()
+        estudiante._roles = Linked_List().deserializar(data["roles"], clase)
         estudiante._nota = data["nota"]
         estudiante._asistencia = data["asistencia"]
         estudiante._colegioProcedencia = data["colegioProcedencia"]
+        clase = Cursa()
+        estudiante._cursas = Linked_List().deserializar(data["cursas"], clase)
         return estudiante
     
     

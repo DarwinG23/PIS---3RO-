@@ -126,8 +126,6 @@ class Linked_List(object):
 
     def edit (self, data, poss = 0):
         if poss == 0:
-            print("entro en 0 en edit")
-            print(data)
             self.__head._data = data
         elif poss == (self.__length - 1):
             self.__last._data = data
@@ -152,7 +150,7 @@ class Linked_List(object):
 
     def dicToListLast(self, array_dict, clase):
         for i in range(0, len(array_dict)):
-            data = clase.deserializar(array_dict[i])                
+            data = clase.deserializar(array_dict[i])               
             self.addLast(data)
 
 
@@ -377,9 +375,9 @@ class Linked_List(object):
         right = len(arr) - 1
         while left <= right:
             mid = (left + right) // 2
-            if getattr(arr[mid], atribute) == data:
+            if str(getattr(arr[mid], atribute)).lower() == str(data).lower():
                 return arr[mid] 
-            elif getattr(arr[mid], atribute) < data:
+            elif str(getattr(arr[mid], atribute)).lower() < str(data).lower():
                 left = mid + 1
             else:
                 right = mid - 1
@@ -393,15 +391,16 @@ class Linked_List(object):
         left = 0
         right = len(arr) - 1
         list = Linked_List()
+        print(type(data))
         
         while left <= right:
             mid = (left + right) // 2
-            if getattr(arr[mid], atribute).lower() == data.lower():  
+            if str(getattr(arr[mid], atribute)).lower() == str(data).lower():  
                 for i in range(left, len(arr)):
-                    if getattr(arr[i], atribute).lower() == data.lower():  
+                    if str(getattr(arr[i], atribute)).lower() == str(data).lower():  
                         list.addNode(arr[i], list._length)         
                 break                  
-            elif getattr(arr[mid], atribute).lower() < data.lower():
+            elif str(getattr(arr[mid], atribute)).lower() < data.lower():
                 left = mid + 1
             else:
                 right = mid - 1

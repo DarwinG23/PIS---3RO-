@@ -4,7 +4,7 @@ class Rol:
         self.__nombre = ""
         self.__descripcion = ""
         self.__estado = False
-
+        self.__idPersona = 0
 
     @property
     def _id(self):
@@ -27,8 +27,8 @@ class Rol:
         return self.__descripcion
 
     @_descripcion.setter
-    def _description(self, value):
-        self.__descripcion= value
+    def _descripcion(self, value):
+        self.__descripcion = value
 
     @property
     def _estado(self):
@@ -39,22 +39,34 @@ class Rol:
         self.__estado = value
 
     @property
+    def _idPersona(self):
+        return self.__idPersona
+
+    @_idPersona.setter
+    def _idPersona(self, value):
+        self.__idPersona = value
+
+
+    
+    @property
     def serializable(self):
         return {
             "id": self.__id,
             "nombre": self.__nombre,
             "descripcion": self.__descripcion,
-            "estado": self.__estado
+            "estado": self.__estado,
+            "idPersona": self.__idPersona
         }
     
 
     @classmethod
-    def deserializar(cls, dic):
+    def deserializar(self, dic):
         rol = Rol()
         rol._id = dic["id"]
         rol._nombre = dic["nombre"]
         rol._descripcion = dic["descripcion"]
         rol._estado = dic["estado"]
+        rol._idPersona = dic["idPersona"]
         return rol
     
     def __str__(self):

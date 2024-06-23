@@ -2,94 +2,78 @@ import sys
 sys.path.append('../')
 from controls.tda.linked.linkedList import Linked_List
 from controls.usuarios.docenteDaoControl import DocenteControl
-
 from controls.usuarios.estudianteDaoControl import EstudianteControl
 from controls.login.cuentaDaoControl import CuentaDaoControl
-
+from controls.academico.mallaCurricularControl import MallaCurricularControl
+from controls.academico.cicloControl import CicloControl
+from controls.login.personaDaoControl import PersonaDaoControl
+from controls.login.rolDaoControl import RolDaoControl
+from controls.seguimiento.asignacionControl import AsignacionDaoControl
+from controls.academico.materiaControl import MateriaControl
+from controls.seguimiento.unidadControl import UnidadControl
 from controls.administrativo.cursaControl import CursaControl
-
+from controls.administrativo.periodoAcademicoControl import PeriodoAcademicoControl
+from models.persona import Persona
 
 dc = DocenteControl()
 ec = EstudianteControl()
-
-ca= CursaControl()
-
 cc = CuentaDaoControl()
+mc = MallaCurricularControl()
+cic = CicloControl()
+pc = PersonaDaoControl()  # Instanciar correctamente
+rc = RolDaoControl()
+mac = MateriaControl()
+ac = AsignacionDaoControl()
+uc = UnidadControl()
+pac = PeriodoAcademicoControl()
+cuc = CursaControl()
+
+# [
+#     {
+#         "titulo": "Magister",
+#         "cubiculo": "A-1",
+#         "idiomas": "Ingles",
+#         "tipoContrato": "Tiempo Completo"
+#     },
+#     {
+#         "titulo": "Doctor",
+#         "cubiculo": "B-1",
+#         "idiomas": "Frances",
+#         "tipoContrato": "Medio Tiempo"
+#     },
+#     {
+#         "titulo": "Ingeniero",
+#         "cubiculo": "C-1",
+#         "idiomas": "Aleman",
+#         "tipoContrato": "Por horas"
+#     }
+# ]
 
 try:
-   # listaInt = Linked_List()
    
-   # for i in range(0, 10):
-   #    listaInt.addNode(i)
-      
-   # listaInt.print
-
-   # print(listaInt.binary_search(22))
+   listaPersonas = pc._list()
    
-   # cc._list().print
-   
-   # print(cc._list().binary_search_models("darwin.sarango@unl.edu.ec", "_correo"))
+   persona = listaPersonas.binary_search_models(1, "_id")
    
    
-   # cc._cuenta._correo = "darwin.sarango@unl.edu.ec"
-   # cc._cuenta._contrasenia = "0987"
-   # cc._cuenta._estado = True
-   # cc.save
-   # cc._cuenta = None
+   dc._docente._dni = "1104754521"
+   dc._docente._nombre = "Mario"
+   dc._docente._apellido = "Zambrano"
+   dc._docente._fechaNacimiento = "1999-12-12"
+   dc._docente._numTelefono = "0987655772"
+   dc._docente._idCuenta = " "
+   dc._docente._roles = persona._roles
+   
+   dc._docente._titulo = "Ingeniero"
+   dc._docente._cubiculo = "C-1"
+   dc._docente._idiomas = "Espaniol"
+   dc._docente._tipoContrato = "Por horas"
+   dc.save
    
    
-   # dc._docente._titulo = 'Magister'
-   # dc._docente._cubiculo = 'A-1'
-   # dc._docente._idiomas = 'Ingles'
-   # dc._docente._tipoContrato = 'Tiempo Completo'
-   # dc.save
-
-   # dc._docente._titulo = 'Doctor'
-   # dc._docente._cubiculo = 'B-1'
-   # dc._docente._idiomas = 'Frances'
-   # dc._docente._tipoContrato = 'Medio Tiempo'
-   # dc.save
-
-   # dc._docente._titulo = 'Ingeniero'
-   # dc._docente._cubiculo = 'C-1'
-   # dc._docente._idiomas = 'Aleman'
-   # dc._docente._tipoContrato = 'Por horas'
-   # dc.save
-
-   # ec._estudiante._nota = '10'
-   # ec._estudiante._asistencia = '100%'
-   # ec._estudiante._colegioProcedencia = 'Daniel Alvarez Burneo'
-   # ec.save
-
-   # ec._estudiante._nota = '9'
-   # ec._estudiante._asistencia = '90%'
-   # ec._estudiante._colegioProcedencia = 'San Jose'
-   # ec.save
-
-   # ec._estudiante._nota = '8'
-   # ec._estudiante._asistencia = '80%'
-   # ec._estudiante._colegioProcedencia = 'Bernardo Valdiviezo'
-   # ec.save
-
-   # ca._cursa._paralelo = 'b'
-   # ca.save
-   # lista = Linked_List()
-   # lista.addNode(ca)
-
-   # ec._estudiante._nota = '9'
-   # ec._estudiante._asistencia = '96%'
-   # ec._estudiante._colegioProcedencia = 'Daniel Alvarez Burneo'
-   # ec._estudiante._cursas = lista
-   # ec.save
-
+ 
    
    
-
-   
-
-
    
 except Exception as error:
    print(error)
-
-

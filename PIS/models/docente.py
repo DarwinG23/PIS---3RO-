@@ -1,6 +1,10 @@
 from models.persona import Persona
+from models.rol import Rol
+from controls.tda.linked.linkedList import Linked_List
+
 class Docente(Persona):
     def __init__(self):
+        super().__init__()
         self.__titulo = ""
         self.__cubiculo = ""
         self.__idiomas = ""
@@ -43,15 +47,26 @@ class Docente(Persona):
 
     @property
     def serializable(self):
-        return {
+        data = super().serializable
+        
+        data.update({
             "titulo": self.__titulo,
             "cubiculo": self.__cubiculo,
             "idiomas": self.__idiomas,
             "tipoContrato": self.__tipoContrato
-        }
+        })
+        return data
     
     def deserializar(data):
         docente = Docente()
+        docente._dni = data["dni"]
+        docente._nombre = data["nombre"]
+        docente._apellido = data["apellido"]
+        docente._fechaNacimiento = data["fechaNacimiento"]
+        docente._numTelefono = data["numTelefono"]
+        docente._idCuenta = data["idCuenta"]
+        clase = Rol()
+        docente._roles = Linked_List().deserializar(data["roles"], clase)
         docente._titulo = data["titulo"]
         docente._cubiculo = data["cubiculo"]
         docente._idiomas = data["idiomas"]
