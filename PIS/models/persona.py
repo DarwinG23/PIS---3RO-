@@ -93,7 +93,6 @@ class Persona:
     @classmethod
     def deserializar(self, data):
         persona = Persona()
-
         persona._id = data["id"]
         persona._dni = data["dni"]
         persona._nombre = data["nombre"]

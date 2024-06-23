@@ -21,7 +21,6 @@ class UnidadControl(DaoAdapter):
 
     @property
     def save(self):
-      
         self._save(self._unidad)
 
     def merge(self, pos):
