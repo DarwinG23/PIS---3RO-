@@ -159,29 +159,34 @@ def seguimiento(idMateria, idEstudiante):
     
     if asignacion != -1:
         reportes = asignacion._reportes
-        reportes = reportes.lineal_binary_search_models(estudiante._dni, "_cedulaEstudiante")
         if reportes._length != 0:
-            array = reportes.toArray
-            for i in range(0, len(array)):
-                promedio += array[i]._nota
-                promedio = promedio / len(array)
-    
-            falta = 21 - promedio
-    
-            if falta <= 0:
-                aprobar = 1.0  # Ya has alcanzado o superado el promedio necesario
-            else:
-                prob_aprobar = 0.0
-                for nota in range(7, 10):  # Probabilidad de obtener 8, 9 o 10
-                    if nota <= falta:
-                        prob_aprobar += 1 / 10  # Distribución uniforme
-                aprobar = prob_aprobar
+            reportes = reportes.lineal_binary_search_models(estudiante._dni, "_cedulaEstudiante")
+            if reportes._length != 0:
+                array = reportes.toArray
+                for i in range(0, len(array)):
+                    promedio += array[i]._nota
+                    promedio = promedio / len(array)
+        
+                falta = 21 - promedio
+        
+                if falta <= 0:
+                    aprobar = 1.0  # Ya has alcanzado o superado el promedio necesario
+                else:
+                    prob_aprobar = 0.0
+                    for nota in range(7, 10):  # Probabilidad de obtener 8, 9 o 10
+                        if nota <= falta:
+                            prob_aprobar += 1 / 10  # Distribución uniforme
+                    aprobar = prob_aprobar
 
-            reprobar = 1 - aprobar 
-            
-            aprobar = round(aprobar * 100, 2)
-            reprobar = round(reprobar * 100, 2)
-    return render_template('vista_docente/seguimiento.html', idEstudiante=idEstudiante, lista = ec.to_dic_lista(reportes), paprobar = aprobar, preprobar = reprobar)
+                reprobar = 1 - aprobar 
+                
+                aprobar = round(aprobar * 100, 2)
+                reprobar = round(reprobar * 100, 2)
+                return render_template('vista_docente/seguimiento.html', idEstudiante=idEstudiante, lista = ec.to_dic_lista(reportes), paprobar = aprobar, preprobar = reprobar)
+            else:
+                return render_template('login/login.html')
+        else:
+            return render_template('login/login.html')
     
     
 
