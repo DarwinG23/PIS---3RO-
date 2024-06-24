@@ -7,6 +7,7 @@ from controls.usuarios.estudianteDaoControl import EstudianteControl
 from controls.login.personaDaoControl import PersonaDaoControl
 from controls.seguimiento.asignacionControl import AsignacionDaoControl
 from controls.academico.materiaControl import MateriaControl
+from controls.seguimiento.reporteControl import ReporteControl
 from controls.tda.linked.linkedList import Linked_List
 import time
 router = Blueprint('router', __name__)
@@ -122,7 +123,7 @@ def ver_materias():
 @router.route('/home/materias/estudiantes/<idMateria>/<idPersona>')
 def ver_estudiantes(idMateria, idPersona):
     ac = AsignacionDaoControl()
-    asignacion = ac._list().binary_search_models(int(idMateria), "_id_materia")
+    asignacion = ac._list().binary_search_models(int(idMateria), "_id_materia") #puede ser lineal
     
     if asignacion != -1:
         alumnos = Linked_List()
@@ -132,13 +133,55 @@ def ver_estudiantes(idMateria, idPersona):
         for i in range(0, len(estudiantes)):
             cursas = estudiantes[i]._cursas
             cursa = cursas.binary_search_models(int(asignacion._id), "_asignacion")
-            
+            print(estudiantes[i]._id)
             if cursa != -1:
                 alumnos.addNode(estudiantes[i])
           
-        return render_template('vista_docente/alumnos.html', lista=ec.to_dic_lista(alumnos), idPersona=idPersona)
+        return render_template('vista_docente/alumnos.html', lista=ec.to_dic_lista(alumnos), idPersona=idPersona, idMateria=idMateria)
     else:
         return render_template('login/login.html')
+    
+@router.route('/home/materias/estudiantes/seguimiento/<idMateria>/<idEstudiante>')
+def seguimiento(idMateria, idEstudiante):
+    
+    ec = EstudianteControl()
+    estudiante = ec._list().binary_search_models(int(idEstudiante), "_id")
+    mt = MateriaControl()
+    materia = mt._list().binary_search_models(int(idMateria), "_id")
+    ac = AsignacionDaoControl()
+    asignacion = ac._list().binary_search_models(int(idMateria), "_id_materia")
+    
+    asignacion._reportes.print
+    reportes = Linked_List()
+    aprobar = 0
+    reprobar = 0
+    promedio = 0
+    
+    if asignacion != -1:
+        reportes = asignacion._reportes
+        reportes = reportes.lineal_binary_search_models(estudiante._dni, "_cedulaEstudiante")
+        if reportes._length != 0:
+            array = reportes.toArray
+            for i in range(0, len(array)):
+                promedio += array[i]._nota
+                promedio = promedio / len(array)
+    
+            falta = 21 - promedio
+    
+            if falta <= 0:
+                aprobar = 1.0  # Ya has alcanzado o superado el promedio necesario
+            else:
+                prob_aprobar = 0.0
+                for nota in range(7, 10):  # Probabilidad de obtener 8, 9 o 10
+                    if nota <= falta:
+                        prob_aprobar += 1 / 10  # Distribución uniforme
+                aprobar = prob_aprobar
+
+            reprobar = 1 - aprobar 
+            
+            aprobar = round(aprobar * 100, 2)
+            reprobar = round(reprobar * 100, 2)
+    return render_template('vista_docente/seguimiento.html', idEstudiante=idEstudiante, lista = ec.to_dic_lista(reportes), paprobar = aprobar, preprobar = reprobar)
     
     
 

@@ -1,0 +1,102 @@
+{% extends 'index.html' %}
+
+{% block content %}
+{%block barra%}
+<!-- Page Navbar -->
+<nav id="scrollspy" class="navbar page-navbar navbar-expand-md navbar-brand fixed-top" data-spy="affix" data-offset-top="20">
+    <div class="container">
+        <a class="navbar-brand" href="#"><strong class="text-primary">Seguimiento</strong> <span class="text-dark">Estudiantil</span></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto">
+                
+                <li class="nav-item">
+                    <a class="nav-link text-dark" href="/home/{{idPersona}}">Inico</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark" href="/home/materias/{{idPersona}}">Materias</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark" href="/home/personas">Docentes</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark" href="/home/estudiantes">Estudiante</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark" href="/home/personas/agrgar">Registro</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark" href="/">Salir</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav><!-- End of Page Navbar -->   
+{%endblock%}
+<br>
+<br>
+<div class="container my-4">
+    <div class="text-center mb-4">
+        <h1 class="display-4 text-dark">SEGUIMIENTO ESTUDIANTIL</h1>
+    </div>
+    
+    <div class="card mb-4">
+        <div class="card-body">
+            {% for item in lista%}
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <label for="criterio">UNIDAD {{item.codigoUnidad}}:</label>
+                    <input type="text" id="valor" class="form-control" placeholder="{{item.nota}}" style="margin-left: 30%" disabled>
+                </div>
+                <div class="col-md-4 d-flex align-items-end" style="margin-left: 8%">
+                    <button class="btn btn-info ml-3" id="link">SUBIR</button>
+                    
+                    <label for="criterio" style="margin-left: 40%">ASISTENCIA:</label>
+                    <input type="text" id="valor" class="form-control" placeholder="{{item.asistencia}} %" style="margin-left: 40%" disabled>
+                    
+                </div>
+            </div>
+            {%endfor%}
+        </div>
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-body">
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <label for="criterio">MATRICULA: </label>
+                    <input type="text" id="valor" class="form-control" placeholder="{{lista[0].numMatricula}}" style="margin-left: 30%" disabled>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+    <div class="card mb-4">
+        <div class="card-body">
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <label for="criterio">APROBAR:</label>
+                    <input type="text" id="valor" class="form-control" placeholder="{{paprobar}} %" style="margin-left: 24%" disabled>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-4" >
+                    <label for="valor">REPORBAR:</label>
+                    <input type="text" id="valor" class="form-control" placeholder="{{preprobar}} %" style="margin-left: 24%" disabled>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    <br>
+</div>
+
+
+
+
+
+{%endblock%}
