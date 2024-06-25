@@ -18,7 +18,7 @@
                         Docente
                     </a>
                     <div class="dropdown-menu" aria-labelledby="adminMenu">
-                        <a class="nav-link text-dark" href="/home/materias/{{idPersona}}/{{docente}}/{{admin}}">Materias</a>
+                        <a class="nav-link text-dark" href="/home/docenteMaterias/{{idPersona}}/{{docente}}/{{admin}}">Materias</a>
                     </div>
                 </li>
                 {% endif %}
@@ -42,6 +42,9 @@
                 {% endif %}
                 <li class="nav-item">
                     <a class="nav-link text-dark" href="/home/{{idPersona}}/{{docente}}/{{admin}}">Inicio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark" href="/home/materias/estudiantes/{{idMateria}}/{{idPersona}}/docente/admin">Volver</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link text-dark" href="/">Salir</a>
@@ -87,7 +90,7 @@
             </div>
             <div class="row mb-1">
                 <div class="col-md-4 align-self-end">
-                    <a class="nav-link btn btn-primary ml-3" href="/home/materias/estudiantes/unidades/{{idMateria}}/{{idPersona}}">AGREGAR</a> 
+                    <a class="nav-link btn btn-primary ml-3" href="/home/materias/estudiantes/unidades/agregar/{{idPersona}}/{{idMateria}}/{{docente}}/{{admin}}">AGREGAR</a> 
                 </div>
             </div>
         </div>

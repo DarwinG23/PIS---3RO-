@@ -25,6 +25,8 @@
             background-color: #201616da; /* Cambia el color a tu preferencia */
         }
     </style>
+    <!--ESTILOS DE GRAFICAS-->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/grafica.css') }}">
 
 </head>
 <body data-spy="scroll" data-target=".navbar" data-offset="40" id="home">
@@ -35,7 +37,6 @@
     {%endblock%}
     {%block aux%}
 
-    
     {%endblock%}
 
     <header id="home" class="" style="position: relative; height: 100vh; overflow: hidden;">
@@ -53,6 +54,7 @@
 
     <!-- Creative Design js -->
     <script src="{{ url_for('static', filename='js/creative-design.js')}}"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.min.js" integrity="sha512-L0Shl7nXXzIlBSUUPpxrokqq4ojqgZFQczTYlGjzONGTDAcLremjwaWv5A+EDLnxhQzY5xUZPWLOLqYRkY0Cbw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="{{ url_for('static', filename='js/grafica.js')}}"></script>
 </body>
 </html>
