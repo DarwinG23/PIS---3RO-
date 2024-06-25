@@ -133,16 +133,17 @@ def ver_estudiantes(idMateria, idPersona):
         for i in range(0, len(estudiantes)):
             cursas = estudiantes[i]._cursas
             cursa = cursas.binary_search_models(int(asignacion._id), "_asignacion")
-            print(estudiantes[i]._id)
+            #print(estudiantes[i]._id)
             if cursa != -1:
                 alumnos.addNode(estudiantes[i])
-          
+        print("#########################")
+        print(idPersona)
         return render_template('vista_docente/alumnos.html', lista=ec.to_dic_lista(alumnos), idPersona=idPersona, idMateria=idMateria)
     else:
         return render_template('login/login.html')
     
-@router.route('/home/materias/estudiantes/seguimiento/<idMateria>/<idEstudiante>')
-def seguimiento(idMateria, idEstudiante):
+@router.route('/home/materias/estudiantes/seguimiento/<idMateria>/<idEstudiante>/<idPersona>')
+def seguimiento(idMateria, idEstudiante, idPersona):
     
     ec = EstudianteControl()
     estudiante = ec._list().binary_search_models(int(idEstudiante), "_id")
@@ -182,11 +183,26 @@ def seguimiento(idMateria, idEstudiante):
                 
                 aprobar = round(aprobar * 100, 2)
                 reprobar = round(reprobar * 100, 2)
-                return render_template('vista_docente/seguimiento.html', idEstudiante=idEstudiante, lista = ec.to_dic_lista(reportes), paprobar = aprobar, preprobar = reprobar)
+                return render_template('vista_docente/seguimiento.html', idEstudiante=idEstudiante, lista = ec.to_dic_lista(reportes), paprobar = aprobar, preprobar = reprobar, idPersona = idPersona)
             else:
                 return render_template('login/login.html')
         else:
             return render_template('login/login.html')
+        
+        
+#VER LAS UNIDADES DE LA MATERIA DEL DOCENTE
+@router.route('/home/materias/estudiantes/unidades/<idMateria>/<idDocente>')
+def ver_unidades(idMateria, idDocente):
+    mt = MateriaControl()
+    materia = mt._list().binary_search_models(int(idMateria), "_id")
+    pc = PersonaDaoControl()
+    persona = pc._list().binary_search_models(int(idDocente), "_id")
+    cedulaDocente = persona._dni
+    dc = DocenteControl()
+    docente = dc._list().binary_search_models(cedulaDocente, "_dni")
+    asignacion = materia._asignaciones.binary_search_models(docente._dni, "_cedula_docente")
+    unidades = asignacion._unidades
+    return render_template('vista_docente/unidades.html', lista=mt.to_dic_lista(unidades), idMateria=idMateria, idPersona=idDocente)
     
     
 

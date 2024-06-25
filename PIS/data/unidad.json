@@ -6,7 +6,8 @@
         "fecha_inicio": "2021-06-01",
         "fecha_limite": "2021-06-30",
         "asignacion": 1,
-        "nombre": "Listas-Pilas-Colas"
+        "nombre": "Listas-Pilas-Colas",
+        "numero": 1
     },
     {
         "id": 2,
@@ -15,6 +16,7 @@
         "fecha_inicio": "2021-06-01",
         "fecha_limite": "2021-06-30",
         "asignacion": 1,
-        "nombre": "Metodos de Ordenacion y Busqueda"
+        "nombre": "Metodos de Ordenacion y Busqueda",
+        "numero": 2
     }
 ]

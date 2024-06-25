@@ -9,6 +9,16 @@ class Unidad:
         self.__fecha_limite = ''
         self.__asignacion = 0
         self.__nombre = ''
+        self.__numero = 0
+
+    @property
+    def _numero(self):
+        return self.__numero
+
+    @_numero.setter
+    def _numero(self, value):
+        self.__numero = value
+
 
     @property
     def _nombre(self):
@@ -80,6 +90,7 @@ class Unidad:
             "fecha_limite": self.__fecha_limite,
             "asignacion": self.__asignacion,
             "nombre": self.__nombre,
+            "numero": self.__numero,
         }
         
     @classmethod
@@ -92,6 +103,7 @@ class Unidad:
         unidad._fecha_limite = data["fecha_limite"]
         unidad._asignacion = data["asignacion"]
         unidad._nombre = data["nombre"]
+        #unidad._numero = data["numero"]         #arreglar
         return unidad
     
     def _str_(self) -> str:
