@@ -12,5 +12,12 @@
         "descripcion": "Rol de Docente",
         "estado": true,
         "idPersona": 0
+    },
+    {
+        "id": 3,
+        "nombre": "Estudiante",
+        "descripcion": "Rol de Estudiante",
+        "estado": true,
+        "idPersona": 0
     }
 ]

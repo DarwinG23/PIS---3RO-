@@ -91,21 +91,24 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/home/{{idPersona}}">Inicio</a>
                 </li>
+                {% if docente == "docente" %}
                 <li class="nav-item">
                     <a class="nav-link" href="/home/materias/{{idPersona}}">Materias</a>
                 </li>
+                {% endif %}
+                {% if admin == "admin" %}
                 <li class="nav-item">
-                    <a class="nav-link" href="/home/estudiantes">Estudiante</a>
+                    <a class="nav-link" href="/home/estudiantes/{{idPersona}}/{{docente}}/{{admin}}">Estudiante</a>
                 </li>
+
                 <li class="nav-item">
-                    <a class="nav-link" href="/home/personas/agregar">Registro</a>
+                    <a class="nav-link" href="/home/personas/agregar/{{idPersona}}/{{docente}}/{{admin}}">Registro</a>
                 </li>
+                {% endif %}
                 <li class="nav-item">
                     <a class="nav-link" href="/">Salir</a>
                 </li>
-                <li class="nav-item ml-md-4">
-                    <a class="nav-link btn btn-primary" href="components.html">Components</a>
-                </li>
+               
             </ul>
         </div>
     </div>
