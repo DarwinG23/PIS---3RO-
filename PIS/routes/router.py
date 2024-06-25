@@ -1,12 +1,14 @@
 from flask import Blueprint, jsonify, abort , request, render_template, redirect, make_response, url_for, flash, Flask
 from flask_cors import CORS
 from controls.login.cuentaDaoControl import CuentaDaoControl
-
+from controls.administrativo.cursaControl import CursaControl
 from controls.usuarios.docenteDaoControl import DocenteControl
+from controls.academico.mallaCurricularControl import MallaCurricularControl
 from controls.usuarios.estudianteDaoControl import EstudianteControl
 from controls.login.personaDaoControl import PersonaDaoControl
 from controls.seguimiento.asignacionControl import AsignacionDaoControl
 from controls.academico.materiaControl import MateriaControl
+from controls.academico.cicloControl import CicloControl
 from controls.seguimiento.reporteControl import ReporteControl
 from controls.tda.linked.linkedList import Linked_List
 import time
@@ -226,6 +228,8 @@ def lista_estudiante():
     return render_template('usuarios/guardarFormularioE.html', lista=ec.to_dic_lista(list))
 
 
+#---------------------------------------------Ordenar Usuarios------------------------------------------------------#
+
 @router.route('/home/docentes/<tipo>/<attr>/<metodo>') 
 def lista_personas_ordenar_docentes(tipo, attr, metodo):
     dc = DocenteControl()
@@ -241,6 +245,8 @@ def lista_personas_ordenar_docentes(tipo, attr, metodo):
         200
     )
 
+
+#---------------------------------------------Busqueda Usuarios------------------------------------------------------#
 #"http://localhost:5000/home/docentes/busqueda/"+valor+"/"+atributo
 
 @router.route('/home/docentes/busqueda/<data>/<attr>')
@@ -263,6 +269,176 @@ def buscar_docente(data, attr):
         200
     )
 
+#--------------------------------------------- Modulo - Asignación------------------------------------------------------#
+@router.route('/home/asignacion')
+def lista_asignacion():
+    ac  = AsignacionDaoControl()
+    list = ac._list()
+    list.print
+    return render_template('seguimiento/listaAsignacion.html', lista=ac.to_dic_lista(list))
+
+
+@router.route('/seguimiento/unidades/<pos>')
+def ver_unidades(pos):
+    ac = AsignacionDaoControl()
+    unidades = ac._list().getData(int(pos)-1)._unidades
+    return render_template("seguimiento/unidades.html",  lista = unidades.serializable, idUnidad = pos) 
+
+#Ordenar Asignaciones
+@router.route('/home/asignacion/<tipo>/<attr>/<metodo>')
+def lista_asignacion_ordenar(tipo, attr, metodo):
+    ac = AsignacionDaoControl()
+    
+    # E y D - Ordenar
+    lista_asignaciones = ac._list()
+    #-----------------------------------------------------#
+    lista_asignaciones.sort_models(attr, int(tipo), int(metodo))
+    
+    
+    return make_response(
+        jsonify({"msg": "OK", "code": 200, "data": ac.to_dic_lista(lista_asignaciones)}),
+        200
+    )
+#Buscar Asignaciones
+@router.route('/home/asignacion/busqueda/<data>/<attr>')
+def buscar_asignacion(data, attr):
+    ac = AsignacionDaoControl()
+    list = Linked_List()
+    
+    if attr == "_id_materia" or attr == "_cedula_docente" or attr == "_id":
+        asignacion = ac._list().binary_search_models(data, attr)
+        list.addNode(asignacion)
+    else:
+        list = ac._list().lineal_binary_search_models(data, attr)
+    
+    return make_response(
+        jsonify({"msg": "OK", "code": 200, "data": ac.to_dic_lista(list)}),
+        200
+    )
+
+
+#------------------------------------------------ Cursa-------------------------------------------------------------#
+
+@router.route('/home/cursa')
+def lista_cursa():
+    cc  = CursaControl()
+    list = cc._list()
+    list.print
+    return render_template('administrativo/cursa.html', lista=cc.to_dic_lista(list))
+
+
+
+#--------------------------------------------- Malla - Curricular--------------------------------------------------#
+
+@router.route('/home/malla')
+def lista_malla():
+    mcc = MallaCurricularControl()
+    list = mcc._list()
+    list.print
+    return render_template('academico/malla.html', lista=mcc.to_dic_lista(list))
+
+
+@router.route('/academico/ciclos/<pos>')
+def ver_ciclos(pos):
+    cc = CicloControl()
+    ciclos = cc._list().getData(int(pos)-1)._ciclos
+    return render_template("academico/ciclos.html",  lista = ciclos.serializable, idCiclos = pos) 
+
+
+#Ordenar Malla Curricular
+@router.route('/home/malla/<tipo>/<attr>/<metodo>')
+def lista_malla_ordenar(tipo, attr, metodo):
+    mcc = MallaCurricularControl()
+    
+    # E y D - Ordenar
+    lista_malla = mcc._list()
+    #-----------------------------------------------------#
+    lista_malla.sort_models(attr, int(tipo), int(metodo))
+    
+    
+    return make_response(
+        jsonify({"msg": "OK", "code": 200, "data": mcc.to_dic_lista(lista_malla)}),
+        200
+    )
+#Buscar Malla Curricular
+@router.route('/home/malla/busqueda/<data>/<attr>')
+def buscar_malla(data, attr):
+    print(data, attr)
+    mcc = MallaCurricularControl()
+    list = Linked_List()
+   
+    if attr == "_nombre" or attr == "_descripcion" or attr == "_vigencia":
+        malla = mcc._list().binary_search_models(data, attr)
+        list.addNode(malla)
+    else:
+        list = mcc._list().lineal_binary_search_models(data, attr)
+    
+    return make_response(
+        jsonify({"msg": "OK", "code": 200, "data": mcc.to_dic_lista(list)}),
+        200
+    )
+
+#---------------------------------------------Ordenar -  Materia--------------------------------------------------#
+
+@router.route('/home/materia')
+def lista_materia():
+    mc  = MateriaControl()
+    list = mc._list()
+    list.print
+    return render_template('academico/materia.html', lista=mc.to_dic_lista(list))
+
+
+#----------------------------------------------  Rol --------------------------------------------------#
+
+@router.route('/home/rol')
+def lista_rol():
+    rdc = RolDaoControl()
+    list = rdc._list()
+    list.print
+    return render_template('login/rol.html', lista=rdc.to_dic_lista(list))
+
+#Ordenar
+@router.route('/home/rol/<tipo>/<attr>/<metodo>')
+def lista_rol_ordenar(tipo, attr, metodo):
+    rdc = RolDaoControl()
+    
+    # E y D - Ordenar
+    lista_roles = rdc._list()
+    #-----------------------------------------------------#
+    lista_roles.sort_models(attr, int(tipo), int(metodo))
+    
+    
+    return make_response(
+        jsonify({"msg": "OK", "code": 200, "data": rdc.to_dic_lista(lista_roles)}),
+        200
+    )
+
+#Buscar
+@router.route('/home/rol/busqueda/<data>/<attr>')
+def buscar_rol(data, attr):
+    rdc = RolDaoControl()
+    list = Linked_List()
+    
+    if attr == "_nombre" or attr == "_descripcion" or attr == "_estado":
+        list = rdc._list().lineal_binary_search_models(data, attr)
+    else:
+        rol = rdc._list().binary_search_models(data, attr)
+        list.addNode(rol)
+    
+    return make_response(
+        jsonify({"msg": "OK", "code": 200, "data": rdc.to_dic_lista(list)}),
+        200
+    )
+
+
+#---------------------------------------------Ordenar -  Unidad--------------------------------------------------------#
+
+@router.route('/home/unidad')
+def lista_unidad():
+    uc = UnidadControl()
+    list = uc._list()
+    list.print
+    return render_template('usuarios/guardarFormularioE.html', lista=uc.to_dic_lista(list))
 
 
 @router.route('/home/personas/agregar')
