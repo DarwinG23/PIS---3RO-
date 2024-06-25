@@ -10,6 +10,8 @@ from controls.seguimiento.asignacionControl import AsignacionDaoControl
 from controls.academico.materiaControl import MateriaControl
 from controls.academico.cicloControl import CicloControl
 from controls.seguimiento.reporteControl import ReporteControl
+from controls.login.rolDaoControl import RolDaoControl
+from controls.seguimiento.unidadControl import UnidadControl
 from controls.tda.linked.linkedList import Linked_List
 import time
 router = Blueprint('router', __name__)
@@ -46,10 +48,14 @@ def login():
         listaPersonas = pc._list()
         persona = listaPersonas.binary_search_models(cuenta._idPersona, "_id")
         roles = persona._roles
+        
+        admin = roles.binary_search_models("Administrador", "_nombre")
         docente = roles.binary_search_models("Docente", "_nombre")
         
         if docente == -1:
-            return render_template('header.html', idPersona=persona._id)
+            if admin != -1:
+                return render_template('header.html', idPersona=persona._id, admin = "admin", docente = "no es")
+            return render_template('header.html', idPersona=persona._id, docente = "no es", admin = " ")
         else:
             ac = AsignacionDaoControl()
             listaAsignaciones = ac._list()
@@ -66,8 +72,11 @@ def login():
                 if materia != -1:
                     listaMaterias.addNode(materia)
             
+            if admin != -1:
+                return render_template('vista_docente/materias.html', lista = pc.to_dic_lista(listaMaterias), idPersona=persona._id, admin = "admin", docente = "docente")
             
-            return render_template('vista_docente/materias.html', lista=mc.to_dic_lista(listaMaterias), idPersona=persona._id)
+            
+            return render_template('vista_docente/materias.html', lista=mc.to_dic_lista(listaMaterias), idPersona=persona._id, admin = "no es", docente = "docente")
     else:
         flash('Contraseña incorrecta', 'error')
         return redirect(url_for('router.inicio'))
@@ -78,9 +87,11 @@ def home():
     return render_template('header.html')
 
 #/home/{{idPersona}}/{{lista}}
-@router.route('/home/<idPersona>')
-def home_id(idPersona):
-    return render_template('header.html', idPersona=idPersona)
+@router.route('/home/<idPersona>/<docente>/<admin>')
+def home_id(idPersona, docente, admin):
+    print("**********************************")
+    print(docente, admin)
+    return render_template('header.html', idPersona=idPersona, docente = docente, admin = admin)
 
 
 @router.route('/home/materias/<idPersona>')
@@ -194,7 +205,7 @@ def seguimiento(idMateria, idEstudiante, idPersona):
         
 #VER LAS UNIDADES DE LA MATERIA DEL DOCENTE
 @router.route('/home/materias/estudiantes/unidades/<idMateria>/<idDocente>')
-def ver_unidades(idMateria, idDocente):
+def ver_unidades_docente(idMateria, idDocente):
     mt = MateriaControl()
     materia = mt._list().binary_search_models(int(idMateria), "_id")
     pc = PersonaDaoControl()
@@ -390,12 +401,12 @@ def lista_materia():
 
 #----------------------------------------------  Rol --------------------------------------------------#
 
-@router.route('/home/rol')
-def lista_rol():
+@router.route('/home/rol/<idPersona>/<docente>/<admin>')
+def lista_rol(idPersona, docente, admin):
     rdc = RolDaoControl()
     list = rdc._list()
     list.print
-    return render_template('login/rol.html', lista=rdc.to_dic_lista(list))
+    return render_template('login/rol.html', lista=rdc.to_dic_lista(list), idPersona=idPersona, docente = docente, admin = admin)
 
 #Ordenar
 @router.route('/home/rol/<tipo>/<attr>/<metodo>')
