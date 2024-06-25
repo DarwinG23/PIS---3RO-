@@ -94,8 +94,8 @@ def home_id(idPersona, docente, admin):
     return render_template('header.html', idPersona=idPersona, docente = docente, admin = admin)
 
 
-@router.route('/home/materias/<idPersona>')
-def home_materias(idPersona):
+@router.route('/home/materias/<idPersona>/<docente>/<admin>')
+def home_materias(idPersona, docente, admin):
     pc = PersonaDaoControl()
     listaPersonas = pc._list()
     persona = listaPersonas.binary_search_models(int(idPersona), "_id")
@@ -103,7 +103,7 @@ def home_materias(idPersona):
     docente = roles.binary_search_models("Docente", "_nombre")
         
     if docente == -1:
-        return render_template('header.html', idPersona=persona._id)
+        return render_template('header.html', idPersona=persona._id,docente = docente, admin = admin)
     else:
         ac = AsignacionDaoControl()
         listaAsignaciones = ac._list()
@@ -122,7 +122,7 @@ def home_materias(idPersona):
             
         listaMaterias.print
     
-    return render_template('vista_docente/materias.html', lista = pc.to_dic_lista(listaMaterias),idPersona=idPersona)
+    return render_template('vista_docente/materias.html', lista = pc.to_dic_lista(listaMaterias),idPersona=idPersona, docente = docente, admin = admin)
 
 #VISTA DEL DOCENTE MATERIAS
 @router.route('/home/materias')
@@ -232,11 +232,11 @@ def lista_docente():
 
 
 #Lista Estudiantes
-@router.route('/home/estudiantes')
-def lista_estudiante():
+@router.route('/home/estudiantes/<idPersona>/<docente>/<admin>')
+def lista_estudiante(idPersona, docente, admin):
     ec = EstudianteControl()
     list = ec._list()
-    return render_template('usuarios/guardarFormularioE.html', lista=ec.to_dic_lista(list))
+    return render_template('usuarios/guardarFormularioE.html', lista=ec.to_dic_lista(list), idPersona=idPersona, docente = docente, admin = admin)
 
 
 #---------------------------------------------Ordenar Usuarios------------------------------------------------------#
@@ -452,9 +452,9 @@ def lista_unidad():
     return render_template('usuarios/guardarFormularioE.html', lista=uc.to_dic_lista(list))
 
 
-@router.route('/home/personas/agregar')
-def ver_personas():
-    return render_template('usuarios/personas.html')
+@router.route('/home/personas/agregar/<idPersona>/<docente>/<admin>')
+def ver_personas(idPersona, docente, admin):
+    return render_template('usuarios/personas.html', idPersona=idPersona, docente = docente, admin = admin)
 
 
 @router.route('/home/personas/formularios/guardar', methods=["POST"])
