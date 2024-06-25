@@ -59,6 +59,7 @@ class Docente(Persona):
     
     def deserializar(data):
         docente = Docente()
+        docente._id = data["id"]
         docente._dni = data["dni"]
         docente._nombre = data["nombre"]
         docente._apellido = data["apellido"]

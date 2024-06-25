@@ -1,12 +1,24 @@
+
+
 class Unidad:
     def __init__(self):
         self.__id = 0
-        self.__nota = ' '
+        self.__codigo = ' '
         self.__estado = False
         self.__fecha_inicio = ''
         self.__fecha_limite = ''
         self.__asignacion = 0
         self.__nombre = ''
+        self.__numero = 0
+
+    @property
+    def _numero(self):
+        return self.__numero
+
+    @_numero.setter
+    def _numero(self, value):
+        self.__numero = value
+
 
     @property
     def _nombre(self):
@@ -35,12 +47,12 @@ class Unidad:
         self.__id = value
 
     @property
-    def _nota(self):
-        return self.__nota
+    def _codigo(self):
+        return self.__codigo
 
-    @_nota.setter
-    def _nota(self, value):
-        self.__nota = value
+    @_codigo.setter
+    def _codigo(self, value):
+        self.__codigo = value
 
     @property
     def _estado(self):
@@ -72,24 +84,26 @@ class Unidad:
     def serializable(self):
         return {
             "id": self.__id,
-            "nota": self.__nota,
+            "codigo": self.__codigo,
             "estado": self.__estado,
             "fecha_inicio": self.__fecha_inicio,
             "fecha_limite": self.__fecha_limite,
             "asignacion": self.__asignacion,
-            "nombre": self.__nombre
+            "nombre": self.__nombre,
+            "numero": self.__numero,
         }
         
     @classmethod
     def deserializar(self, data):
         unidad = Unidad()
         unidad._id = data["id"]
-        unidad._nota = data["nota"]
+        unidad._codigo = data["codigo"]
         unidad._estado = data["estado"]
         unidad._fecha_inicio = data["fecha_inicio"]
         unidad._fecha_limite = data["fecha_limite"]
         unidad._asignacion = data["asignacion"]
         unidad._nombre = data["nombre"]
+        #unidad._numero = data["numero"]         #arreglar
         return unidad
     
     def _str_(self) -> str:

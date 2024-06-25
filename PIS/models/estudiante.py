@@ -57,6 +57,7 @@ class Estudiante(Persona):
     
     def deserializar(data):
         estudiante = Estudiante()
+        estudiante._id = data["id"]
         estudiante._dni = data["dni"]
         estudiante._nombre = data["nombre"]
         estudiante._apellido = data["apellido"]
@@ -74,7 +75,7 @@ class Estudiante(Persona):
     
     
     def __str__(self) -> str:
-        return f'{self.__nota} {self.__asistencia} {self.__colegioProcedencia}'
+        return str(super()._id) + " " + super()._nombre 
 
 
 

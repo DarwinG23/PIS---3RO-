@@ -9,6 +9,8 @@ class PersonaDaoControl(DaoAdapter):
 
     @property
     def _persona(self):
+        if self.__persona is None:
+            self.__persona = Persona()
         return self.__persona
 
     @_persona.setter
