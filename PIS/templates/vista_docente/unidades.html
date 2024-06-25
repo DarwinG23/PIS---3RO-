@@ -55,7 +55,7 @@
 <br>
 <div class="container my-4">
     <div class="text-center mb-4">
-        <h1 class="display-4 text-dark">UNIDADES</h1>
+        <h1 class="display-5 text-dark">UNIDADES</h1>
     </div>
     
     <div class="card mb-4">
@@ -98,9 +98,9 @@
             <tr>
                 <th>Nro</th>
                 <th>Nombre</th>
-                <th>INICA</th>
-                <th>TERMINA</th>
-                <th>ESTADO</th>
+                <th>Inicia</th>
+                <th>Termina</th>
+                <th>Estado</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -110,7 +110,7 @@
                     <td>{{ loop.index }}</td>
                     <td>{{ item.nombre }}</td>
                     <td>{{ item.fecha_inicio }}</td>
-                    <td>{{ item.fecha_limete }}</td>
+                    <td>{{ item.fecha_limite }}</td>
                     <td>{{ item.estado}}</td>
                     <td>
                         <!-- <a href="/servidores/editar/{{ item.id }}" class="btn btn-info btn-sm">Modificar</a> -->

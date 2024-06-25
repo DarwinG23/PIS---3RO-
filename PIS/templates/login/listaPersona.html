@@ -25,19 +25,21 @@
                     var html = '';
                     $.each(data.data, function(i, info){
                         html += "<tr>";
-                        html += "<td>"+(i+1)+"</td>";
-                        html += "<td>"+info.nombre+"</td>";
-                        html += "<td>"+info.descripcion+"</td>";
-                        html += "<td>"+info.vigencia+"</td>";
-                        html += "<td>"+info.ciclos+"</td>";
-                        html += "<td>"+'<a href="/home/mallas/editar/'+info.id+'" class="btn btn-primary btn-sm">Modificar</a>'+"</td>";
-                        html += "<td>"+'<a href="/academico/ciclos/'+info.id+'" class="btn btn-success btn-sm">Ciclos</a>'+"</td>";
-                        html += "<td>"+'<a href="/docentes/eliminar/'+info.id+'" class="btn btn-danger btn-sm">Eliminar</a>'+"</td>";
+                        html += "<td>" + info.id + "</td>";
+                        html += "<td>" + info.dni + "</td>";
+                        html += "<td>" + info.nombre + "</td>";
+                        html += "<td>" + info.apellido + "</td>";
+                        html += "<td>" + info.fechaNacimiento + "</td>";
+                        html += "<td>" + info.numTelefono + "</td>";
+                        html += "<td>" + info.idCuenta + "</td>";
+                        html += "<td><a href='/docentes/editar/" + info.id + "' class='btn btn-primary btn-sm'>Modificar</a></td>";
+                        html += "<td><a href='/login/rol/" + info.id + "' class='btn btn-success btn-sm'>Roles</a></td>";
+                        html += "<td><a href='/docentes/eliminar/" + info.id + "' class='btn btn-danger btn-sm'>Eliminar</a></td>";
                         html += "</tr>";
                     });
                     $("#tabla tbody").html(html);
-                } else {
-                    html += "<tr><td colspan='7'>No se encontraron datos</td></tr>";
+                }else{
+                    html += "<tr><td colspan='9'>No se encontraron datos</td></tr>";
                     $("#tabla tbody").html(html);
                 }
             }
@@ -48,36 +50,27 @@
         var aux = $("#tipo").prop("checked");
         var select = $("#criterio").find(":selected").val();
         if(aux){
-            tabla("http://localhost:5000/home/malla/2/"+select+"/"+ 4);  //cambiar siempre
-            //$("#link").attr("href", "/servidores/2/_nombre");
+            tabla("http://localhost:5000/home/personas/2/"+select+"/"+ 4);  //cambiar siempre
         }else{
-            tabla("http://localhost:5000/home/malla/1/"+select+"/"+ 4); //cambiar siempre
-            //$("#link").attr("href", "/servidores/1/_nombre");
+            tabla("http://localhost:5000/home/personas/1/"+select+"/"+ 4); //cambiar siempre
         }
     }
 
     function buscar(){
-        
         var atributo = $("#criterio").find(":selected").val();
-        //var metodo = "2"
         var valor = $("#valor").val();
-        //if(metodo == 1){
-        
-        tabla("http://localhost:5000/home/malla/busqueda/"+valor+"/"+atributo); //cambiar
-        //}else{
-            //tabla("http://localhost:5000/lista/busqueda/2/"+valor+"/"+atributo); //cambiar
-        //}
+        tabla("http://localhost:5000/home/personas/busqueda/"+valor+"/"+atributo); //cambiar
     }
+
     function elegir_busqueda(){
         var metodo = $("#busqueda").find(":selected").val();
         if(metodo == 1){
-            $("#criterio").html('<option value="_nombre">Nombre</option><option value="_apellido">Apellido</option>');
-        } else {
-            $("#criterio").html('<option value="_cedula">Cedula</option>');
+            $("#criterio").html('<option value="dni">DNI</option><option value="nombre">Nombre</option>');
+        }else{
+            $("#criterio").html('<option value="apellido">Apellido</option><option value="idCuenta">ID Cuenta</option>');
         }
     }
 </script>
-
 {%block barra%}
 <!-- Page Navbar -->
 <nav id="scrollspy" class="navbar page-navbar navbar-expand-md navbar-brand fixed-top" data-spy="affix" data-offset-top="20">
@@ -112,6 +105,7 @@
                         <a class="dropdown-item" href="/home/asignaciones/{{idPersona}}/{{docente}}/{{admin}}">Asignaciones</a>
                         <a class="dropdown-item" href="/home/unidades/{{idPersona}}/{{docente}}/{{admin}}">Unidades</a>
                         <a class="dropdown-item" href="/home/rol/{{idPersona}}/{{docente}}/{{admin}}">Roles</a>
+                        
                         <a class="dropdown-item" href="/home/docentes/{{idPersona}}/{{docente}}/{{admin}}">Docentes</a>
                         <a class="dropdown-item" href="/home/estudiantes/{{idPersona}}/{{docente}}/{{admin}}">Estudiantes</a>
                     </div>
@@ -128,20 +122,24 @@
     </div>
 </nav><!-- End of Page Navbar -->   
 {%endblock%}
-<br><br>
+<br>
+<br>
+
 <div class="container my-4">
     <div class="text-center mb-4">
-        <h1 class="display-5 text-dark">Malla - Curricular</h1>
+        <h1 class="display-5 text-dark">Lista - Personas</h1>
     </div>
+    
     <div class="card mb-4">
         <div class="card-body">
             <div class="row mb-3">
                 <div class="col-md-4">
                     <label for="criterio">Criterio:</label>
                     <select id="criterio" class="custom-select" style="margin-left: 15%">
+                        <option value="_dni">DNI</option>
                         <option value="_nombre">Nombre</option>
-                        <option value="_descripcion">Descripcion</option>
-                        <option value="_vigencia">Vigencia</option>
+                        <option value="_apellido">Apellido</option>
+                        <option value="_idCuenta">Id Cuenta</option>
                     </select>
                 </div>
                 <div class="col-md-4 d-flex align-items-end">
@@ -153,45 +151,52 @@
                 </div>
             </div>
             <div class="row mb-3">
-                <div class="col-md-4">
+                <div class="col-md-4" >
                     <label for="valor">Texto:</label>
                     <input type="text" id="valor" class="form-control" placeholder="Ingrese el valor a buscar" style="margin-left: 15%">
                 </div>
                 <div class="col-md-4 align-self-end">
-                    <button class="btn btn-info ml-3" id="busca">BUSCAR</button>
+                    <button class="btn btn-info ml-3" id="busca">BUSCAR</button>    
                 </div>
             </div>
         </div>
     </div>
-    <br><br>
-    <div class="row">
-        <div class="col-12">
-            <table id="tabla" class="table table-striped table-bordered text-center bg-white">
-                <thead class="thead-dark">
+<br>
+<br>
+<div class="row">
+    <div class="col-12">
+        <table id="tabla" class="table table-striped table-bordered text-center bg-white">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Nro</th>
+                    <th>Dni</th>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Fecha de Nacimiento</th>
+                    <th>Teléfono</th>
+                    <th>Id Cuenta</th>
+                    <th>Modificar</th>
+                    <th>Roles</th>
+                    <th>Eliminar</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in lista %}
                     <tr>
-                        <th>Nro</th>
-                        <th>Nombre</th>
-                        <th>Descripcion</th>
-                        <th>Vigencia</th>
-                        <th>Ciclos</th>
-                        <th>Acciones</th>
-                        <th>Eliminar</th>
+                        <td>{{ item.id}}</td>
+                        <td>{{ item.dni }}</td>
+                        <td>{{ item.nombre }}</td>
+                        <td>{{ item.apellido }}</td>
+                        <td>{{ item.fechaNacimiento }}</td>
+                        <td>{{ item.numTelefono }}</td>
+                        <td>{{ item.idCuenta }}</td>
+                        <td><a href="/docentes/editar/{{ item.id }}" class="btn btn-primary btn-sm">Modificar</a></td>
+                        <td><a href="/login/rol/{{ item.id }}" class="btn btn-success btn-sm">Roles</a></td>
+                        <td><a href="/docentes/eliminar/{{ item.id }}" class="btn btn-danger btn-sm">Eliminar</a></td>
                     </tr>
-                </thead>
-                <tbody>
-                    {% for item in lista %}
-                        <tr>
-                            <td>{{item.id}}</td>
-                            <td>{{item.nombre}}</td>
-                            <td>{{item.descripcion}}</td>
-                            <td>{{item.vigencia}}</td>
-                            <td><a href="/home/mallas/editar/{{item.idPersona}}/{{item.docente}}/{{item.admin}}" class="btn btn-primary btn-sm">Modificar</a></td>
-                            <td><a href="/academico/ciclos/{{ item.id }}" class="btn btn-success btn-sm">Ciclos</a></td>
-                            <td><a href="/docentes/eliminar/{{ item.id }}" class="btn btn-danger btn-sm">Eliminar</a></td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
+</div>
 {% endblock %}
