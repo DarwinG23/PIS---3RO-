@@ -185,8 +185,8 @@
                             <td>{{item.nombre}}</td>
                             <td>{{item.descripcion}}</td>
                             <td>{{item.vigencia}}</td>
-                            <td><a href="/home/mallas/editar/{{item.idPersona}}/{{item.docente}}/{{item.admin}}" class="btn btn-primary btn-sm">Modificar</a></td>
-                            <td><a href="/academico/ciclos/{{ item.id }}" class="btn btn-success btn-sm">Ciclos</a></td>
+                            <td><a href="/home/mallas/editar/{{item.id}}/{{idPersona}}/{{docente}}/{{admin}}" class="btn btn-primary btn-sm">Modificar</a></td>
+                            <td><a href="/academico/ciclos/{{ item.id }}/{{idPersona}}/{{docente}}/{{admin}}" class="btn btn-success btn-sm">Ciclos</a></td>
                             <td><a href="/docentes/eliminar/{{ item.id }}" class="btn btn-danger btn-sm">Eliminar</a></td>
                         </tr>
                     {% endfor %}

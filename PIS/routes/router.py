@@ -505,7 +505,15 @@ def lista_malla(idPersona, docente, admin):
 def ver_ciclos(pos):
     cc = CicloControl()
     ciclos = cc._list().getData(int(pos)-1)
-    return render_template("academico/ciclos.html",  lista = ciclos.serializable, idCiclos = pos) 
+    return render_template("academico/ciclos.html",  lista = ciclos.serializable, idCiclos = pos)
+
+
+@router.route('/academico/ciclos/<pos>/<idPersona>/<docente>/<admin>')
+def ver_ciclos_malla(pos, idPersona, docente, admin):
+    mc = MallaCurricularControl()
+    malla = mc._list().getData(int(pos)-1)
+    ciclos = malla._ciclos
+    return render_template("academico/ciclos.html",  lista = mc.to_dic_lista(ciclos), idCiclos = pos, idPersona= idPersona, docente = docente, admin = admin)  
 
 
 #Ordenar Malla Curricular
@@ -543,8 +551,12 @@ def buscar_malla(data, attr):
 
 #Malla - Editar
 
-@router.route('/home/mallas/editar/<idPersona>/<docente>/<admin>', methods=["POST"])
-def modificar_mallas():
+@router.route('/home/mallas/editarRender/<pos>/<idPersona>/<docente>/<admin>', methods=["POST"])
+def modificar_mallas_render(pos, idPersona, docente, admin):
+    return render_template('academico/editarMalla.html', idPersona=idPersona, docente = docente, admin = admin, pos = pos)
+
+@router.route('/home/mallas/editar/<pos>/<idPersona>/<docente>/<admin>', methods=["POST"])
+def modificar_mallas(pos, idPersona, docente, admin):
     mcc = MallaCurricularControl()
     data = request.form
     pos = data["id"]
@@ -557,7 +569,7 @@ def modificar_mallas():
     mcc._mallaCurricular._vigencia = data["vigencia"]   
     mcc.merge(int(pos)-1)
 
-    return redirect("/home/mallas/editar/<idPersona>/<docente>/<admin>", code=302)
+    return render_template("academico/malla.html", idPersona=idPersona, docente = docente, admin = admin)
 
 #---------------------------------------------Ordenar -  Materia--------------------------------------------------#
 
