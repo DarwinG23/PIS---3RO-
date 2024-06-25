@@ -12,23 +12,27 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ml-auto">
                 
+                {%if docente == "docente"%}
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" href="/home/materias/{{idPersona}}">Materias</a>
+                    </li>
+                {%endif%}
+                {%if admin == "admin"%}
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" href="/home/personas/{{idPersona}}/{{docente}}/{{admin}}">Docentes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" href="/home/estudiantes">Estudiante</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" href="/home/personas/agregar">Registro</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" href="/home/rol/{{idPersona}}/{{docente}}/{{admin}}">Roles</a>
+                    </li>
+                {%endif%}
                 <li class="nav-item">
-                    <a class="nav-link" href="/home/materias/{{idPersona}}">Materias</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/home/personas">Docentes</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/home/estudiantes">Estudiante</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/home/personas/agrgar">Registro</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/">Salir</a>
-                </li>
-                <li class="nav-item ml-md-4">
-                    <a class="nav-link btn btn-primary" href="components.html">Components</a>
+                    <a class="nav-link text-dark" href="/">Salir</a>
                 </li>
             </ul>
         </div>

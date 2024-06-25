@@ -26,5 +26,12 @@
         "contrasenia": "1234",
         "estado": true,
         "idPersona": 2
+    },
+    {
+        "id": 5,
+        "correo": "mario.zambrano@unl.edu.ec",
+        "contrasenia": "1234",
+        "estado": true,
+        "idPersona": 4
     }
 ]
