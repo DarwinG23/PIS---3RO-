@@ -1,5 +1,6 @@
 from controls.tda.linked.linkedList import Linked_List
 from models.unidad import Unidad
+from models.reporte import Reporte
 
 class Asignacion:
     def __init__(self):
@@ -9,6 +10,16 @@ class Asignacion:
         self.__id_materia = 0
         self.__id_cursa = 0
         self.__unidades = Linked_List()
+        self.__reportes = Linked_List()
+
+    @property
+    def _reportes(self):
+        return self.__reportes
+
+    @_reportes.setter
+    def _reportes(self, value):
+        self.__reportes = value
+
 
     @property
     def _unidades(self):
@@ -68,7 +79,8 @@ class Asignacion:
             "cedula_docente": self.__cedula_docente,
             "id_materia": self.__id_materia,
             "id_cursa": self.__id_cursa,
-            "unidades": self.__unidades.serializable  
+            "unidades": self.__unidades.serializable, 
+            "reportes": self.__reportes.serializable
         }
 
     @classmethod
@@ -81,6 +93,12 @@ class Asignacion:
         asignacion._id_cursa = data["id_cursa"]
         clase = Unidad()
         asignacion._unidades = Linked_List().deserializar(data["unidades"], clase)
+        reportes_data = data.get("reportes", [])
+        if isinstance(reportes_data, list):
+            clase_reporte = Reporte()
+            asignacion._reportes = Linked_List().deserializar(reportes_data, clase_reporte)
+        else:
+            asignacion._reportes = Linked_List() 
         return asignacion
     
     

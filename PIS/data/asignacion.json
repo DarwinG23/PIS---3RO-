@@ -8,7 +8,7 @@
         "unidades": [
             {
                 "id": 1,
-                "nota": " ",
+                "codigo": "3412",
                 "estado": true,
                 "fecha_inicio": "2021-06-01",
                 "fecha_limite": "2021-06-30",
@@ -17,12 +17,32 @@
             },
             {
                 "id": 2,
-                "nota": " ",
+                "codigo": "1551",
                 "estado": true,
                 "fecha_inicio": "2021-06-01",
                 "fecha_limite": "2021-06-30",
                 "asignacion": 1,
                 "nombre": "Metodos de Ordenacion y Busqueda"
+            }
+        ],
+        "reportes": [
+            {
+                "id": 1,
+                "cedulaEstudiante": "1104526322",
+                "nota": 7.22,
+                "asistencia": 100,
+                "codigoUnidad": "3412",
+                "codigoMateria": "123",
+                "numMatricula": 1
+            },
+            {
+                "id": 2,
+                "cedulaEstudiante": "1104526322",
+                "nota": 8.23,
+                "asistencia": 95,
+                "codigoUnidad": "1551",
+                "codigoMateria": "123",
+                "numMatricula": 1
             }
         ]
     },
@@ -35,7 +55,7 @@
         "unidades": [
             {
                 "id": 1,
-                "nota": " ",
+                "codigo": "2022",
                 "estado": true,
                 "fecha_inicio": "2021-06-01",
                 "fecha_limite": "2021-06-30",
@@ -44,13 +64,14 @@
             },
             {
                 "id": 2,
-                "nota": " ",
+                "codigo": "1010",
                 "estado": true,
                 "fecha_inicio": "2021-06-01",
                 "fecha_limite": "2021-06-30",
                 "asignacion": 1,
                 "nombre": "Normalizacion"
             }
-        ]
+        ],
+        "reportes":[]
     }
 ]

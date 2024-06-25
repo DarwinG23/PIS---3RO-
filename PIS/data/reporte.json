@@ -1,0 +1,20 @@
+[
+    {
+        "id": 1,
+        "cedulaEstudiante": "1104526322",
+        "nota": 7.22,
+        "asistencia": 100,
+        "codigoUnidad": "3412",
+        "codigoMateria": "123",
+        "numMatricula": 1
+    },
+    {
+        "id": 2,
+        "cedulaEstudiante": "1104526322",
+        "nota": 8.23,
+        "asistencia": 95,
+        "codigoUnidad": "1551",
+        "codigoMateria": "123",
+        "numMatricula": 1
+    }
+]

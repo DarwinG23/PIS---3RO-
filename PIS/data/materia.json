@@ -14,7 +14,7 @@
                 "unidades": [
                     {
                         "id": 1,
-                        "nota": " ",
+                        "codigo": "3412",
                         "estado": true,
                         "fecha_inicio": "2021-06-01",
                         "fecha_limite": "2021-06-30",
@@ -23,7 +23,7 @@
                     },
                     {
                         "id": 2,
-                        "nota": " ",
+                        "codigo": "1551",
                         "estado": true,
                         "fecha_inicio": "2021-06-01",
                         "fecha_limite": "2021-06-30",
@@ -50,7 +50,7 @@
                 "unidades": [
                     {
                         "id": 1,
-                        "nota": " ",
+                        "codigo": "2022",
                         "estado": true,
                         "fecha_inicio": "2021-06-01",
                         "fecha_limite": "2021-06-30",
@@ -59,7 +59,7 @@
                     },
                     {
                         "id": 2,
-                        "nota": " ",
+                        "codigo": "1010",
                         "estado": true,
                         "fecha_inicio": "2021-06-01",
                         "fecha_limite": "2021-06-30",
