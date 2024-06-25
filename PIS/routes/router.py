@@ -29,6 +29,7 @@ cors = CORS(router, resource={
 #GET: PARA PRESENTAR DATOS
 #POST: GUARDA DATOS, MODIFICA DATOS Y EL INICIO DE SESION, EVIAR DATOS AL SERVIDOR
 
+#---------------------------------------------Login-----------------------------------------------------#
 @router.route('/', ) #SON GETS
 def inicio():
     return render_template('login/login.html')
@@ -84,6 +85,9 @@ def login():
     else:
         flash('Contraseña incorrecta', 'error')
         return redirect(url_for('router.inicio'))
+    
+
+
 
 @router.route('/home/docenteMaterias/<idPersona>/<docente>/<admin>')
 def docenteMaterias(idPersona, docente, admin):
@@ -366,7 +370,7 @@ def lista_asignacion(idPersona, docente, admin):
 @router.route('/seguimiento/unidades/<pos>')
 def ver_unidades(pos):
     ac = AsignacionDaoControl()
-    unidades = ac._list().getData(int(pos)-1)._unidades
+    unidades = ac._list().getData(int(pos)-1)
     return render_template("seguimiento/unidades.html",  lista = unidades.serializable, idUnidad = pos) 
 
 #Ordenar Asignaciones
@@ -401,6 +405,25 @@ def buscar_asignacion(data, attr):
         200
     )
 
+#EditarAsignacion
+@router.route('/home/asignaciones/editar/<idPersona>/<docente>/<admin>', methods=["POST"])
+def modificar_asignaciones():
+    ac = AsignacionDaoControl()
+    data = request.form
+    pos = data["id"]
+    asignacion = ac._list().getData(int(pos)-1)   
+
+
+    ac._asignacion = asignacion
+    ac._asignacion._id_materia = data["id_materia"]
+    ac._asignacion._cedula_docente = data["cedula_docente"]
+    ac._asignacion._numero_unidades = data["numero_unidades"]
+    ac._asignacion._id_cursa = data["id_cursa"]
+  
+    ac.merge(int(pos)-1)
+
+    return redirect("/home/asignaciones/editar/<idPersona>/<docente>/<admin>", code=302)
+
 
 #------------------------------------------------ Cursa-------------------------------------------------------------#
 
@@ -417,6 +440,56 @@ def lista_ciclos(idPersona, docente, admin):
     list = cc._list()
     return render_template('academico/ciclos.html', lista=cc.to_dic_lista(list), idPersona=idPersona, docente = docente, admin = admin)
 
+#Ordenar Cursas
+@router.route('/home/cursa/<tipo>/<attr>/<metodo>')
+def lista_cursa_ordenar(tipo, attr, metodo):
+    cc = CursaControl()
+    
+    # E y D - Ordenar
+    lista_cursas = cc._list()
+    #-----------------------------------------------------#
+    lista_cursas.sort_models(attr, int(tipo), int(metodo))
+    
+    
+    return make_response(
+        jsonify({"msg": "OK", "code": 200, "data": cc.to_dic_lista(lista_cursas)}),
+        200
+    )
+#Buscar Cursas
+@router.route('/home/cursa/busqueda/<data>/<attr>')
+def buscar_cursa(data, attr):
+    cc = CursaControl()
+    list = Linked_List()
+    
+    if attr == "_id_materia" or attr == "_cedula_estudiante" or attr == "_id":
+        cursa = cc._list().binary_search_models(data, attr)
+        list.addNode(cursa)
+    else:
+        list = cc._list().lineal_binary_search_models(data, attr)
+    
+    return make_response(
+        jsonify({"msg": "OK", "code": 200, "data": cc.to_dic_lista(list)}),
+        200
+    )
+
+#EditarCursa
+@router.route('/home/cursas/editar/<idPersona>/<docente>/<admin>', methods=["POST"])
+def modificar_cursas():
+    cc = CursaControl()
+    data = request.form
+    pos = data["id"]
+    cursa = cc._list().getData(int(pos)-1)   
+
+
+    cc._cursa = cursa
+    cc._cursa._id_materia = data["id_materia"]
+    cc._cursa._cedula_estudiante = data["cedula_estudiante"]
+    cc._cursa._nota = data["nota"]
+    cc._cursa._asistencia = data["asistencia"]
+    cc.merge(int(pos)-1)
+
+    return redirect("/home/cursas/editar/<idPersona>/<docente>/<admin>", code=302)
+
 
 
 #--------------------------------------------- Malla - Curricular--------------------------------------------------#
@@ -431,7 +504,7 @@ def lista_malla(idPersona, docente, admin):
 @router.route('/academico/ciclos/<pos>')
 def ver_ciclos(pos):
     cc = CicloControl()
-    ciclos = cc._list().getData(int(pos)-1)._ciclos
+    ciclos = cc._list().getData(int(pos)-1)
     return render_template("academico/ciclos.html",  lista = ciclos.serializable, idCiclos = pos) 
 
 
@@ -468,6 +541,24 @@ def buscar_malla(data, attr):
         200
     )
 
+#Malla - Editar
+
+@router.route('/home/mallas/editar/<idPersona>/<docente>/<admin>', methods=["POST"])
+def modificar_mallas():
+    mcc = MallaCurricularControl()
+    data = request.form
+    pos = data["id"]
+    malla = mcc._list().getData(int(pos)-1)   
+
+    #TODO ...Validar
+    mcc._mallaCurricular = malla
+    mcc._mallaCurricular._nombre = data["nombre"]
+    mcc._mallaCurricular._descripcion = data["descripcion"]
+    mcc._mallaCurricular._vigencia = data["vigencia"]   
+    mcc.merge(int(pos)-1)
+
+    return redirect("/home/mallas/editar/<idPersona>/<docente>/<admin>", code=302)
+
 #---------------------------------------------Ordenar -  Materia--------------------------------------------------#
 
 @router.route('/home/listamaterias/<idPersona>/<docente>/<admin>')
@@ -475,6 +566,39 @@ def lista_materia(idPersona, docente, admin):
     mc  = MateriaControl()
     list = mc._list()
     return render_template('academico/materia.html', lista=mc.to_dic_lista(list), idPersona=idPersona, docente = docente, admin = admin)
+
+
+#Ordenar
+@router.route('/home/materia/<tipo>/<attr>/<metodo>')
+def lista_materia_ordenar(tipo, attr, metodo):
+    mc = MateriaControl()
+
+    lista_materias = mc._list()
+    #-----------------------------------------------------#
+    lista_materias.sort_models(attr, int(tipo), int(metodo))
+    
+    
+    return make_response(
+        jsonify({"msg": "OK", "code": 200, "data": mc.to_dic_lista(lista_materias)}),
+        200
+    )
+
+#Buscar
+@router.route('/home/materia/busqueda/<data>/<attr>')
+def buscar_materia(data, attr):
+    mc = MateriaControl()
+    list = Linked_List()
+    
+    if attr == "_nombre" or attr == "_codigo" or attr == "_horas":
+        list = mc._list().lineal_binary_search_models(data, attr)
+    else:
+        materia = mc._list().binary_search_models(data, attr)
+        list.addNode(materia)
+    
+    return make_response(
+        jsonify({"msg": "OK", "code": 200, "data": mc.to_dic_lista(list)}),
+        200
+    )
 
 
 #----------------------------------------------  Rol --------------------------------------------------#
@@ -527,6 +651,51 @@ def lista_unidad(idPersona, docente, admin):
     uc = UnidadControl()
     list = uc._list()
     return render_template('seguimiento/unidades.html', lista=uc.to_dic_lista(list), idPersona=idPersona, docente = docente, admin = admin)
+
+#---------------------------------------------Lista - Personas --------------------------------------------------------#
+@router.route('/home/personas/ver/<idPersona>/<docente>/<admin>')
+def ver_lista_personas( idPersona, docente, admin):
+    pc = PersonaDaoControl()
+    list = pc._list()
+    return render_template('login/listaPersona.html', lista=pc.to_dic_lista(list), idPersona=idPersona, docente = docente, admin = admin)
+
+
+@router.route('/login/rol/<pos>/')
+def ver_roles(pos):
+    rdc = RolDaoControl()
+    rol = rdc._list().getData(int(pos)-1)
+    return render_template("login/rol.html",  lista = rol.serializable, idRol = pos) 
+
+#Ordenar
+
+@router.route('/home/personas/ordenar/<tipo>/<attr>/<metodo>')
+def lista_personas_ordenar(tipo, attr, metodo):
+    pc = PersonaDaoControl()
+    lista_personas = pc._list()
+    lista_personas.sort_models(attr, int(tipo), int(metodo))
+
+    return make_response(
+        jsonify({"msg": "OK", "code": 200, "data": pc.to_dic_lista(lista_personas)}),
+        200
+    )
+
+#Buscar
+@router.route('/home/personas/busqueda/<data>/<attr>')
+def buscar_personas(data, attr):
+    pc = PersonaDaoControl()
+    list = Linked_List()
+    
+    if attr == "_nombre" or attr == "_apellido" or attr == "_dni" or attr == "_idCuenta:":
+        list = pc._list().lineal_binary_search_models(data, attr)
+    else:
+        persona = pc._list().binary_search_models(data, attr)
+        list.addNode(persona)
+    
+    return make_response(
+        jsonify({"msg": "OK", "code": 200, "data": pc.to_dic_lista(list)}),
+        200
+    )
+
 
 
 @router.route('/home/personas/agregar/<idPersona>/<docente>/<admin>')

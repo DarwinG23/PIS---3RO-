@@ -30,7 +30,7 @@
                         html+= "<td>"+info.idEstudiante+"</td>";
                         html+= "<td>"+info.asignacion+"</td>";
                         html+= "<td>"+info.periodoAcademico+"</td>";
-                        html+= "<td>"+'<a href="/docentes/editar/'+info.id+'" class="btn btn-primary btn-sm">Modificar</a>'+"</td>";
+                        html+= "<td>"+'<a href="/cursas/editar/'+info.id+'" class="btn btn-primary btn-sm">Modificar</a>'+"</td>";
                         html+= "<td>"+'<a href="/docentes/eliminar/'+info.id+'" class="btn btn-danger btn-sm">Eliminar</a>'+"</td>";
                         html+="</tr>";
                     });
@@ -186,7 +186,7 @@
                         <td>{{ item.idEstudiante }}</td>
                         <td>{{ item.asignacion }}</td>
                         <td>{{ item.periodoAcademico }}</td>
-                        <td><a href="/docentes/editar/{{ item.id }}" class="btn btn-primary btn-sm">Modificar</a></td>
+                        <td><a href="/home/cursas/editar/{{ idPersona }}/{{ docente }}/{{ admin }}" class="btn btn-primary btn-sm">Modificar</a></td>
                         <td><a href="/docentes/eliminar/{{ item.id }}" class="btn btn-danger btn-sm">Eliminar</a></td>
                     </tr>
                 {% endfor %}
