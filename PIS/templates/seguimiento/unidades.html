@@ -1,0 +1,43 @@
+{% extends "index.html" %}
+{% block content %}
+<div class="text-white my-4">
+    <h2 class="display-5">Unidades</h2>
+    <h3 class="display-7">{{mensaje}}</h3>
+</div>
+<div class="booking-form-body">
+    <div class="mb-3">
+        <a href="/servidores/atenciones/ver/{{idServidor}}" class="btn btn-light">Agregar</a>
+        <a href="/servidores/atenciones/eliminar/{{idServidor}}" class="btn btn-info">Eliminar</a>
+        <a href="/servidores" class="btn btn-danger">Volver</a>
+    </div>
+    <div class="table-responsive">
+        <table id="tabla" class="table table-striped table-bordered text-center">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Nro</th>
+                    <th>Nota</th>
+                    <th>Estado</th>
+                    <th>Fecha - Inicio</th>
+                    <th>Fecha - Fin</th>
+                    <th>Asignación</th>
+                    <th>Nombre</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for atencion in lista %}
+                    <tr>
+                        <td>{{item.id}}</td>
+                        <td>{{item.nota}}</td>
+                        <td>{{item.estado}}</td>
+                        <td>{{item.fecha_inicio}}</td>
+                        <td>{{item.fecha_fin}}</td>
+                        <td>{{item.id_asignacion}}</td>
+                        <td>{{item.nombre}}</td>
+                    
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
