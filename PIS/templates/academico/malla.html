@@ -30,7 +30,7 @@
                         html += "<td>"+info.descripcion+"</td>";
                         html += "<td>"+info.vigencia+"</td>";
                         html += "<td>"+info.ciclos+"</td>";
-                        html += "<td>"+'<a href="/docentes/editar/'+info.id+'" class="btn btn-primary btn-sm">Modificar</a>'+"</td>";
+                        html += "<td>"+'<a href="/home/mallas/editar/'+info.id+'" class="btn btn-primary btn-sm">Modificar</a>'+"</td>";
                         html += "<td>"+'<a href="/academico/ciclos/'+info.id+'" class="btn btn-success btn-sm">Ciclos</a>'+"</td>";
                         html += "<td>"+'<a href="/docentes/eliminar/'+info.id+'" class="btn btn-danger btn-sm">Eliminar</a>'+"</td>";
                         html += "</tr>";
@@ -140,8 +140,8 @@
                     <label for="criterio">Criterio:</label>
                     <select id="criterio" class="custom-select" style="margin-left: 15%">
                         <option value="_nombre">Nombre</option>
-                        <option value="_apellido">Apellido</option>
-                        <option value="_titulo">Titulo</option>
+                        <option value="_descripcion">Descripcion</option>
+                        <option value="_vigencia">Vigencia</option>
                     </select>
                 </div>
                 <div class="col-md-4 d-flex align-items-end">
@@ -185,8 +185,8 @@
                             <td>{{item.nombre}}</td>
                             <td>{{item.descripcion}}</td>
                             <td>{{item.vigencia}}</td>
-                            <td><a href="/docentes/editar/{{ item.id }}" class="btn btn-primary btn-sm">Modificar</a></td>
-                            <td><a href="/academico/ciclos/{{ item.id }}" class="btn btn-success btn-sm">Ciclos</a></td>
+                            <td><a href="/home/mallas/editar/{{item.id}}/{{idPersona}}/{{docente}}/{{admin}}" class="btn btn-primary btn-sm">Modificar</a></td>
+                            <td><a href="/academico/ciclos/{{ item.id }}/{{idPersona}}/{{docente}}/{{admin}}" class="btn btn-success btn-sm">Ciclos</a></td>
                             <td><a href="/docentes/eliminar/{{ item.id }}" class="btn btn-danger btn-sm">Eliminar</a></td>
                         </tr>
                     {% endfor %}
