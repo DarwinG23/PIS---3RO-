@@ -13,6 +13,7 @@ from controls.seguimiento.reporteControl import ReporteControl
 from controls.login.rolDaoControl import RolDaoControl
 from controls.seguimiento.unidadControl import UnidadControl
 from controls.tda.linked.linkedList import Linked_List
+from controls.administrativo.periodoAcademicoControl import PeriodoAcademicoControl
 import time
 router = Blueprint('router', __name__)
 
@@ -54,7 +55,7 @@ def login():
         admin = roles.binary_search_models("Administrador", "_nombre")
         docente = roles.binary_search_models("Docente", "_nombre")
         
-        if docente == -1:
+        if docente == -1: #si no es docente
             if admin != -1:
                 return render_template('header.html', idPersona=persona._id, admin = "admin", docente = "no es")
             return render_template('header.html', idPersona=persona._id, docente = "no es", admin = " ")
@@ -68,15 +69,11 @@ def login():
             for i in range(0, len(arrayasignaciones)):
                 
                 idMateria = arrayasignaciones[i]._id_materia
-                print("############################################33")
-                print(idMateria)
                 materia = mc._list().binary_search_models(idMateria, "_id")
-                print("jejeje")
-                print(materia)
 
                 if materia != -1:
                     listaMaterias.addNode(materia)
-            
+                
             if admin != -1:
                 return render_template('vista_docente/materias.html', lista = pc.to_dic_lista(listaMaterias), idPersona=persona._id, admin = "admin", docente = "docente")
             
@@ -100,7 +97,7 @@ def docenteMaterias(idPersona, docente, admin):
     arrayasignaciones = listaAsignaciones.lineal_binary_search_models(persona._dni, "_cedula_docente").toArray
     mc = MateriaControl()
     listaMaterias = Linked_List()
-          #
+
     for i in range(0, len(arrayasignaciones)):
                 
         idMateria = arrayasignaciones[i]._id_materia
@@ -164,20 +161,35 @@ def ver_materias():
 @router.route('/home/materias/estudiantes/<idMateria>/<idPersona>/<docente>/<admin>')
 def ver_estudiantes(idMateria, idPersona, docente, admin):
     ac = AsignacionDaoControl()
-    asignacion = ac._list().binary_search_models(int(idMateria), "_id_materia") #puede ser lineal
+    pc = PersonaDaoControl()
+    persona = pc._list().binary_search_models(idPersona, "_id")
+
+
+    asignaciones = ac._list().lineal_binary_search_models(int(idMateria), "_id_materia")
+    asignaciones = asignaciones.lineal_binary_search_models(persona._dni, "_cedula_docente")
     
-    if asignacion != -1:
+    pec = PeriodoAcademicoControl()
+    periodos = pec._list()
+    paralelos = []
+
+    if asignaciones._length != 0:
         alumnos = Linked_List()
         ec = EstudianteControl()
         estudiantes = ec._list().toArray
-        #recorre a los estudiantes
         for i in range(0, len(estudiantes)):
             cursas = estudiantes[i]._cursas
-            cursa = cursas.binary_search_models(int(asignacion._id), "_asignacion")
-            #print(estudiantes[i]._id)
-            if cursa != -1:
-                alumnos.addNode(estudiantes[i])
-        return render_template('vista_docente/alumnos.html', lista=ec.to_dic_lista(alumnos), idPersona=idPersona, idMateria=idMateria, docente = docente, admin = admin)
+            for j in range(0, asignaciones._length):
+                cursa = cursas.binary_search_models(asignaciones.getData(j)._id, "_asignacion")
+                existe = False
+                for paralelo in paralelos:
+                    if paralelo == cursa._paralelo:
+                        existe = True
+                        break                
+                if cursa != -1:
+                    if not existe:
+                       paralelos.append(cursa._paralelo)
+                    alumnos.addNode(estudiantes[i])
+        return render_template('vista_docente/alumnos.html', lista=ec.to_dic_lista(alumnos), idPersona=idPersona, idMateria=idMateria, docente = docente, admin = admin, periodos = pec.to_dic_lista(periodos), paralelos = paralelos)
     else:
         return render_template('login/login.html')
     
@@ -534,7 +546,7 @@ def lista_malla_ordenar(tipo, attr, metodo):
 #Buscar Malla Curricular
 @router.route('/home/malla/busqueda/<data>/<attr>')
 def buscar_malla(data, attr):
-    print(data, attr)
+    
     mcc = MallaCurricularControl()
     list = Linked_List()
    
@@ -819,4 +831,47 @@ def eliminar_personas():
     return redirect("/personas", code=302)
 
 
+#/home/materias/estudiantes/filtrar/"+periodo+"/"+paralelo+"/"+nota+"/"+matricula+"/"+idMateria+"/"+idPersona+"/"+docente+"/"+admin
+@router.route('/home/materias/estudiantes/filtrar/<periodo>/<paralelo>/<nota>/<matricula>/<idMateria>/<idPersona>/<docente>/<admin>')
+def filtrar_estudiantes(periodo, paralelo, nota, matricula, idMateria, idPersona, docente, admin):
+    
+    ac = AsignacionDaoControl()
+    pc = PersonaDaoControl()
+    persona = pc._list().binary_search_models(idPersona, "_id")
 
+
+    asignaciones = ac._list().lineal_binary_search_models(int(idMateria), "_id_materia")
+    asignaciones = asignaciones.lineal_binary_search_models(persona._dni, "_cedula_docente")
+    
+    pec = PeriodoAcademicoControl()
+    periodos = pec._list()
+    paralelos = []
+
+    if asignaciones._length != 0:
+        alumnos = Linked_List()
+        ec = EstudianteControl()
+        estudiantes = ec._list().toArray
+        for i in range(0, len(estudiantes)):
+            cursas = estudiantes[i]._cursas
+            for j in range(0, asignaciones._length):
+                cursa = cursas.binary_search_models(asignaciones.getData(j)._id, "_asignacion")
+                existe = False
+                for paralelo in paralelos:
+                    if paralelo == cursa._paralelo:
+                        existe = True
+                        break                
+                if cursa != -1:
+                    if not existe:
+                       paralelos.append(cursa._paralelo)
+                    alumnos.addNode(estudiantes[i])
+    
+    print("*********************************************************")
+    print(nota)
+    alumnos = alumnos.search_lower_models(nota, "_nota")
+    alumnos.print
+    
+    return make_response(
+        jsonify({"msg": "OK", "code": 200, "data": pec.to_dic_lista(alumnos)}),
+        200
+    )
+    

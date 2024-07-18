@@ -1,6 +1,122 @@
 {% extends 'index.html' %}
 
 {% block content %}
+<script>
+    $(document).ready(function(){
+        $("#link").click(function(){
+            create();
+        });
+
+        $("#fperiodo").change(function(){
+            filtrar();
+        });
+
+        $("#fparalelo").change(function(){
+            filtrar();
+        });
+
+        $("#fmatricula").change(function(){
+            filtrar();
+        });
+
+        $("#fnota").change(function(){
+            filtrar();
+        });
+
+
+        $("#busqueda").change(function(){
+            elegir_busqueda();
+        });
+
+        $("#busca").click(function(){
+            buscar();
+        });
+    });
+
+    function tabla(url){
+        const idMateria = "{{ idMateria }}";
+        const idPersona = "{{ idPersona }}";
+        const docente = "{{ docente }}";
+        const admin = "{{ admin }}";
+
+        $.ajax({
+            method: "GET",
+            url: url,
+            contentType: 'json',
+            success: function(data){
+                if(data.code == '200'){
+                    var html = '';
+                    $.each(data.data, function(i, info){
+                        html += "<tr>";
+                        html += "<td>" + info.id + "</td>";
+                        html += "<td>" + info.nombre + "</td>";
+                        html += "<td>" + info.apellido + "</td>";
+                        html += "<td>" + info.dni + "</td>";
+                        html += "<td>" + info.nota + "</td>";
+                        html += "<td><a href='/home/materias/estudiantes/seguimiento/"+idMateria+"/"+info.id+"/"+idPersona+"/"+docente+"/"+admin+"' class='btn btn-warning btn-sm'>SEGUIMIENTO</a></td>";
+                        html += "</tr>";
+                    });
+                    $("#tabla tbody").html(html);
+                }else{ 
+                    html += "<tr><td colspan='9'>No se encontraron datos</td></tr>";
+                    $("#tabla tbody").html(html);
+                }
+            }
+        });
+    }
+    function filtrar(){
+        var periodo = 0;
+        var paralelo = 0;
+        var nota = 0;
+        var matricula = 0;
+
+        const idMateria = "{{ idMateria }}";
+        const idPersona = "{{ idPersona }}";
+        const docente = "{{ docente }}";
+        const admin = "{{ admin }}";
+
+        if($("#fperiodo").prop("checked")){
+            periodo = $("#periodo").find(":selected").val();
+        }
+        if($("#fparalelo").prop("checked")){
+            paralelo = $("#paralelo").find(":selected").val();
+        }
+        if($("#fnota").prop("checked")){
+            nota = $("#nota").find(":selected").val();
+        }
+        if($("#fmatricula").prop("checked")){
+            matricula = $("#matricula").find(":selected").val();
+        }
+        tabla("http://localhost:5000/home/materias/estudiantes/filtrar/"+periodo+"/"+paralelo+"/"+nota+"/"+matricula+"/"+idMateria+"/"+idPersona+"/"+docente+"/"+admin);
+            
+        
+    }
+
+    function create(){
+        var aux = $("#tipo").prop("checked");
+        var select = $("#criterio").find(":selected").val();
+        if(aux){
+            tabla("http://localhost:5000/home/personas/2/"+select+"/"+ 4);  //cambiar siempre
+        }else{
+            tabla("http://localhost:5000/home/personas/1/"+select+"/"+ 4); //cambiar siempre
+        }
+    }
+
+    function buscar(){
+        var atributo = $("#criterio").find(":selected").val();
+        var valor = $("#valor").val();
+        tabla("http://localhost:5000/home/personas/busqueda/"+valor+"/"+atributo); //cambiar
+    }
+
+    function elegir_busqueda(){
+        var metodo = $("#busqueda").find(":selected").val();
+        if(metodo == 1){
+            $("#criterio").html('<option value="dni">DNI</option><option value="nombre">Nombre</option>');
+        }else{
+            $("#criterio").html('<option value="apellido">Apellido</option><option value="idCuenta">ID Cuenta</option>');
+        }
+    }
+</script>
 {%block barra%}
 <!-- Page Navbar -->
 <nav id="scrollspy" class="navbar page-navbar navbar-expand-md navbar-brand fixed-top" data-spy="affix" data-offset-top="20">
@@ -66,10 +182,11 @@
             <div class="row mb-3">
                 <div class="col-md-4">
                     <label for="criterio">Criterio:</label>
-                    <select id="criterio" class="custom-select"style="margin-left: 15%">
+                    <select id="criterio" class="custom-select"style="margin-left: 20%">
                         <option value="_nombre">Nombre</option>
                         <option value="_apellido">Apellido</option>
                     </select>
+                    
                 </div>
                 <div class="col-md-4 d-flex align-items-end">
                     <div class="custom-control custom-checkbox" style="margin-left: 15%">
@@ -88,11 +205,78 @@
                     <button class="btn btn-info ml-3" id="busca">BUSCAR</button>    
                 </div>
             </div>
-            <div class="row mb-1">
+            <div class="row mb-4">
+                <div class="col-md-3" >
+                    <label for="valor">Periodo:</label>
+                    <select id="periodo" class="custom-select"style="margin-left: 20%">
+                        {% for item in periodos %}
+                            <option value="{{item.id}}">{{item.fecha_inicio}} - {{item.fecha_fin}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-3 align-items-end">
+                    <div class="custom-control custom-checkbox" style="margin-left: 15%">
+                        <input type="checkbox" class="custom-control-input" id="fperiodo">
+                        <label class="custom-control-label" for="fperiodo">Filtrar</label>
+                    </div>
+                </div>
+                <div class="col-md-3 align-self-end">
+                    <label for="valor">Paralelo:</label>
+                        <select id="paralelo" class="custom-select"style="margin-left: 20%">
+                            {% for item in paralelos %}
+                                <option value="{{item}}">{{item}}</option>
+                            {% endfor %}
+                        </select>
+                </div>
+                <div class="col-md-2  align-items-end">
+                    <div class="custom-control custom-checkbox" style="margin-left: 15%">
+                        <input type="checkbox" class="custom-control-input" id="fparalelo">
+                        <label class="custom-control-label" for="fparalelo">Filtrar</label>
+                    </div>
+                </div>
+                <div class="col-md-2 align-self-end"style="margin-top: 20px;">
+                    <label for="valor">Nota</label>
+                    <select id="nota" class="custom-select"style="margin-left: 15%">
+                        <option value="10">10</option>
+                        <option value="9">9</option>
+                        <option value="8">8</option>
+                        <option value="7">7</option>
+                        <option value="6">6</option>
+                        <option value="5">5</option>
+                        <option value="4">4</option>
+                        <option value="3">3</option>
+                        <option value="2">2</option>
+                        <option value="1">1</option>
+                    </select>
+                </div>
+                <div class="col-md-2 d-flex align-items-end">
+                    <div class="custom-control custom-checkbox" style="margin-left: 15%">
+                        <input type="checkbox" class="custom-control-input" id="fnota">
+                        <label class="custom-control-label" for="fnota">Filtrar</label>
+                    </div>
+                </div>
+                <div class="col-md-2 align-self-end"style="margin-top: 20px;">
+                    <label for="fperido">Matricula</label>
+                    <select id="matricula" class="custom-select"style="margin-left: 50%">
+                        <option value="3">3</option>
+                        <option value="2">2</option>
+                        <option value="1">1</option>
+                    </select>
+                </div>
+                <div class="col-md-3 d-flex align-items-end" style="margin-left: 10%;">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="fmatricula">
+                        <label class="custom-control-label" for="fmatricula">Filtrar</label>
+                    </div>
+                </div>
+                
+            </div>
+            
+            <!-- <div class="row mb-1">
                 <div class="col-md-4 align-self-end">
                     <a class="nav-link btn btn-primary ml-3" href="/home/materias/estudiantes/unidades/{{idMateria}}/{{idPersona}}/{{docente}}/{{admin}}">VER UNIDADES</a> 
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
 
@@ -104,7 +288,7 @@
                 <th>Apellido</th>
                 <th>Dni</th>
                 <th>Promedio</th>
-                <th>Actions</th>
+                <th>Detalles</th>
             </tr>
         </thead>
         <tbody>

@@ -55,7 +55,26 @@
                 "codigoUnidad": "1551",
                 "codigoMateria": "123",
                 "numMatricula": 1
+            },
+            {
+                "id": 3,
+                "cedulaEstudiante": "1104526342",
+                "nota": 5.23,
+                "asistencia": 85,
+                "codigoUnidad": "3412",
+                "codigoMateria": "123",
+                "numMatricula": 1
+            },
+            {
+                "id": 4,
+                "cedulaEstudiante": "1104526342",
+                "nota": 9.23,
+                "asistencia": 95,
+                "codigoUnidad": "1551",
+                "codigoMateria": "123",
+                "numMatricula": 1
             }
+            
         ]
     },
     {
@@ -86,6 +105,237 @@
                 "numero": 0
             }
         ],
-        "reportes": []
+        "reportes": [
+            {
+                "id": 5,
+                "cedulaEstudiante": "1104526322",
+                "nota": 7.22,
+                "asistencia": 100,
+                "codigoUnidad": "2022",
+                "codigoMateria": "442",
+                "numMatricula": 2
+            },
+            {
+                "id": 6,
+                "cedulaEstudiante": "1104526322",
+                "nota": 8.23,
+                "asistencia": 95,
+                "codigoUnidad": "1010",
+                "codigoMateria": "442",
+                "numMatricula": 2
+            },
+            {
+                "id": 7,
+                "cedulaEstudiante": "1104526342",
+                "nota": 8.23,
+                "asistencia": 85,
+                "codigoUnidad": "2022",
+                "codigoMateria": "442",
+                "numMatricula": 1
+            },
+            {
+                "id": 8,
+                "cedulaEstudiante": "1104526342",
+                "nota": 7.58,
+                "asistencia": 95,
+                "codigoUnidad": "1010",
+                "codigoMateria": "442",
+                "numMatricula": 1
+            }
+        ]
+    },
+    {
+        "id": 3,
+        "numero_unidades": 2,
+        "cedula_docente": "1106006231",
+        "id_materia": 3,
+        "id_cursa": 1,
+        "unidades": [
+            {
+                "id": 4,
+                "codigo": "5050",
+                "estado": true,
+                "fecha_inicio": "2021-06-01",
+                "fecha_limite": "2021-06-30",
+                "asignacion": 1,
+                "nombre": "Probabilidad y Distribuciones",
+                "numero": 0
+            },
+            {
+                "id": 5,
+                "codigo": "6060",
+                "estado": true,
+                "fecha_inicio": "2021-06-01",
+                "fecha_limite": "2021-06-30",
+                "asignacion": 1,
+                "nombre": "Metodos de  regrecion",
+                "numero": 0
+            }
+        ],
+        "reportes": [
+            {
+                "id": 9,
+                "cedulaEstudiante": "1104524444",
+                "nota": 7.63,
+                "asistencia": 85,
+                "codigoUnidad": "5050",
+                "codigoMateria": "1003",
+                "numMatricula": 3
+            },
+            {
+                "id": 10,
+                "cedulaEstudiante": "1104524444",
+                "nota": 7.58,
+                "asistencia": 95,
+                "codigoUnidad": "6060",
+                "codigoMateria": "1003",
+                "numMatricula": 3
+            }
+        ]
+    },
+    {
+        "id": 4,
+        "numero_unidades": 2,
+        "cedula_docente": "1106006231",
+        "id_materia": 2,
+        "id_cursa": 1,
+        "unidades": [
+            {
+                "id": 1,
+                "codigo": "2022",
+                "estado": true,
+                "fecha_inicio": "2021-06-01",
+                "fecha_limite": "2021-06-30",
+                "asignacion": 1,
+                "nombre": "Modelo Relacional",
+                "numero": 0
+            },
+            {
+                "id": 2,
+                "codigo": "1010",
+                "estado": true,
+                "fecha_inicio": "2021-06-01",
+                "fecha_limite": "2021-06-30",
+                "asignacion": 1,
+                "nombre": "Normalizacion",
+                "numero": 0
+            }
+        ],
+        "reportes": [
+            {
+                "id": 5,
+                "cedulaEstudiante": "1104526322",
+                "nota": 7.22,
+                "asistencia": 100,
+                "codigoUnidad": "2022",
+                "codigoMateria": "442",
+                "numMatricula": 2
+            },
+            {
+                "id": 6,
+                "cedulaEstudiante": "1104526322",
+                "nota": 8.23,
+                "asistencia": 95,
+                "codigoUnidad": "1010",
+                "codigoMateria": "442",
+                "numMatricula": 2
+            },
+            {
+                "id": 7,
+                "cedulaEstudiante": "1104526342",
+                "nota": 8.23,
+                "asistencia": 85,
+                "codigoUnidad": "2022",
+                "codigoMateria": "442",
+                "numMatricula": 1
+            },
+            {
+                "id": 8,
+                "cedulaEstudiante": "1104526342",
+                "nota": 7.58,
+                "asistencia": 95,
+                "codigoUnidad": "1010",
+                "codigoMateria": "442",
+                "numMatricula": 1
+            }
+        ]
+    },
+    {
+        "id": 5,
+        "numero_unidades": 2,
+        "cedula_docente": "1106006231",
+        "id_materia": 1,
+        "id_cursa": 1,
+        "unidades": [
+            {
+                "id": 1,
+                "codigo": "3412",
+                "estado": true,
+                "fecha_inicio": "2021-06-01",
+                "fecha_limite": "2021-06-30",
+                "asignacion": 1,
+                "nombre": "Listas-Pilas-Colas",
+                "numero": 0
+            },
+            {
+                "id": 2,
+                "codigo": "1551",
+                "estado": true,
+                "fecha_inicio": "2021-06-01",
+                "fecha_limite": "2021-06-30",
+                "asignacion": 1,
+                "nombre": "Metodos de Ordenacion y Busqueda",
+                "numero": 0
+            },
+            {
+                "id": 3,
+                "codigo": "8080",
+                "estado": true,
+                "fecha_inicio": "2024-06-01",
+                "fecha_limite": "2024-06-30",
+                "asignacion": 1,
+                "nombre": "Grafos y Arboles",
+                "numero": "3"
+            }
+        ],
+        "reportes": [
+            {
+                "id": 1,
+                "cedulaEstudiante": "1104526322",
+                "nota": 7.22,
+                "asistencia": 100,
+                "codigoUnidad": "3412",
+                "codigoMateria": "123",
+                "numMatricula": 1
+            },
+            {
+                "id": 2,
+                "cedulaEstudiante": "1104526322",
+                "nota": 8.23,
+                "asistencia": 95,
+                "codigoUnidad": "1551",
+                "codigoMateria": "123",
+                "numMatricula": 1
+            },
+            {
+                "id": 3,
+                "cedulaEstudiante": "1104526342",
+                "nota": 5.23,
+                "asistencia": 85,
+                "codigoUnidad": "3412",
+                "codigoMateria": "123",
+                "numMatricula": 1
+            },
+            {
+                "id": 4,
+                "cedulaEstudiante": "1104526342",
+                "nota": 9.23,
+                "asistencia": 95,
+                "codigoUnidad": "1551",
+                "codigoMateria": "123",
+                "numMatricula": 1
+            }
+            
+        ]
     }
 ]

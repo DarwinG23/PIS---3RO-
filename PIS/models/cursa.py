@@ -70,6 +70,6 @@ class Cursa:
         return cursa
     
     def __str__(self):
-        return self.__paralelo
+        return self.__paralelo + " " + str(self.__asignacion) + " " + str(self.__idEstudiante)
     
         
