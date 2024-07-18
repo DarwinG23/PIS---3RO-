@@ -866,8 +866,8 @@ def filtrar_estudiantes(periodo, paralelo, nota, matricula, idMateria, idPersona
                     alumnos.addNode(estudiantes[i])
     
     print("*********************************************************")
-    print(nota)
-    alumnos = alumnos.search_lower_models(nota, "_nota")
+    if int(nota) != 0:
+       alumnos = alumnos.search_lower_models(nota, "_nota")
     alumnos.print
     
     return make_response(
