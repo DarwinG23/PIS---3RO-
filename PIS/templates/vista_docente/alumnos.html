@@ -47,8 +47,9 @@
                 if(data.code == '200'){
                     var html = '';
                     $.each(data.data, function(i, info){
+                        num = i + 1;
                         html += "<tr>";
-                        html += "<td>" + info.id + "</td>";
+                        html += "<td>" + num + "</td>";
                         html += "<td>" + info.nombre + "</td>";
                         html += "<td>" + info.apellido + "</td>";
                         html += "<td>" + info.dni + "</td>";

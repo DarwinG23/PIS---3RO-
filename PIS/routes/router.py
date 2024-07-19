@@ -894,48 +894,31 @@ def filtrar_estudiantes(periodo, paralelo, nota, matricula, idMateria, idPersona
                     except:
                         auxParalelo = paralelo
                     
-                    print("$$$$$$$$$$$$$$$$$$$$$$$$")
-                    print("Periodo: ", periodo)
-                    print("Paralelo: ", paralelo)
-                    print("AuxParalelo: ", auxParalelo)
-                    
                     if int(periodo) != 0 and auxParalelo != 0:
                         if int(cursa._periodoAcademico) == int(periodo) and str(paralelo).lower() == str(cursa._paralelo).lower():
                             alumnos.addNode(estudiantes[i])
-                        elif int(cursa._periodoAcademico) == int(periodo) and auxParalelo != 0:
-                            alumnos.addNode(estudiantes[i])
-                        elif int(cursa._periodoAcademico) != int(periodo) and str(paralelo).lower() == str(cursa._paralelo).lower():
-                            alumnos.addNode(estudiantes[i])
+                        # elif int(cursa._periodoAcademico) == int(periodo) and auxParalelo != 0:
+                        #     alumnos.addNode(estudiantes[i])
+                        # elif int(cursa._periodoAcademico) != int(periodo) and str(paralelo).lower() == str(cursa._paralelo).lower():
+                        #     alumnos.addNode(estudiantes[i])
                             
                     elif int(periodo) != 0 and auxParalelo == 0:
                         if int(cursa._periodoAcademico) == int(periodo):
                             alumnos.addNode(estudiantes[i])
                             
                     elif int(periodo) == 0 and auxParalelo != 0:
-                        print("***********************")
                         if str(paralelo).lower() == str(cursa._paralelo).lower():
                             alumnos.addNode(estudiantes[i])
                     else:
-                        print("/////////////////////")
                         alumnos.addNode(estudiantes[i])
                  
-                    # if int(periodo) != 0:
-                    #     if int(cursa._periodoAcademico) == int(periodo):
-                    #         alumnos.addNode(estudiantes[i])
-                    # else:
-                    #     alumnos.addNode(estudiantes[i])
-                        
 
-                    # if auxParalelo != 0:
-                    #     if str(paralelo).lower() == str(cursa._paralelo).lower():
-                    #         alumnos.addNode(estudiantes[i])
-                    # else:
-                    #     alumnos.addNode(estudiantes[i])
-                    
-                    
+    alumnos.print            
+                
                         
     #Filtro por nota
     if int(nota) != 0:
+        print("Filtro por nota")
         auxAlumnos = []
         for i in range(0, alumnos._length):
             alumno = alumnos.getData(i)
