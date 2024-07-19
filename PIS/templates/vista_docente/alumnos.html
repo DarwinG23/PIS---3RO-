@@ -7,7 +7,7 @@
             create();
         });
 
-        $("#fperiodo").select(function(){
+        $("#fperiodo").change(function(){
             filtrar();
         });
 
@@ -74,7 +74,9 @@
         const idPersona = "{{ idPersona }}";
         const docente = "{{ docente }}";
         const admin = "{{ admin }}";
-
+        var idUnidad = $("#unidad").find(":selected").val();
+        
+     
         if($("#fperiodo").prop("checked")){
             periodo = $("#periodo").find(":selected").val();
         }
@@ -87,7 +89,7 @@
         if($("#fmatricula").prop("checked")){
             matricula = $("#matricula").find(":selected").val();
         }
-        tabla("http://localhost:5000/home/materias/estudiantes/filtrar/"+periodo+"/"+paralelo+"/"+nota+"/"+matricula+"/"+idMateria+"/"+idPersona+"/"+docente+"/"+admin);
+        tabla("http://localhost:5000/home/materias/estudiantes/filtrar/"+periodo+"/"+paralelo+"/"+nota+"/"+matricula+"/"+idMateria+"/"+idPersona+"/"+docente+"/"+admin+"/"+idUnidad);
             
         
     }
@@ -228,6 +230,7 @@
                             {% endfor %}
                         </select>
                 </div>
+
                 <div class="col-md-2  align-items-end">
                     <div class="custom-control custom-checkbox" style="margin-left: 15%">
                         <input type="checkbox" class="custom-control-input" id="fparalelo">
@@ -249,7 +252,7 @@
                         <option value="1">1</option>
                     </select>
                 </div>
-                <div class="col-md-2 d-flex align-items-end">
+                <div class="col-md-2 d-flex">
                     <div class="custom-control custom-checkbox" style="margin-left: 15%">
                         <input type="checkbox" class="custom-control-input" id="fnota">
                         <label class="custom-control-label" for="fnota">Filtrar</label>
@@ -263,13 +266,20 @@
                         <option value="1">1</option>
                     </select>
                 </div>
-                <div class="col-md-3 d-flex align-items-end" style="margin-left: 10%;">
+                <div class="d-flex align-items-end" style="margin-left: 10%;">
                     <div class="custom-control custom-checkbox">
                         <input type="checkbox" class="custom-control-input" id="fmatricula">
                         <label class="custom-control-label" for="fmatricula">Filtrar</label>
                     </div>
                 </div>
-                
+                <div class="align-items-end"style="margin-top: 2%; margin-left:8%;">
+                    <label style="margin-left: 70%; margin-top: 8%;">Unidad:</label>
+                    <select id="unidad" class="custom-select"style="margin-left: 10%">
+                        {% for item in unidades %}
+                            <option value="{{item.id}}">{{item.nombre}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
             </div>
             
             <!-- <div class="row mb-1">

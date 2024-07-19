@@ -7,6 +7,16 @@ class Reporte:
         self.__codigoUnidad = 0
         self.__codigoMateria = 0
         self.__numMatricula = 0
+        self.__idAsignacion = 0
+
+    @property
+    def _idAsignacion(self):
+        return self.__idAsignacion
+
+    @_idAsignacion.setter
+    def _idAsignacion(self, value):
+        self.__idAsignacion = value
+
 
     @property
     def _id(self):
@@ -73,7 +83,8 @@ class Reporte:
             "asistencia": self.__asistencia,
             "codigoUnidad": self.__codigoUnidad,
             "codigoMateria": self.__codigoMateria,
-            "numMatricula": self.__numMatricula
+            "numMatricula": self.__numMatricula,
+            "idAsignacion": self.__idAsignacion
         }
     
     @classmethod
@@ -86,6 +97,13 @@ class Reporte:
         reporte._codigoUnidad = data["codigoUnidad"]
         reporte._codigoMateria = data["codigoMateria"]
         reporte._numMatricula = data["numMatricula"]
+        try:
+            asignacion = data["asignacion"]
+        except:
+            asignacion = None
+            
+        if asignacion is not None:
+            reporte._idAsignacion = data["idAsignacion"]
         return reporte
     
     def __str__(self):

@@ -1,92 +1,42 @@
 [
     {
         "id": 1,
-        "cedulaEstudiante": "1104526322",
+        "cedulaEstudiante": "1104524444",
         "nota": 7.22,
         "asistencia": 100,
         "codigoUnidad": "3412",
-        "codigoMateria": "123",
-        "numMatricula": 1
+        "codigoMateria": "442",
+        "numMatricula": 1,
+        "idAsignacion": 1
     },
     {
         "id": 2,
-        "cedulaEstudiante": "1104526322",
-        "nota": 8.23,
-        "asistencia": 95,
-        "codigoUnidad": "1551",
-        "codigoMateria": "123",
-        "numMatricula": 1
+        "cedulaEstudiante": "1104526342",
+        "nota": 6.32,
+        "asistencia": 100,
+        "codigoUnidad": "3412",
+        "codigoMateria": "442",
+        "numMatricula": 3,
+        "idAsignacion": 1
     },
     {
         "id": 3,
-        "cedulaEstudiante": "1104526342",
-        "nota": 5.23,
-        "asistencia": 85,
-        "codigoUnidad": "3412",
-        "codigoMateria": "123",
-        "numMatricula": 1
+        "cedulaEstudiante": "1104524444",
+        "nota": 5.00,
+        "asistencia": 100,
+        "codigoUnidad": "1551",
+        "codigoMateria": "442",
+        "numMatricula": 1,
+        "idAsignacion": 1
     },
     {
         "id": 4,
         "cedulaEstudiante": "1104526342",
-        "nota": 9.23,
-        "asistencia": 95,
-        "codigoUnidad": "1551",
-        "codigoMateria": "123",
-        "numMatricula": 1
-    },
-    {
-        "id": 5,
-        "cedulaEstudiante": "1104526322",
-        "nota": 7.22,
+        "nota": 8.32,
         "asistencia": 100,
-        "codigoUnidad": "2022",
+        "codigoUnidad": "1551",
         "codigoMateria": "442",
-        "numMatricula": 2
-    },
-    {
-        "id": 6,
-        "cedulaEstudiante": "1104526322",
-        "nota": 8.23,
-        "asistencia": 95,
-        "codigoUnidad": "1010",
-        "codigoMateria": "442",
-        "numMatricula": 2
-    },
-    {
-        "id": 7,
-        "cedulaEstudiante": "1104526342",
-        "nota": 8.23,
-        "asistencia": 85,
-        "codigoUnidad": "2022",
-        "codigoMateria": "442",
-        "numMatricula": 1
-    },
-    {
-        "id": 8,
-        "cedulaEstudiante": "1104526342",
-        "nota": 7.58,
-        "asistencia": 95,
-        "codigoUnidad": "1010",
-        "codigoMateria": "442",
-        "numMatricula": 1
-    },
-    {
-        "id": 9,
-        "cedulaEstudiante": "1104524444",
-        "nota": 7.63,
-        "asistencia": 85,
-        "codigoUnidad": "5050",
-        "codigoMateria": "1003",
-        "numMatricula": 3
-    },
-    {
-        "id": 10,
-        "cedulaEstudiante": "1104524444",
-        "nota": 7.58,
-        "asistencia": 95,
-        "codigoUnidad": "6060",
-        "codigoMateria": "1003",
-        "numMatricula": 3
+        "numMatricula": 1,
+        "idAsignacion": 1
     }
 ]

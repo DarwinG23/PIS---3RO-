@@ -25,6 +25,8 @@ class DaoAdapter(Generic[T]):
                 self.lista.addNode(a, self.lista._length)
         return self.lista
     
+    
+    
     def __transform__(self):
         aux = "["
         for i in range(0, self.lista._length):

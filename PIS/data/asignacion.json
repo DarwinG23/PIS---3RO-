@@ -219,6 +219,16 @@
                 "asignacion": 1,
                 "nombre": "Normalizacion",
                 "numero": 0
+            },
+            {
+                "id": 6,
+                "codigo": "4322",
+                "estado": true,
+                "fecha_inicio": "2021-06-01",
+                "fecha_limite": "2021-06-30",
+                "asignacion": 1,
+                "nombre": "SQL",
+                "numero": 0
             }
         ],
         "reportes": [

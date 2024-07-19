@@ -9,9 +9,9 @@ class Asignacion:
         self.__cedula_docente = ""
         self.__id_materia = 0
         self.__id_cursa = 0
-        self.__paralelo = ""
         self.__unidades = Linked_List()
         self.__reportes = Linked_List()
+        
 
     @property
     def _reportes(self):
