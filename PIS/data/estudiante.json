@@ -72,5 +72,35 @@
                 "periodoAcademico": 1
             }
         ]
+    },
+    {
+        "id": 3,
+        "dni": "1104524444",
+        "nombre": "Darwin",
+        "apellido": "Sarango",
+        "fechaNacimiento": "1997-05-25",
+        "numTelefono": "0932415532",
+        "idCuenta": 3,
+        "roles": [
+            {
+                "id": 1,
+                "nombre": "Estudiante",
+                "descripcion": "Rol de Estudiante",
+                "estado": true,
+                "idPersona": 0
+            }
+        ],
+        "nota": 8.8,
+        "asistencia": "100%",
+        "colegioProcedencia": "Bernardo Valdiviezo",
+        "cursas": [
+            {
+                "id": 2,
+                "paralelo": "A",
+                "idEstudiante": 1,
+                "asignacion": 3,
+                "periodoAcademico": 1
+            }
+        ]
     }
 ]
