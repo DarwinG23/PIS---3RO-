@@ -62,6 +62,20 @@ class DaoAdapter(Generic[T]):
 
         return aux
     
+    def array_to_list(self, data):
+        for i in range(0, len(data)):
+            self.lista.addNode(self.atype.deserializar(data[i]), self.lista._length)
+        return self.lista
+    
+    def dic_to_list(self, data, clase):
+        print("dic to list")
+        print(type(data))
+        print(type(clase))
+        for i in range(0, len(data)):
+            self.lista.addNode(clase.deserializar(data[i]), self.lista._length)
+        return self.lista
+        
+    
     def _save_json(self, data):
         name = self.atype.__name__
         with open("../files/"+ name + ".json", "w") as outfile:

@@ -203,17 +203,35 @@ def ver_estudiantes(idMateria, idPersona, docente, admin):
     else:
         return render_template('login/login.html')
     
-@router.route('/home/materias/estudiantes/seguimiento/<idMateria>/<idEstudiante>/<idPersona>/<docente>/<admin>')
-def seguimiento(idMateria, idEstudiante, idPersona, docente, admin):
+@router.route('/home/materias/estudiantes/seguimiento/<idMateria>/<idEstudiante>/<idPersona>/<docente>/<admin>/<idPeriodo>')
+def seguimiento(idMateria, idEstudiante, idPersona, docente, admin, idPeriodo):
     
+    print("########################^^^^^^^^^")
+    print(idPeriodo)
+    print(idEstudiante)
     ec = EstudianteControl()
+    pec = PeriodoAcademicoControl()
+    cc = CursaControl()
+
     estudiante = ec._list().binary_search_models(int(idEstudiante), "_id")
-    mt = MateriaControl()
-    materia = mt._list().binary_search_models(int(idMateria), "_id")
-    ac = AsignacionDaoControl()
-    asignacion = ac._list().binary_search_models(int(idMateria), "_id_materia")
     
-    asignacion._reportes.print
+    ac = AsignacionDaoControl()
+    
+  
+    
+    cursas = cc._list().lineal_binary_search_models(int(idPeriodo), "_periodoAcademico")
+    cursas = cursas.lineal_binary_search_models(int(idEstudiante), "_idEstudiante")
+    
+    asignacion = None
+
+    for i in range(0, cursas._length):
+        idAsignacion = cursas.getData(i)._asignacion
+        asignacion  = ac._list().binary_search_models(idAsignacion, "_id")
+        if asignacion != -1 and asignacion._id_materia == int(idMateria):
+            break
+            
+    
+  
     reportes = Linked_List()
     aprobar = 0
     reprobar = 0
@@ -222,7 +240,14 @@ def seguimiento(idMateria, idEstudiante, idPersona, docente, admin):
     if asignacion != -1:
         reportes = asignacion._reportes
         if reportes._length != 0:
+            
             reportes = reportes.lineal_binary_search_models(estudiante._dni, "_cedulaEstudiante")
+            
+            print("REPORTES DEL ESTUDIANTE")
+            reportes.print
+            print("^^^^^^^^^^^^^^^^^^^^^")
+            print("UNIDADES")
+            asignacion._unidades.print
             if reportes._length != 0:
                 array = reportes.toArray
                 for i in range(0, len(array)):
@@ -239,12 +264,15 @@ def seguimiento(idMateria, idEstudiante, idPersona, docente, admin):
                         if nota <= falta:
                             prob_aprobar += 1 / 10  # Distribución uniforme
                     aprobar = prob_aprobar
+             
 
                 reprobar = 1 - aprobar 
                 
                 aprobar = round(aprobar * 100, 2)
                 reprobar = round(reprobar * 100, 2)
-                return render_template('vista_docente/seguimiento.html', idEstudiante=idEstudiante, idMateria = idMateria, lista = ec.to_dic_lista(reportes), paprobar = aprobar, preprobar = reprobar, idPersona = idPersona, docente = docente, admin = admin)
+                
+                
+                return render_template('vista_docente/seguimiento.html', idEstudiante=idEstudiante, idMateria = idMateria, lista = ec.to_dic_lista(reportes), paprobar = aprobar, preprobar = reprobar, idPersona = idPersona, docente = docente, admin = admin, unidades = ec.to_dic_lista(asignacion._unidades), periodos = pec.to_dic_lista(pec._list()))
             else:
                 return render_template('login/login.html')
         else:

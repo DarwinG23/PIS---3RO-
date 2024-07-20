@@ -69,6 +69,7 @@
             }
         });
     });
+    
 </script>
 {%block barra%}
 <!-- Page Navbar -->
@@ -133,12 +134,20 @@
         
         <div class="card mb-4">
             <div class="card-body">
-                {% for item in lista%}
+                
                 <div class="row mb-3">
+                    {% for item in unidades%}
                     <div class="col-md-4">
-                        <label for="criterio">UNIDAD {{item.numero}}:</label>
-                        <input type="text" id="valor" class="form-control" placeholder="{{item.nota}}" style="margin-left: 30%" disabled>
+                        <!-- lista de registros -->
+                        <label for="criterio">UNIDAD {{item.nombre}}:</label>
+                        {%for reporte in lista%}
+                            {%if reporte._codigoUnidad == item._codigo%}
+                                <input type="text" id="valor" class="form-control" placeholder="{{reporte.nota}}" style="margin-left: 30%" disabled>
+                            {%endif%}
+                        {%endfor%}
                     </div>
+                    {%endfor%}
+                    {% for item in lista%}
                     <div class="col-md-4 d-flex align-items-end" style="margin-left: 8%">
                         <button class="btn btn-info ml-3" id="link">SUBIR</button>
                         
@@ -146,8 +155,25 @@
                         <input type="text" id="valor" class="form-control" placeholder="{{item.asistencia}} %" style="margin-left: 40%" disabled>
                         
                     </div>
+                    {%endfor%}
+
+                    <div class="col-md-3" >
+                        <label for="valor">Periodo:</label>
+                        <select id="periodo" class="custom-select"style="margin-left: 20%">
+                            {% for item in periodos %}
+                                <option value="{{item.id}}">{{item.fecha_inicio}} - {{item.fecha_fin}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    
                 </div>
-                {%endfor%}
+                
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <label for="criterio">MATRICULA: </label>
+                        <input type="text" id="valor" class="form-control" placeholder="{{lista[0].numMatricula}}" style="margin-left: 30%" disabled>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -160,18 +186,6 @@
                 </div>
             </section>
         </div>
-
-        <div class="card mb-4">
-            <div class="card-body">
-                <div class="row mb-3">
-                    <div class="col-md-4">
-                        <label for="criterio">MATRICULA: </label>
-                        <input type="text" id="valor" class="form-control" placeholder="{{lista[0].numMatricula}}" style="margin-left: 30%" disabled>
-                    </div>
-                </div>
-            </div>
-        </div>
-           
        
     
     <br>

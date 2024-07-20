@@ -7,7 +7,21 @@
             create();
         });
 
-        $("#fperiodo").change(function(){
+        filtrar();
+
+        $("#periodo").change(function(){
+            filtrar();
+        });
+
+        $("#paralelo").change(function(){
+            filtrar();
+        });
+
+        $("#nota").change(function(){
+            filtrar();
+        });
+
+        $("#matricula").change(function(){
             filtrar();
         });
 
@@ -39,6 +53,8 @@
         const docente = "{{ docente }}";
         const admin = "{{ admin }}";
 
+        var idPerido = $("#periodo").find(":selected").val();
+
         $.ajax({
             method: "GET",
             url: url,
@@ -54,7 +70,7 @@
                         html += "<td>" + info.apellido + "</td>";
                         html += "<td>" + info.dni + "</td>";
                         html += "<td>" + info.nota + "</td>";
-                        html += "<td><a href='/home/materias/estudiantes/seguimiento/"+idMateria+"/"+info.id+"/"+idPersona+"/"+docente+"/"+admin+"' class='btn btn-warning btn-sm'>SEGUIMIENTO</a></td>";
+                        html += "<td><a href='/home/materias/estudiantes/seguimiento/"+idMateria+"/"+info.id+"/"+idPersona+"/"+docente+"/"+admin+"/"+idPerido+"' class='btn btn-warning btn-sm'>SEGUIMIENTO</a></td>";
                         html += "</tr>";
                     });
                     $("#tabla tbody").html(html);
@@ -78,9 +94,9 @@
         var idUnidad = $("#unidad").find(":selected").val();
         
      
-        if($("#fperiodo").prop("checked")){
-            periodo = $("#periodo").find(":selected").val();
-        }
+        
+        periodo = $("#periodo").find(":selected").val();
+
         if($("#fparalelo").prop("checked")){
             paralelo = $("#paralelo").find(":selected").val();
         }
@@ -217,12 +233,6 @@
                         {% endfor %}
                     </select>
                 </div>
-                <div class="col-md-3 align-items-end">
-                    <div class="custom-control custom-checkbox" style="margin-left: 15%">
-                        <input type="checkbox" class="custom-control-input" id="fperiodo">
-                        <label class="custom-control-label" for="fperiodo">Filtrar</label>
-                    </div>
-                </div>
                 <div class="col-md-3 align-self-end">
                     <label for="valor">Paralelo:</label>
                         <select id="paralelo" class="custom-select"style="margin-left: 20%">
@@ -283,11 +293,11 @@
                 </div>
             </div>
             
-            <!-- <div class="row mb-1">
+            <div class="row mb-1">
                 <div class="col-md-4 align-self-end">
-                    <a class="nav-link btn btn-primary ml-3" href="/home/materias/estudiantes/unidades/{{idMateria}}/{{idPersona}}/{{docente}}/{{admin}}">VER UNIDADES</a> 
+                    <a class="nav-link btn btn-primary ml-3" href="/home/materias/estudiantes/unidades/{{idMateria}}/{{idPersona}}/{{docente}}/{{admin}}/idPeriodo">VER UNIDADES</a> 
                 </div>
-            </div> -->
+            </div>
         </div>
     </div>
 
@@ -312,16 +322,37 @@
                     <td>{{ item.nota }}</td>
                     <td>
                         <!-- <a href="/servidores/editar/{{ item.id }}" class="btn btn-info btn-sm">Modificar</a> -->
-                        <a href="/home/materias/estudiantes/seguimiento/{{idMateria}}/{{ item.id }}/{{idPersona}}/{{docente}}/{{admin}}" class="btn btn-warning btn-sm">SEGUIMIENTO</a>
+                        <a id="seguimiento-link" href="/home/materias/estudiantes/seguimiento/{{idMateria}}/{{ item.id }}/{{idPersona}}/{{docente}}/{{admin}}/idPeriodo" class="btn btn-warning btn-sm">SEGUIMIENTO</a>
                         <!-- <a href="/servidores/eliminar/{{ item.id }}" class="btn btn-danger btn-sm">Eliminar</a> -->
                     </td>
                 </tr>
             {% endfor %}
         </tbody>
     </table>
+    <br>
 </div>
 
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var periodoSelect = document.getElementById('periodo');
+        var seguimientoLinks = document.querySelectorAll('[id^="seguimiento-link"]');
 
+        function updateSeguimientoLinks() {
+            var selectedPeriodo = periodoSelect.value;
+            seguimientoLinks.forEach(function(link) {
+                var originalHref = link.getAttribute('href');
+                var newHref = originalHref.replace('idPeriodo', selectedPeriodo);
+                link.setAttribute('href', newHref);
+            });
+        }
+
+        // Cuando se cambia el select, actualiza el href del enlace de seguimiento
+        periodoSelect.addEventListener('change', updateSeguimientoLinks);
+
+        // Llama a la función para actualizar el enlace cuando la página se carga
+        updateSeguimientoLinks();
+    });
+</script>
 
 
 
