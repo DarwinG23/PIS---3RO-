@@ -13,7 +13,7 @@ class DaoAdapter(Generic[T]):
     def __init__(self, atype: T):
         self.atype = atype
         conexion = Connection()
-        self.conn = conexion.connect("USUARIO_DBA", "1104753890", "XE")
+        self.conn = conexion.connect("USUARIO_DBA", "2001", "XE")
       
         
         #self.lista = Linked_List()
@@ -22,13 +22,22 @@ class DaoAdapter(Generic[T]):
 
     def _list(self) -> T:
         lista = Linked_List()
-        print("LISTAR")
         cur = self.conn._db.cursor()
-        print(type(cur))
+        
         tabla = "Persona"
         cur.execute(f"SELECT * FROM {tabla}")
-        for row in cur.fetchall():
+        
+        # Obtener los nombres de las columnas
+        columns = [col[0] for col in cur.description]
+        rows = cur.fetchall()
+        print(len(rows))
+        dict_rows = [dict(zip(columns, row)) for row in rows]
+        for row in dict_rows:
             print(row)
+            print(type(row))
+           
+        
+        cur.close()
         return lista
 
     # def __transform__(self):
