@@ -136,18 +136,7 @@
             <div class="card-body">
                 
                 <div class="row mb-3">
-                    {% for item in unidades%}
-                    <div class="col-md-4">
-                        <!-- lista de registros -->
-                        <label for="criterio">UNIDAD {{item.nombre}}:</label>
-                        {%for reporte in lista%}
-                            {%if reporte._codigoUnidad == item._codigo%}
-                                <input type="text" id="valor" class="form-control" placeholder="{{reporte.nota}}" style="margin-left: 30%" disabled>
-                            {%endif%}
-                        {%endfor%}
-                    </div>
-                    {%endfor%}
-                    {% for item in lista%}
+                    <!-- {% for item in lista%}
                     <div class="col-md-4 d-flex align-items-end" style="margin-left: 8%">
                         <button class="btn btn-info ml-3" id="link">SUBIR</button>
                         
@@ -155,9 +144,9 @@
                         <input type="text" id="valor" class="form-control" placeholder="{{item.asistencia}} %" style="margin-left: 40%" disabled>
                         
                     </div>
-                    {%endfor%}
+                    {%endfor%} -->
 
-                    <div class="col-md-3" >
+                    <!-- <div class="col-md-3" >
                         <label for="valor">Periodo:</label>
                         <select id="periodo" class="custom-select"style="margin-left: 20%">
                             {% for item in periodos %}
@@ -165,7 +154,7 @@
                             {% endfor %}
                         </select>
                     </div>
-                    
+                     -->
                 </div>
                 
                 <div class="row mb-3">
@@ -176,7 +165,69 @@
                 </div>
             </div>
         </div>
+        <h1>CALIFICACIONES</h1>
+        <table id="tabla" class="table table-striped table-bordered text-black bg-white">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Unidad</th>
+                    <th>Calificacion</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in unidades %}
+                    <tr>
+                        <td>{{ item.nombre }}</td>
+                        {%for reporte in lista%}
+                            {% set found = false %}
 
+                            {%if reporte.codigoUnidad == item.codigo%}
+                                {% set found = true %}
+                            {%endif%}
+
+                            {% if found %}
+                                {% if reporte.nota >= 7 %}
+                                    <td class="celda-verde">{{ reporte.nota }}</td>
+                                {% else %}
+                                    <td class="celda-roja">{{ reporte.nota }}</td>
+                                {% endif %}
+                            {% endif %}
+
+                        {%endfor%}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <br>
+        <h1>PROYECCION</h1>
+        <table id="tabla" class="table table-striped table-bordered text-black bg-white">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Unidad</th>
+                    <th>Calificacion</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in unidades %}
+                    <tr>
+                        {%for reporte in lista%}
+                            {% set found = false %}
+
+                            {% if reporte.codigoUnidad == item.codigo %}
+                                {% set found = true %}
+                                <td>ENTRO</td>
+                        
+                            {% endif %}
+
+                            {% if not found %}
+                                <td>{{ item.nombre }}</td>
+                                <td class="celda-verde">{{falta}}</td>
+                            {% endif %}
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
         
         <div class="grafica">
             <section class="content">

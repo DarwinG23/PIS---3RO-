@@ -245,17 +245,23 @@ def seguimiento(idMateria, idEstudiante, idPersona, docente, admin, idPeriodo):
             
             print("REPORTES DEL ESTUDIANTE")
             reportes.print
+            
             print("^^^^^^^^^^^^^^^^^^^^^")
             print("UNIDADES")
             asignacion._unidades.print
             if reportes._length != 0:
                 array = reportes.toArray
                 for i in range(0, len(array)):
+                    print("NOTA")
+                    print(array[i]._nota)
+                    print(len(array))
                     promedio += array[i]._nota
-                    promedio = promedio / len(array)
+                    
         
                 falta = 21 - promedio
-        
+                print("FALTA")
+                print(promedio)
+                print(round(falta, 2))
                 if falta <= 0:
                     aprobar = 1.0  # Ya has alcanzado o superado el promedio necesario
                 else:
@@ -272,7 +278,7 @@ def seguimiento(idMateria, idEstudiante, idPersona, docente, admin, idPeriodo):
                 reprobar = round(reprobar * 100, 2)
                 
                 
-                return render_template('vista_docente/seguimiento.html', idEstudiante=idEstudiante, idMateria = idMateria, lista = ec.to_dic_lista(reportes), paprobar = aprobar, preprobar = reprobar, idPersona = idPersona, docente = docente, admin = admin, unidades = ec.to_dic_lista(asignacion._unidades), periodos = pec.to_dic_lista(pec._list()))
+                return render_template('vista_docente/seguimiento.html', idEstudiante=idEstudiante, idMateria = idMateria, lista = ec.to_dic_lista(reportes), paprobar = aprobar, preprobar = reprobar, idPersona = idPersona, docente = docente, admin = admin, unidades = ec.to_dic_lista(asignacion._unidades), periodos = pec.to_dic_lista(pec._list()), falta = round(falta,2))
             else:
                 return render_template('login/login.html')
         else:

@@ -27,3 +27,14 @@ canvas{
     width: auto; /* Ajustar el ancho automáticamente */
     max-height: 300px; /* Altura máxima para evitar que los gráficos sean demasiado altos */
 }
+
+
+.celda-verde {
+    background-color: green;
+    color: white; /* Opcional, para que el texto sea más legible */
+}
+
+.celda-roja {
+    background-color: red;
+    color: white; /* Opcional, para que el texto sea más legible */
+}
