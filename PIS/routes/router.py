@@ -14,7 +14,8 @@ from controls.login.rolDaoControl import RolDaoControl
 from controls.seguimiento.unidadControl import UnidadControl
 from controls.tda.linked.linkedList import Linked_List
 from controls.administrativo.periodoAcademicoControl import PeriodoAcademicoControl
-import time
+import time, math
+from scipy import stats
 router = Blueprint('router', __name__)
 
 
@@ -206,9 +207,7 @@ def ver_estudiantes(idMateria, idPersona, docente, admin):
 @router.route('/home/materias/estudiantes/seguimiento/<idMateria>/<idEstudiante>/<idPersona>/<docente>/<admin>/<idPeriodo>')
 def seguimiento(idMateria, idEstudiante, idPersona, docente, admin, idPeriodo):
     
-    print("########################^^^^^^^^^")
-    print(idPeriodo)
-    print(idEstudiante)
+
     ec = EstudianteControl()
     pec = PeriodoAcademicoControl()
     cc = CursaControl()
@@ -219,8 +218,8 @@ def seguimiento(idMateria, idEstudiante, idPersona, docente, admin, idPeriodo):
     
   
     
-    cursas = cc._list().lineal_binary_search_models(int(idPeriodo), "_periodoAcademico")
-    cursas = cursas.lineal_binary_search_models(int(idEstudiante), "_idEstudiante")
+    cursas = cc._list().lineal_binary_search_models(idPeriodo, "_periodoAcademico")
+    cursas = cursas.lineal_binary_search_models(idEstudiante, "_idEstudiante")
     
     asignacion = None
 
@@ -236,49 +235,50 @@ def seguimiento(idMateria, idEstudiante, idPersona, docente, admin, idPeriodo):
     aprobar = 0
     reprobar = 0
     promedio = 0
+    nota_minima = 7
+    media = 0
+    notas_anteriores = []
     
-    if asignacion != -1:
-        reportes = asignacion._reportes
+    if asignacion != -1 or asignacion != None:
+        try:
+           reportes = asignacion._reportes
+        except:
+            reportes = Linked_List()
         if reportes._length != 0:
             
             reportes = reportes.lineal_binary_search_models(estudiante._dni, "_cedulaEstudiante")
             
-            print("REPORTES DEL ESTUDIANTE")
-            reportes.print
-            
-            print("^^^^^^^^^^^^^^^^^^^^^")
-            print("UNIDADES")
-            asignacion._unidades.print
+    
             if reportes._length != 0:
                 array = reportes.toArray
                 for i in range(0, len(array)):
-                    print("NOTA")
-                    print(array[i]._nota)
-                    print(len(array))
                     promedio += array[i]._nota
+                    notas_anteriores.append(array[i]._nota)
+                    
                     
         
-                falta = 21 - promedio
-                print("FALTA")
-                print(promedio)
-                print(round(falta, 2))
-                if falta <= 0:
-                    aprobar = 1.0  # Ya has alcanzado o superado el promedio necesario
-                else:
-                    prob_aprobar = 0.0
-                    for nota in range(7, 10):  # Probabilidad de obtener 8, 9 o 10
-                        if nota <= falta:
-                            prob_aprobar += 1 / 10  # Distribución uniforme
-                    aprobar = prob_aprobar
-             
+                nota_necesaria = nota_minima * int(asignacion._unidades._length) - promedio
+                media = promedio / len(notas_anteriores)
+                sumatoria_cuadrados = sum((x - media) ** 2 for x in notas_anteriores)
+                desviacion_estandar = math.sqrt(sumatoria_cuadrados / (len(notas_anteriores) - 1))
+                                                
+                probabilidad_aprobar = 1 - stats.norm.cdf(nota_necesaria, loc=media, scale=desviacion_estandar)
+                probabilidad_reprobar = stats.norm.cdf(nota_necesaria, loc=media, scale=desviacion_estandar)
+                aprobar = round(probabilidad_aprobar*100, 2)
+                reprobar = round(probabilidad_reprobar * 100, 2)
+           
 
-                reprobar = 1 - aprobar 
+                unidadPendiente = Linked_List()
+                for unidad in asignacion._unidades.toArray:
+                    existe = False
+                    for reporte in reportes.toArray:
+                        if reporte._codigoUnidad == unidad._codigo:
+                            existe = True
+                            break
+                    if not existe:
+                        unidadPendiente.addNode(unidad)
                 
-                aprobar = round(aprobar * 100, 2)
-                reprobar = round(reprobar * 100, 2)
-                
-                
-                return render_template('vista_docente/seguimiento.html', idEstudiante=idEstudiante, idMateria = idMateria, lista = ec.to_dic_lista(reportes), paprobar = aprobar, preprobar = reprobar, idPersona = idPersona, docente = docente, admin = admin, unidades = ec.to_dic_lista(asignacion._unidades), periodos = pec.to_dic_lista(pec._list()), falta = round(falta,2))
+                return render_template('vista_docente/seguimiento.html', idEstudiante=idEstudiante, idMateria = idMateria, lista = ec.to_dic_lista(reportes), paprobar = aprobar, preprobar = reprobar, idPersona = idPersona, docente = docente, admin = admin, unidades = ec.to_dic_lista(asignacion._unidades), periodos = pec.to_dic_lista(pec._list()), falta = round(nota_necesaria,2), unidadesPendientes = ec.to_dic_lista(unidadPendiente))
             else:
                 return render_template('login/login.html')
         else:

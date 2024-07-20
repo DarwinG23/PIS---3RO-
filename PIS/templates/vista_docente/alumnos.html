@@ -224,7 +224,7 @@
                     <button class="btn btn-info ml-3" id="busca">BUSCAR</button>    
                 </div>
             </div>
-            <div class="row mb-4">
+            <div class="row mb-4 d-flex align-items-end">
                 <div class="col-md-3" >
                     <label for="valor">Periodo:</label>
                     <select id="periodo" class="custom-select"style="margin-left: 20%">
@@ -233,7 +233,7 @@
                         {% endfor %}
                     </select>
                 </div>
-                <div class="col-md-3 align-self-end">
+                <div class="col-md-3 d-flex align-items-end" style="margin-left: 3%;">
                     <label for="valor">Paralelo:</label>
                         <select id="paralelo" class="custom-select"style="margin-left: 20%">
                             {% for item in paralelos %}
@@ -242,8 +242,8 @@
                         </select>
                 </div>
 
-                <div class="col-md-2  align-items-end">
-                    <div class="custom-control custom-checkbox" style="margin-left: 15%">
+                <div class="col-md-2  d-flex align-items-end">
+                    <div class="custom-control custom-checkbox">
                         <input type="checkbox" class="custom-control-input" id="fparalelo">
                         <label class="custom-control-label" for="fparalelo">Filtrar</label>
                     </div>
@@ -263,7 +263,7 @@
                         <option value="1">1</option>
                     </select>
                 </div>
-                <div class="col-md-2 d-flex">
+                <div class="col-md-1 d-flex align-items-end">
                     <div class="custom-control custom-checkbox" style="margin-left: 15%">
                         <input type="checkbox" class="custom-control-input" id="fnota">
                         <label class="custom-control-label" for="fnota">Filtrar</label>
@@ -277,14 +277,14 @@
                         <option value="1">1</option>
                     </select>
                 </div>
-                <div class="d-flex align-items-end" style="margin-left: 10%;">
+                <div class="d-flex align-items-end" style="margin-left: 6%;">
                     <div class="custom-control custom-checkbox">
                         <input type="checkbox" class="custom-control-input" id="fmatricula">
                         <label class="custom-control-label" for="fmatricula">Filtrar</label>
                     </div>
                 </div>
                 <div class="align-items-end"style="margin-top: 2%; margin-left:8%;">
-                    <label style="margin-left: 70%; margin-top: 8%;">Unidad:</label>
+                    <label style="margin-left: 33%; margin-top: 8%;">Unidad:</label>
                     <select id="unidad" class="custom-select"style="margin-left: 10%">
                         {% for item in unidades %}
                             <option value="{{item.id}}">{{item.nombre}}</option>

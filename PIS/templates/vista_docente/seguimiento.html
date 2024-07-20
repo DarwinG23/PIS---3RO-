@@ -17,12 +17,13 @@
                     label: 'Probabilidad', // 'label' en lugar de 'lebels'
                     data: probabilidad,
                     backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)'
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 99, 132, 0.2)'
+                       
                     ],
                     borderColor: [
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)'
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 99, 132, 1)'
                     ],
                     borderWidth: 1.5
                 }]
@@ -50,12 +51,14 @@
                     label: 'Probabilidad', // 'label' en lugar de 'lebels'
                     data: probabilidad,
                     backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)'
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 99, 132, 0.2)'
+                       
                     ],
                     borderColor: [
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)'
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 99, 132, 1)'
+                        
                     ],
                     borderWidth: 1.5
                 }]
@@ -165,7 +168,7 @@
                 </div>
             </div>
         </div>
-        <h1>CALIFICACIONES</h1>
+        <h1>CALIFICACIONES DEL ESTUDIANTE</h1>
         <table id="tabla" class="table table-striped table-bordered text-black bg-white">
             <thead class="thead-dark">
                 <tr>
@@ -197,37 +200,27 @@
                 {% endfor %}
             </tbody>
         </table>
-
         <br>
-        <h1>PROYECCION</h1>
-        <table id="tabla" class="table table-striped table-bordered text-black bg-white">
+        <h1>PROYECCIÓN</h1>
+        <table id="tbProyeccion" class="table table-striped table-bordered text-black bg-white">
             <thead class="thead-dark">
                 <tr>
                     <th>Unidad</th>
-                    <th>Calificacion</th>
+                    <th>Necesita</th>
                 </tr>
             </thead>
             <tbody>
-                {% for item in unidades %}
-                    <tr>
-                        {%for reporte in lista%}
-                            {% set found = false %}
-
-                            {% if reporte.codigoUnidad == item.codigo %}
-                                {% set found = true %}
-                                <td>ENTRO</td>
-                        
-                            {% endif %}
-
-                            {% if not found %}
-                                <td>{{ item.nombre }}</td>
-                                <td class="celda-verde">{{falta}}</td>
-                            {% endif %}
-                        {% endfor %}
+                {% for item in unidadesPendientes %}
+                    
+                    <tr class="unit-row">
+                        <td class="unit-name">{{item.nombre}}</td>
+                        <td class="unit-status">{{ falta }}</td>
                     </tr>
                 {% endfor %}
             </tbody>
-        </table>
+        </table>>
+        <br>
+        <h1>GRAFICAS</h1>
         
         <div class="grafica">
             <section class="content">
@@ -236,8 +229,7 @@
                     <canvas id="myChartDos" height="300" width="300"></canvas>
                 </div>
             </section>
-        </div>
-       
+        </div>       
     
     <br>
 </div>
