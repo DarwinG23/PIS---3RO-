@@ -149,9 +149,13 @@ class Linked_List(object):
 
 
     def dicToListLast(self, array_dict, clase):
+        print("Entramos")
+        print(type(clase))
+        print(len(array_dict))
         for i in range(0, len(array_dict)):
             data = clase.deserializar(array_dict[i])               
             self.addLast(data)
+            
 
 
     def dicToListFirst(self, array_dict, clase):
@@ -172,13 +176,11 @@ class Linked_List(object):
             self.__head = node
             self.__length -= 1
         elif poss == (self.__length - 1):
-            print("entro en el ultimo")
             node = self.getNode(self.__length - 2)
             node._next = None
             del self.__last
             self.__last = node
             self.__length -= 1
-            print(self.__length)
         else:
             node_previous = self.getNode(poss-1)
             node_next = node_previous._next._next

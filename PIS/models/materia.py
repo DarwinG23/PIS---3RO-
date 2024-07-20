@@ -79,8 +79,12 @@ class Materia:
         materia._nombre = dic["nombre"]
         materia._codigo = dic["codigo"]
         materia._horas = dic["horas"]
-        clase = Asignacion()
-        materia._asignaciones = Linked_List().deserializar(dic["asignaciones"], clase)
+        asignaciones_data = dic.get("asignaciones", [])
+        if isinstance(asignaciones_data, list):
+            clase = Asignacion()
+            materia._asignaciones = Linked_List().deserializar(dic["asignaciones"], clase)
+        else:
+            materia._asignaciones = Linked_List()
         materia._id_ciclo = dic["id_ciclo"]
         return materia
     

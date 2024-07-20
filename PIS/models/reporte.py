@@ -89,7 +89,7 @@ class Reporte:
         return reporte
     
     def __str__(self):
-        return self._codigoMateria + " " + self._cedulaEstudiante + " " + self._codigoUnidad
+        return "Reporte: " + " " +self._codigoMateria + " " + self._cedulaEstudiante + " " + self._codigoUnidad
 
 
     

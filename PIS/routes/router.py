@@ -68,8 +68,11 @@ def login():
             for i in range(0, len(arrayasignaciones)):
                 
                 idMateria = arrayasignaciones[i]._id_materia
-  
+                print("############################################33")
+                print(idMateria)
                 materia = mc._list().binary_search_models(idMateria, "_id")
+                print("jejeje")
+                print(materia)
 
                 if materia != -1:
                     listaMaterias.addNode(materia)
@@ -227,18 +230,73 @@ def seguimiento(idMateria, idEstudiante, idPersona, docente, admin):
         
         
 #VER LAS UNIDADES DE LA MATERIA DEL DOCENTE
-@router.route('/home/materias/estudiantes/unidades/<idMateria>/<idDocente>')
-def ver_unidades_docente(idMateria, idDocente):
+@router.route('/home/materias/estudiantes/unidades/<idMateria>/<idPersona>/<docente>/<admin>')
+def ver_unidades_docente(idMateria, idPersona, docente, admin):
     mt = MateriaControl()
     materia = mt._list().binary_search_models(int(idMateria), "_id")
     pc = PersonaDaoControl()
-    persona = pc._list().binary_search_models(int(idDocente), "_id")
+    persona = pc._list().binary_search_models(int(idPersona), "_id")
     cedulaDocente = persona._dni
     dc = DocenteControl()
     docente = dc._list().binary_search_models(cedulaDocente, "_dni")
+    materia._asignaciones.print
     asignacion = materia._asignaciones.binary_search_models(docente._dni, "_cedula_docente")
     unidades = asignacion._unidades
-    return render_template('vista_docente/unidades.html', lista=mt.to_dic_lista(unidades), idMateria=idMateria, idPersona=idDocente)
+    return render_template('vista_docente/unidades.html', lista=mt.to_dic_lista(unidades), idMateria=idMateria, idPersona=idPersona, docente = docente, admin = admin)
+    
+@router.route('/home/materias/estudiantes/unidades/agregar/<iPersona>/<idMateria>/<docente>/<admin>')
+def agregar_unidades_docente(iPersona, idMateria, docente, admin):
+    return render_template('vista_docente/addUnidad.html', idPersona=iPersona, idMateria=idMateria, docente = docente, admin = admin)
+
+#/home/addUnidad/{{idMateria}}/{{idPersona}}/{{docente}}/{{admin}}
+@router.route('/home/addUnidad/<idMateria>/<idPersona>/<docente>/<admin>', methods=["POST"])
+def addUnidad(idMateria, idPersona, docente, admin):
+    pc = PersonaDaoControl()
+    persona = pc._list().binary_search_models(int(idPersona), "_id")
+    cedula = persona._dni
+    
+    ac = AsignacionDaoControl()
+    
+    asignaciones = ac._list().lineal_binary_search_models(int(idMateria), "_id_materia")
+    
+    asignacionDocente = asignaciones.binary_search_models(cedula, "_cedula_docente")
+    
+    data = request.form
+    
+    print("#####################################")
+    #agregamos la unidad
+    uc = UnidadControl()
+    uc._unidad._nombre = data["nombre"]
+    uc._unidad._estado = True
+    uc._unidad._fecha_inicio = data["fecha_inicio"]
+    uc._unidad._fecha_limite = data["fecha_limite"]
+    uc._unidad._codigo = data["codigo"]
+    uc._unidad._numero = data["numero"]
+    uc._unidad._asignacion = asignacionDocente._id
+    uc.save
+    print("Guardamos la undiad")
+    
+    #agregamos la unidad a la asignacion
+    asignacionAux = ac._list().binary_search_models(asignacionDocente._id, "_id")
+    asignacionAux._unidades.addLast(uc._unidad)
+    ac._asignacion = asignacionAux
+    ac.merge(int(asignacionDocente._id)-1)
+    print("actualizamos en asignacion")
+    #agregamos la asignacion a la materia
+    mc = MateriaControl()
+    materia = mc._list().binary_search_models(idMateria,"_id")
+    
+    asignacionesMateria = materia._asignaciones
+    asignacionesMateria.delete(int(asignacionAux._id)-1)
+    asignacionesMateria.addLast(asignacionAux)
+    
+    materia._asignaciones = asignacionesMateria
+    mc._materia = materia
+
+    mc.merge(int(materia._id)-1)
+    print("actualizamos en materias")
+    
+    return render_template('vista_docente/addUnidad.html', idMateria=idMateria, idPersona=idPersona, docente = docente, admin = admin)
     
 
 
@@ -447,7 +505,15 @@ def lista_malla(idPersona, docente, admin):
 def ver_ciclos(pos):
     cc = CicloControl()
     ciclos = cc._list().getData(int(pos)-1)
-    return render_template("academico/ciclos.html",  lista = ciclos.serializable, idCiclos = pos) 
+    return render_template("academico/ciclos.html",  lista = ciclos.serializable, idCiclos = pos)
+
+
+@router.route('/academico/ciclos/<pos>/<idPersona>/<docente>/<admin>')
+def ver_ciclos_malla(pos, idPersona, docente, admin):
+    mc = MallaCurricularControl()
+    malla = mc._list().getData(int(pos)-1)
+    ciclos = malla._ciclos
+    return render_template("academico/ciclos.html",  lista = mc.to_dic_lista(ciclos), idCiclos = pos, idPersona= idPersona, docente = docente, admin = admin)  
 
 
 #Ordenar Malla Curricular
@@ -485,8 +551,12 @@ def buscar_malla(data, attr):
 
 #Malla - Editar
 
-@router.route('/home/mallas/editar/<idPersona>/<docente>/<admin>', methods=["POST"])
-def modificar_mallas():
+@router.route('/home/mallas/editarRender/<pos>/<idPersona>/<docente>/<admin>', methods=["POST"])
+def modificar_mallas_render(pos, idPersona, docente, admin):
+    return render_template('academico/editarMalla.html', idPersona=idPersona, docente = docente, admin = admin, pos = pos)
+
+@router.route('/home/mallas/editar/<pos>/<idPersona>/<docente>/<admin>', methods=["POST"])
+def modificar_mallas(pos, idPersona, docente, admin):
     mcc = MallaCurricularControl()
     data = request.form
     pos = data["id"]
@@ -499,7 +569,7 @@ def modificar_mallas():
     mcc._mallaCurricular._vigencia = data["vigencia"]   
     mcc.merge(int(pos)-1)
 
-    return redirect("/home/mallas/editar/<idPersona>/<docente>/<admin>", code=302)
+    return render_template("academico/malla.html", idPersona=idPersona, docente = docente, admin = admin)
 
 #---------------------------------------------Ordenar -  Materia--------------------------------------------------#
 

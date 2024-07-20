@@ -12,6 +12,7 @@ class CursaControl(DaoAdapter):
         if self.__cursa is None:
             self.__cursa = Cursa()
         return self.__cursa
+    
 
     @_cursa.setter
     def _cursa(self, value):

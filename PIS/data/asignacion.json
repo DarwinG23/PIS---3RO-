@@ -13,7 +13,8 @@
                 "fecha_inicio": "2021-06-01",
                 "fecha_limite": "2021-06-30",
                 "asignacion": 1,
-                "nombre": "Listas-Pilas-Colas"
+                "nombre": "Listas-Pilas-Colas",
+                "numero": 0
             },
             {
                 "id": 2,
@@ -22,7 +23,18 @@
                 "fecha_inicio": "2021-06-01",
                 "fecha_limite": "2021-06-30",
                 "asignacion": 1,
-                "nombre": "Metodos de Ordenacion y Busqueda"
+                "nombre": "Metodos de Ordenacion y Busqueda",
+                "numero": 0
+            },
+            {
+                "id": 3,
+                "codigo": "8080",
+                "estado": true,
+                "fecha_inicio": "2024-06-01",
+                "fecha_limite": "2024-06-30",
+                "asignacion": 1,
+                "nombre": "Grafos y Arboles",
+                "numero": "3"
             }
         ],
         "reportes": [
@@ -60,7 +72,8 @@
                 "fecha_inicio": "2021-06-01",
                 "fecha_limite": "2021-06-30",
                 "asignacion": 1,
-                "nombre": "Modelo Relacional"
+                "nombre": "Modelo Relacional",
+                "numero": 0
             },
             {
                 "id": 2,
@@ -69,9 +82,10 @@
                 "fecha_inicio": "2021-06-01",
                 "fecha_limite": "2021-06-30",
                 "asignacion": 1,
-                "nombre": "Normalizacion"
+                "nombre": "Normalizacion",
+                "numero": 0
             }
         ],
-        "reportes":[]
+        "reportes": []
     }
 ]
