@@ -15,6 +15,8 @@ from controls.seguimiento.unidadControl import UnidadControl
 from controls.tda.linked.linkedList import Linked_List
 from controls.administrativo.periodoAcademicoControl import PeriodoAcademicoControl
 import time, math
+from controls.read_exel.read import Read
+from io import BytesIO
 from scipy import stats
 router = Blueprint('router', __name__)
 
@@ -296,6 +298,8 @@ def ver_unidades_docente(idMateria, idPersona, docente, admin):
     dc = DocenteControl()
     docente = dc._list().binary_search_models(cedulaDocente, "_dni")
     materia._asignaciones.print
+    if docente == -1:
+        return render_template('login/login.html')
     asignacion = materia._asignaciones.binary_search_models(docente._dni, "_cedula_docente")
     unidades = asignacion._unidades
     return render_template('vista_docente/unidades.html', lista=mt.to_dic_lista(unidades), idMateria=idMateria, idPersona=idPersona, docente = docente, admin = admin)
@@ -989,3 +993,23 @@ def filtrar_estudiantes(periodo, paralelo, nota, matricula, idMateria, idPersona
         200
     )
     
+
+#/home/materias/estudiantes/unidades/notas/{{idMateria}}/{{idPersona}}/{{docente}}/{{admin}}
+@router.route('/home/materias/estudiantes/unidades/notas/<idMateria>/<idPersona>/<docente>/<admin>')
+def subir_notas(idMateria, idPersona, docente, admin):
+    return render_template('vista_docente/notas.html',  idMateria=idMateria, idPersona=idPersona, docente = docente, admin = admin)
+
+#/home/subirNotas/{{idMateria}}/{{idPersona}}/{{docente}}/{{admin}}
+@router.route('/home/subirNotas/<idMateria>/<idPersona>/<docente>/<admin>', methods=["POST"])
+def cargar_archivo(idMateria, idPersona, docente, admin):
+    if 'url' in request.files:
+        archivo = request.files['url']
+        if archivo.filename != '':
+            # Crear una instancia de Read con el archivo cargado
+            archivo_bytes = BytesIO(archivo.read())  # Leer el archivo en memoria
+            r = Read(archivo_bytes)
+            r.leer_archivo()
+            r.imprimir()
+            tabla = r.info_to_dict()
+    
+    return render_template('vista_docente/notas.html',  idMateria=idMateria, idPersona=idPersona, docente = docente, admin = admin, tabla = tabla)
