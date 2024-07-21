@@ -282,7 +282,7 @@ class Linked_List(object):
     def  sort_models(self, atribute ,type = 1, method = 3):
         if self.isEmpty:
             raise LinkedEmpty("List is Empty")
-        else:  
+        else:
             array = self.toArray
             self.clear
             if isinstance(array[0], object): 
@@ -295,6 +295,7 @@ class Linked_List(object):
                         array = order.sort_models_ascent(array, atribute)
                     elif method == 3:
                         order = QuickSort()
+
                         array = order.quicksort_models_ascent(array, 0, len(array) - 1, atribute)
                     elif method == 4:
                         order = MergeSort()
@@ -313,7 +314,7 @@ class Linked_List(object):
                         order = QuickSort()
                         array = order.quicksort_models_descent(array, 0, len(array) - 1, atribute)
                     elif method == 4:
-                        print("entro en merge descent")
+
                         order = MergeSort()
                         array = order.mergeSort_models_descent(array, atribute)
                     elif method == 5:
@@ -387,14 +388,13 @@ class Linked_List(object):
     
     
     #busqueda lineal-binaria
-    def lineal_binary_search_models(self, data, atribute):       
+    def lineal_binary_search_models(self, data, atribute):     
         self.sort_models(atribute)
         arr = self.toArray
         left = 0
         right = len(arr) - 1
         list = Linked_List()
-        print(type(data))
-        
+
         while left <= right:
             mid = (left + right) // 2
             if str(getattr(arr[mid], atribute)).lower() == str(data).lower():  

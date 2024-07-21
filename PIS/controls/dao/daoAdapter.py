@@ -14,17 +14,16 @@ class DaoAdapter(Generic[T]):
     def __init__(self, atype: T):
         self.atype = atype
         conexion = Connection()
-        self.conn = conexion.connect("USUARIO_DBA", "1104753890", "XE")
+        self.conn = conexion.connect("USUARIO_DBA", "2001", "XE")
       
         
         #self.lista = Linked_List()
         #self.file = atype.__name__.lower()+".json"
         #self.URL = os.path.dirname(os.path.abspath(os.path.dirname(os.path.dirname(__file__)))) + "/data/"
 
-    def _list(self) -> T:
+    def _list(self, tabla) -> T:
         lista = Linked_List()
         cur = self.conn._db.cursor()
-        tabla = "Persona"
         cur.execute(f"SELECT * FROM {tabla}")
         # Obtener los nombres de las columnas
         columns = [col[0].lower() for col in cur.description]
@@ -106,8 +105,8 @@ class DaoAdapter(Generic[T]):
             raise ValueError("El campo 'numTelefono' no puede estar vacío")
         if not aux["idCuenta"]:
             raise ValueError("El campo 'idCuenta' no puede estar vacío")
-
-        # Excluir el campo 'roles' de la serialización
+        
+        print("ESTAMOS EN EL SAVE")
         columns = ""
         data_values = ""
         for key, value in aux.items():
@@ -117,7 +116,9 @@ class DaoAdapter(Generic[T]):
                 columns += key + ","
                 if key == "fechaNacimiento":
                     # Asegurarse de que la fecha esté en el formato correcto
-                    value = datetime.strptime(value, "%d/%m/%Y").strftime("%Y-%m-%d")
+                    print(aux["fechaNacimiento"])
+                    value = datetime.strptime(value, "%d/%m/%Y").strftime("%d-%b-%Y").upper()
+                    print(value)
                 if isinstance(value, (int, float, bool)):
                     data_values += str(value) + ","
                 else:
@@ -132,11 +133,13 @@ class DaoAdapter(Generic[T]):
         try:
             cur.execute(sql)
             self.conn._db.commit()
+            print("Se ha guardado el registro")
         except Exception as e:
-            print("Error:", e)
+            print("Error al hacer comit:", e)
             self.conn._db.rollback()
         finally:
             cur.close()
+            print("Se ha cerrado la conexión")
 
 
     

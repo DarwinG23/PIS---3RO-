@@ -1,6 +1,7 @@
 from controls.tda.linked.linkedList import Linked_List
 from models.rol import Rol
 from datetime import datetime
+from controls.login.rolDaoControl import RolDaoControl
 class Persona:
     def __init__(self):
         self.__id = 0
@@ -100,23 +101,16 @@ class Persona:
         persona._dni = data["dni"]
         persona._nombre = data["nombre"]
         persona._apellido = data["apellido"]
-
-        # Manejo del campo fechaNacimiento
-        fecha_nacimiento = data["fechaNacimiento"]
-        if isinstance(fecha_nacimiento, datetime):
-            persona._fechaNacimiento = fecha_nacimiento.strftime('%Y-%m-%d')
-        else:
-            try:
-                persona._fechaNacimiento = datetime.strptime(fecha_nacimiento, "%d/%m/%Y").strftime("%d-%m-%Y")
-            except ValueError:
-                persona._fechaNacimiento = fecha_nacimiento
-
-        persona._numTelefono = data["numTelefono"]
-        persona._idCuenta = data["idCuenta"]
-        
-        # Manejo del campo roles
-        clase = Rol()
-        persona._roles = Linked_List().deserializar(data["roles"], clase)
+        persona._fechaNacimiento = data["fechanacimiento"]
+        persona._numTelefono = data["numtelefono"]
+        persona._idCuenta = data["idcuenta"]
+        #HACER CONSULTA
+        rc = RolDaoControl()
+        roles = rc._list("ROL")
+        roles = roles.lineal_binary_search_models(str(persona._id),"_idPersona")
+        #clase = Rol()
+        #persona._roles = Linked_List().deserializar(data["roles"], clase)
+        persona._roles = roles
         
         return persona
     

@@ -112,16 +112,28 @@ con = Connection()
 
 
 try:
-   pc._persona._apellido = "Granda"
-   pc._persona._nombre = "Jorge"
-   pc._persona._dni = "1104526352"
-   pc._persona._fechaNacimiento = "10/10/1994"
-   pc._persona._numTelefono = "0987654321"
-   pc._persona._idCuenta = 3
-   pc.save
-   pc._persona = None
-   lista = pc._list()
-   lista.print
+   # pc._persona._apellido = "Poma"
+   # pc._persona._nombre = "Jorge"
+   # pc._persona._dni = "1104526352"
+   # pc._persona._fechaNacimiento = "10/10/1994"
+   # pc._persona._numTelefono = "0987654321"
+   # pc._persona._idCuenta = 2
+   # pc.save
+   # # cc._cuenta._correo = "jorge.granda@unl.edu.ec"
+   # cc._cuenta._contrasenia = "1234"
+   # cc._cuenta._idPersona = pc._persona._id
+   # cc._cuenta._estado = True
+   # cc.save
+   # cc._cuenta = None
+   # pc._persona = None
+   
+   lista = pc._list("PERSONA")
+   print("^^^^^^^^^^^^^^^^^^^^^^^^^")
+   
+   persona = lista.binary_search_models("0", "_id")
+   print("ROLES DE LA PERSONA")
+   persona._roles.print
+   print(lista._length)
    #lista.sort_models("_nombre", 1)
    #lista.print   
    # connection = Connection()
