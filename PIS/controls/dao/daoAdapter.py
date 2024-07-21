@@ -21,7 +21,8 @@ class DaoAdapter(Generic[T]):
         #self.file = atype.__name__.lower()+".json"
         #self.URL = os.path.dirname(os.path.abspath(os.path.dirname(os.path.dirname(__file__)))) + "/data/"
 
-    def _list(self, tabla) -> T:
+    def _list(self) -> T:
+        tabla = self.atype.__name__.lower()
         lista = Linked_List()
         cur = self.conn._db.cursor()
         cur.execute(f"SELECT * FROM {tabla}")
@@ -89,32 +90,16 @@ class DaoAdapter(Generic[T]):
     
 
     def _save(self, data) -> T:
-        tabla = "Persona"
+        tabla = self.atype.__name__.lower()
         aux = data.serializable
-
-        # Verificar que los campos obligatorios no estén vacíos
-        if not aux["dni"]:
-            raise ValueError("El campo 'dni' no puede estar vacío")
-        if not aux["nombre"]:
-            raise ValueError("El campo 'nombre' no puede estar vacío")
-        if not aux["apellido"]:
-            raise ValueError("El campo 'apellido' no puede estar vacío")
-        if not aux["fechaNacimiento"]:
-            raise ValueError("El campo 'fechaNacimiento' no puede estar vacío")
-        if not aux["numTelefono"]:
-            raise ValueError("El campo 'numTelefono' no puede estar vacío")
-        if not aux["idCuenta"]:
-            raise ValueError("El campo 'idCuenta' no puede estar vacío")
-        
-        print("ESTAMOS EN EL SAVE")
         columns = ""
         data_values = ""
         for key, value in aux.items():
-            if key == "roles":
+            if key == "roles" or key == "id":  # Omitir el campo 'roles'
                 continue  # Omitir el campo 'roles'
             if len(str(value)) > 0:
                 columns += key + ","
-                if key == "fechaNacimiento":
+                if "fecha" in key:
                     # Asegurarse de que la fecha esté en el formato correcto
                     print(aux["fechaNacimiento"])
                     value = datetime.strptime(value, "%d/%m/%Y").strftime("%d-%b-%Y").upper()
@@ -140,42 +125,38 @@ class DaoAdapter(Generic[T]):
         finally:
             cur.close()
             print("Se ha cerrado la conexión")
-
-
+    
     
     def _merge(self, data: T, pos) -> T:
-        tabla = "Persona"
+        tabla = self.atype.__name__.lower()
         aux = data.serializable
-        columns = ""
-        for cont in aux:
-            if len(str(aux[cont])) > 0:
-                columns += cont + ","
-        columns = columns.rstrip(columns[-1])
-        data_values = ""
-        for cont in aux:
-            if len(str(aux[cont])) > 0:
-                if isinstance(aux[cont], Number) or isinstance(aux[cont], bool):
-                    data_values += str(aux[cont]) + "," 
-                elif isinstance(aux[cont], list):
-                    # Convertir la lista a cadena y asegurarse de usar comillas simples para valores de cadena
-                    data_values += "'" + str(aux[cont]).replace("'", "''") + "'" + ","
+        update_pairs = []  # Usar una lista para almacenar pares de columna=valor
+
+        for key, value in aux.items():
+            if key == "roles"  or key == "id":  # Omitir el campo 'roles'
+                continue  # Omitir el campo 'roles'
+            if len(str(value)) > 0:
+                if "fecha" in key:
+                    # Asegurarse de que la fecha esté en el formato correcto
+                    print(aux["fechaNacimiento"])
+                    value = datetime.strptime(value, "%d/%m/%Y").strftime("%d-%b-%Y").upper()
+                    print(value)
+                if isinstance(value, (int, float, bool)):
+                    update_pairs.append(f"{key} = {value}")
                 else:
-                    # Usar comillas simples para valores de cadena
-                    data_values += "'" + aux[cont].replace("'", "''") + "'" + ","
-        data_values = data_values.rstrip(data_values[-1])
-        sql = (f"UPDATE {tabla} SET "+columns+" = (" + data_values + ") WHERE id = {pos}")
+                    value = str(value).replace("'", "''")  # Escapar comillas simples
+                    update_pairs.append(f"{key} = '{value}'")
+        
+        update_str = ", ".join(update_pairs)  # Construir la cadena de actualización correctamente
+
+        sql = f"UPDATE {tabla} SET {update_str} WHERE id = {pos}"
         cur = self.conn._db.cursor()
         print("LOG:" + sql)
         cur.execute(sql)
-        id = self.conn._db.commit()
-        print(id)   
-    #     data = self.lista.getData(pos)  #para obtener el id
-    #     self._list()
-    #     self.lista.edit(data, pos)
-    #     a = open(self.URL+self.file, "w")
-    #     a.write(self.__transform__())
-    #     a.close()
-     
+        self.conn._db.commit()
+
+    
+
 
 
         

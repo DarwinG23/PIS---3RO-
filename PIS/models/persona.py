@@ -90,7 +90,7 @@ class Persona:
             "fechaNacimiento": self.__fechaNacimiento,
             "numTelefono": self.__numTelefono,
             "idCuenta": self.__idCuenta,
-            "roles": self.__roles.serializable
+            #QUITAMOS ROLES POR QUE NO ESTA EN LA BASE
         }
     
 
@@ -106,7 +106,7 @@ class Persona:
         persona._idCuenta = data["idcuenta"]
         #HACER CONSULTA
         rc = RolDaoControl()
-        roles = rc._list("ROL")
+        roles = rc._list()
         roles = roles.lineal_binary_search_models(str(persona._id),"_idPersona")
         #clase = Rol()
         #persona._roles = Linked_List().deserializar(data["roles"], clase)
