@@ -112,8 +112,18 @@ con = Connection()
 
 
 try:
-
-   pc._list()
+   pc._persona._apellido = "Granda"
+   pc._persona._nombre = "Jorge"
+   pc._persona._dni = "1104526352"
+   pc._persona._fechaNacimiento = "10/10/1994"
+   pc._persona._numTelefono = "0987654321"
+   pc._persona._idCuenta = 3
+   pc.save
+   pc._persona = None
+   lista = pc._list()
+   lista.print
+   #lista.sort_models("_nombre", 1)
+   #lista.print   
    # connection = Connection()
    # connection.connect("USUARIO_DBA", "1104753890", "XE")
 
