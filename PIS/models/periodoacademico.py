@@ -18,27 +18,27 @@ class PeriodoAcademico:
 
 
     @property
-    def id(self):
+    def _id(self):
         return self.__id
 
-    @id.setter
-    def id(self, value):
+    @_id.setter
+    def _id(self, value):
         self.__id = value
 
     @property
-    def fecha_inicio(self):
+    def _fecha_inicio(self):
         return self.__fecha_inicio
 
-    @fecha_inicio.setter
-    def fecha_inicio(self, value):
+    @_fecha_inicio.setter
+    def _fecha_inicio(self, value):
         self.__fecha_inicio = value
 
     @property
-    def fecha_fin(self):
+    def _fecha_fin(self):
         return self.__fecha_fin
 
-    @fecha_fin.setter
-    def fecha_fin(self, value):
+    @_fecha_fin.setter
+    def _fecha_fin(self, value):
         self.__fecha_fin = value
         
     @property
@@ -52,9 +52,9 @@ class PeriodoAcademico:
     @classmethod
     def deserializar(self, data):
         periodo_academico = PeriodoAcademico()
-        periodo_academico.id = data["id"]
-        periodo_academico.fecha_inicio = data["fecha_inicio"]
-        periodo_academico.fecha_fin = data["fecha_fin"],
+        periodo_academico._id = data["id"]
+        periodo_academico._fecha_inicio = data["fecha_inicio"]
+        periodo_academico._fecha_fin = data["fecha_fin"]
         clase = Cursa()
         periodo_academico._cursas = Linked_List().deserializar(data["cursas"], clase)
         return periodo_academico

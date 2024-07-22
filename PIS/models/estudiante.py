@@ -74,7 +74,7 @@ class Estudiante(Persona):
         return estudiante
     
     
-    def __str__(self) -> str:
+    def __str__(self):
         return str(super()._id) + " " + super()._nombre 
 
 

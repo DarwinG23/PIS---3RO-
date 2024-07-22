@@ -106,5 +106,5 @@ class Unidad:
         #unidad._numero = data["numero"]         #arreglar
         return unidad
     
-    def _str_(self) -> str:
-        return self.__nombre
+    def __str__(self) -> str:
+        return self.__nombre + " Codigo " + self.__codigo

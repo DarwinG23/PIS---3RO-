@@ -132,6 +132,7 @@ class Linked_List(object):
         else:
             node = self.getNode(poss)
             node._data = data
+            node._data._reportes.print
 
 
     @property
@@ -149,9 +150,6 @@ class Linked_List(object):
 
 
     def dicToListLast(self, array_dict, clase):
-        print("Entramos")
-        print(type(clase))
-        print(len(array_dict))
         for i in range(0, len(array_dict)):
             data = clase.deserializar(array_dict[i])               
             self.addLast(data)
@@ -331,7 +329,18 @@ class Linked_List(object):
             for i in range(0, len(array)):
                 if array[i].lower().__contains__(data.lower()):  # < > <= >= !=  == startswith() endswith()
                     list.addNode(array[i], list._length)
-        return list  
+        return list
+    
+    def search_equals_models(self, data, atribute):
+        list = Linked_List()
+        if self.isEmpty:
+            raise LinkedEmpty("List is Empty")
+        else:  
+            array = self.toArray
+            for i in range(0, len(array)):
+                if str(getattr(array[i], atribute)).lower().__contains__(data.lower()):
+                    list.addNode(array[i], list._length)
+        return list
     
     
     def binary_search_number(self, data):
@@ -393,7 +402,7 @@ class Linked_List(object):
         left = 0
         right = len(arr) - 1
         list = Linked_List()
-        print(type(data))
+        
         
         while left <= right:
             mid = (left + right) // 2
@@ -407,6 +416,37 @@ class Linked_List(object):
             else:
                 right = mid - 1
         return list
+    #menores
+    def search_lower(self, data):
+        list = Linked_List()
+        if self.isEmpty:
+            raise LinkedEmpty("List is Empty")
+        else:  
+            array = self.toArray
+            for i in range(0, len(array)):
+                if array[i].lower() < data.lower():  # < > <= >= !=  == startswith() endswith()
+                    list.addNode(array[i], list._length)
+        return list 
+     
+ 
+        
+    def search_lower_models(self, data, atribute):
+        list = Linked_List()
+        if self.isEmpty:
+            raise LinkedEmpty("List is Empty")
+        else:  
+            array = self.toArray
+            for i in range(0, len(array)):
+                original = self.convertir(str(getattr(array[i], atribute)))
+                data = self.convertir(str(data))
+                
+                if getattr(array[i], atribute) < data:
+                    list.addNode(array[i], list._length)
+        return list
     
-   
-    
+
+    def convertir(self, valor):
+        try:
+            return float(valor)
+        except ValueError:
+            return valor
