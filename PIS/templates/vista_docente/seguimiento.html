@@ -182,7 +182,7 @@
                         <td>{{ item.nombre }}</td>
                         {%for reporte in lista%}
                             {% set found = false %}
-
+                            
                             {%if reporte.codigoUnidad == item.codigo%}
                                 {% set found = true %}
                             {%endif%}

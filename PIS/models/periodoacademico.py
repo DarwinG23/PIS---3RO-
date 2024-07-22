@@ -1,5 +1,8 @@
 from controls.tda.linked.linkedList import Linked_List
-from models.cursa import Cursa  
+from models.cursa import Cursa
+
+from controls.administrativo.cursaControl import CursaControl  
+from datetime import datetime
 
 class PeriodoAcademico:
     def __init__(self):
@@ -47,16 +50,29 @@ class PeriodoAcademico:
             "id": self.__id,
             "fecha_inicio": self.__fecha_inicio,
             "fecha_fin": self.__fecha_fin,
-            "cursas": self.__cursas.serializable
+            #"cursas": self.__cursas.serializable
         }
     @classmethod
     def deserializar(self, data):
         periodo_academico = PeriodoAcademico()
         periodo_academico._id = data["id"]
-        periodo_academico._fecha_inicio = data["fecha_inicio"]
-        periodo_academico._fecha_fin = data["fecha_fin"]
-        clase = Cursa()
-        periodo_academico._cursas = Linked_List().deserializar(data["cursas"], clase)
+        
+        fecha_inicio = data["fecha_inicio"]
+        fecha_fin = data["fecha_fin"]
+    
+        fecha_inicio_formato = fecha_inicio.strftime("%d/%m/%Y")
+        fecha_fin_formato = fecha_fin.strftime("%d/%m/%Y")
+        
+        periodo_academico._fecha_inicio = fecha_inicio_formato
+        periodo_academico._fecha_fin = fecha_fin_formato
+        cc = CursaControl()
+        if cc._list().isEmpty:
+            cursas = Linked_List()
+        else:
+            cursas = cc._list()
+            cursas = cursas.lineal_binary_search_models(str(periodo_academico._id), "_periodoAcademico")
+            
+        periodo_academico._cursas = cursas
         return periodo_academico
     
     def __str__(self) -> str:

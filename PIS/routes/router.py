@@ -75,11 +75,7 @@ def login():
             #recooremos el array de asignaciones
             for i in range(0, len(arrayasignaciones)):
                 
-                idMateria = arrayasignaciones[i]._id_materia
-                print("^^^^^^^^^^^^^^^^^^^^^")
-                print(idMateria)
-                print(mc._list()._length)
-                
+                idMateria = arrayasignaciones[i]._id_materia                
                 try:
                    materia = mc._list().binary_search_models(idMateria, "_id")
                 except:
@@ -270,18 +266,33 @@ def seguimiento(idMateria, idEstudiante, idPersona, docente, admin, idPeriodo):
                 for i in range(0, len(array)):
                     promedio += array[i]._nota
                     notas_anteriores.append(array[i]._nota)
-                    
-                    
+                print("\nLO QUE NECESITA\n")
         
                 nota_necesaria = nota_minima * int(asignacion._unidades._length) - promedio
+                print(nota_necesaria)
+                if len(notas_anteriores) == 1:
+                    nota_necesaria = nota_necesaria /2
+                
+                print(nota_necesaria)
                 media = promedio / len(notas_anteriores)
                 sumatoria_cuadrados = sum((x - media) ** 2 for x in notas_anteriores)
-                desviacion_estandar = math.sqrt(sumatoria_cuadrados / (len(notas_anteriores) - 1))
-                                                
-                probabilidad_aprobar = 1 - stats.norm.cdf(nota_necesaria, loc=media, scale=desviacion_estandar)
-                probabilidad_reprobar = stats.norm.cdf(nota_necesaria, loc=media, scale=desviacion_estandar)
+                if len(notas_anteriores) == 1:
+                    desviacion_estandar = 0
+                    if nota_necesaria <= media:
+                        probabilidad_aprobar = 0.9
+                        probabilidad_reprobar = 0.1
+                    else:
+                        probabilidad_aprobar = 0.1
+                        probabilidad_reprobar = 0.9
+                else:
+                    desviacion_estandar = math.sqrt(sumatoria_cuadrados / (len(notas_anteriores) - 1))                          
+                    probabilidad_aprobar = 1 - stats.norm.cdf(nota_necesaria, loc=media, scale=desviacion_estandar)
+                    probabilidad_reprobar = stats.norm.cdf(nota_necesaria, loc=media, scale=desviacion_estandar)
+                    
                 aprobar = round(probabilidad_aprobar*100, 2)
                 reprobar = round(probabilidad_reprobar * 100, 2)
+                
+                
            
 
                 unidadPendiente = Linked_List()
@@ -293,6 +304,8 @@ def seguimiento(idMateria, idEstudiante, idPersona, docente, admin, idPeriodo):
                             break
                     if not existe:
                         unidadPendiente.addNode(unidad)
+                
+                
                 
                 return render_template('vista_docente/seguimiento.html', idEstudiante=idEstudiante, idMateria = idMateria, lista = ec.to_dic_lista(reportes), paprobar = aprobar, preprobar = reprobar, idPersona = idPersona, docente = docente, admin = admin, unidades = ec.to_dic_lista(asignacion._unidades), periodos = pec.to_dic_lista(pec._list()), falta = round(nota_necesaria,2), unidadesPendientes = ec.to_dic_lista(unidadPendiente))
             else:
@@ -901,29 +914,34 @@ def eliminar_personas():
 #/home/materias/estudiantes/filtrar/"+periodo+"/"+paralelo+"/"+nota+"/"+matricula+"/"+idMateria+"/"+idPersona+"/"+docente+"/"+admin
 @router.route('/home/materias/estudiantes/filtrar/<periodo>/<paralelo>/<nota>/<matricula>/<idMateria>/<idPersona>/<docente>/<admin>/<idUnidad>')
 def filtrar_estudiantes(periodo, paralelo, nota, matricula, idMateria, idPersona, docente, admin, idUnidad):
+    print("\n\n FILTRANDO  \n\n")
     ac = AsignacionDaoControl()
     pc = PersonaDaoControl()
     uc = UnidadControl()
     rc = ReporteControl()
     persona = pc._list().binary_search_models(idPersona, "_id")
     
+    print(persona)
     
     asignaciones = ac._list().lineal_binary_search_models(int(idMateria), "_id_materia")
     asignaciones = asignaciones.lineal_binary_search_models(persona._dni, "_cedula_docente")
     
+    asignaciones.print
     unidad = uc._list().binary_search_models(int(idUnidad), "_id")
 
-    
-    reportes = rc._list().lineal_binary_search_models(unidad._codigo, "_codigoUnidad")
-    
+    try:
+        reportes = rc._list().lineal_binary_search_models(unidad._codigo, "_codigoUnidad")
+    except:
+        reportes = Linked_List()
     pec = PeriodoAcademicoControl()
     paralelos = []
-
+    print("length: ", asignaciones._length)
     if asignaciones._length != 0:
-        
+        print("\n HAY ASIGNACIONES  \n")
         alumnos = Linked_List()
         ec = EstudianteControl()
         estudiantes = ec._list().toArray
+        print(len(estudiantes))
         for i in range(0, len(estudiantes)):
             cursas = estudiantes[i]._cursas
             for j in range(0, asignaciones._length):
@@ -947,13 +965,9 @@ def filtrar_estudiantes(periodo, paralelo, nota, matricula, idMateria, idPersona
                         auxParalelo = paralelo
                     
                     if int(periodo) != 0 and auxParalelo != 0:
+                        print("\n\n FILTRANDO POR PERIODO \n\n")
                         if int(cursa._periodoAcademico) == int(periodo) and str(paralelo).lower() == str(cursa._paralelo).lower():
                             alumnos.addNode(estudiantes[i])
-                        # elif int(cursa._periodoAcademico) == int(periodo) and auxParalelo != 0:
-                        #     alumnos.addNode(estudiantes[i])
-                        # elif int(cursa._periodoAcademico) != int(periodo) and str(paralelo).lower() == str(cursa._paralelo).lower():
-                        #     alumnos.addNode(estudiantes[i])
-                            
                     elif int(periodo) != 0 and auxParalelo == 0:
                         if int(cursa._periodoAcademico) == int(periodo):
                             alumnos.addNode(estudiantes[i])

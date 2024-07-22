@@ -9,8 +9,15 @@ class Docente(Persona):
         self.__cubiculo = ""
         self.__idiomas = ""
         self.__tipoContrato = ""
-        
-    
+        self.__idPersona = 0
+
+    @property
+    def _idPersona(self):
+        return self.__idPersona
+
+    @_idPersona.setter
+    def _idPersona(self, value):
+        self.__idPersona = value
 
 
     @property
@@ -53,7 +60,8 @@ class Docente(Persona):
             "titulo": self.__titulo,
             "cubiculo": self.__cubiculo,
             "idiomas": self.__idiomas,
-            "tipoContrato": self.__tipoContrato
+            "tipoContrato": self.__tipoContrato,
+            "idPersona": self.__idPersona
         })
         return data
     
@@ -72,6 +80,7 @@ class Docente(Persona):
         docente._cubiculo = data["cubiculo"]
         docente._idiomas = data["idiomas"]
         docente._tipoContrato = data["tipoContrato"]
+        docente._idPersona = data["idPersona"]
         return docente
     
     def __str__(self) -> str:

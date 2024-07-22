@@ -19,7 +19,6 @@ class DaoAdapter(Generic[T]):
       
     def _list(self) -> T:
         tabla = self.atype.__name__.lower()
-        print(tabla)
         lista = Linked_List()
         cur = self.conn._db.cursor()
         cur.execute(f"SELECT * FROM {tabla}")
@@ -27,10 +26,8 @@ class DaoAdapter(Generic[T]):
         columns = [col[0].lower() for col in cur.description]
         rows = cur.fetchall()
         dict_rows = [dict(zip(columns, row)) for row in rows]
-        print(dict_rows)
         for row in dict_rows:
             a = self.atype.deserializar(row)
-            print(row)
             lista.addNode(a, lista._length)
         cur.close()
         return lista
@@ -48,9 +45,7 @@ class DaoAdapter(Generic[T]):
                 columns += key + ","
                 if "fecha" in key:
                     # Asegurarse de que la fecha esté en el formato correcto
-                    print(aux["fechaNacimiento"])
                     value = datetime.strptime(value, "%d/%m/%Y").strftime("%d-%b-%Y").upper()
-                    print(value)
                 if isinstance(value, (int, float, bool)):
                     data_values += str(value) + ","
                 else:

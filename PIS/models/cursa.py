@@ -55,7 +55,7 @@ class Cursa:
             "id": self.__id,
             "paralelo": self.__paralelo,
             "idEstudiante": self.__idEstudiante,
-            "asignacion": self.__asignacion,
+            "idAsignacion": self.__asignacion,
             "periodoAcademico": self.__periodoAcademico
         }
         
@@ -64,9 +64,9 @@ class Cursa:
         cursa = Cursa()
         cursa._id = data["id"]
         cursa._paralelo = data["paralelo"]
-        cursa.__idEstudiante = data["idEstudiante"]
-        cursa.__asignacion = data["asignacion"]
-        cursa.__periodoAcademico = data["periodoAcademico"]
+        cursa.__idEstudiante = data["idestudiante"]
+        cursa.__asignacion = data["idasignacion"]
+        cursa.__periodoAcademico = data["periodoacademico"]
         return cursa
     
     def __str__(self):

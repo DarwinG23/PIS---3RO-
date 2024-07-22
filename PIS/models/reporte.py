@@ -1,3 +1,5 @@
+from controls.circular_errors.reporteAsignacion import ReporteAsignacion
+
 class Reporte:
     def __init__(self):
         self.__id = 0
@@ -91,23 +93,17 @@ class Reporte:
     def deserializar(self, data):
         reporte = Reporte()
         reporte._id = data["id"]
-        reporte._cedulaEstudiante = data["cedulaEstudiante"]
+        reporte._cedulaEstudiante = data["cedulaestudiante"]
         reporte._nota = data["nota"]
         reporte._asistencia = data["asistencia"]
-        reporte._codigoUnidad = data["codigoUnidad"]
-        reporte._codigoMateria = data["codigoMateria"]
-        reporte._numMatricula = data["numMatricula"]
-        try:
-            asignacion = data["asignacion"]
-        except:
-            asignacion = None
-            
-        if asignacion is not None:
-            reporte._idAsignacion = data["idAsignacion"]
+        reporte._codigoUnidad = str(data["codigounidad"])
+        reporte._codigoMateria = data["codigomateria"]
+        reporte._numMatricula = data["nummatricula"]
+        reporte._idAsignacion = data["idasignacion"]
         return reporte
     
     def __str__(self):
-        return "Reporte: " + " " +self._codigoMateria + "CedulaEstu:" + self._cedulaEstudiante + "CodigoU: " + self._codigoUnidad
+        return "Reporte: " + " " +str(self._codigoMateria) + "CedulaEstu:" + str(self._cedulaEstudiante) + "CodigoU: " + str(self._codigoUnidad)
 
 
     

@@ -69,7 +69,6 @@
                         html += "<td>" + info.nombre + "</td>";
                         html += "<td>" + info.apellido + "</td>";
                         html += "<td>" + info.dni + "</td>";
-                        html += "<td>" + info.nota + "</td>";
                         html += "<td><a href='/home/materias/estudiantes/seguimiento/"+idMateria+"/"+info.id+"/"+idPersona+"/"+docente+"/"+admin+"/"+idPerido+"' class='btn btn-warning btn-sm'>SEGUIMIENTO</a></td>";
                         html += "</tr>";
                     });
@@ -311,7 +310,6 @@
                 <th>Nombre</th>
                 <th>Apellido</th>
                 <th>Dni</th>
-                <th>Promedio</th>
                 <th>Detalles</th>
             </tr>
         </thead>
@@ -322,7 +320,6 @@
                     <td>{{ item.nombre }}</td>
                     <td>{{ item.apellido }}</td>
                     <td>{{ item.dni }}</td>
-                    <td>{{ item.nota }}</td>
                     <td>
                         <!-- <a href="/servidores/editar/{{ item.id }}" class="btn btn-info btn-sm">Modificar</a> -->
                         <a id="seguimiento-link" href="/home/materias/estudiantes/seguimiento/{{idMateria}}/{{ item.id }}/{{idPersona}}/{{docente}}/{{admin}}/idPeriodo" class="btn btn-warning btn-sm">SEGUIMIENTO</a>
