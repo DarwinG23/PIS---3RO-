@@ -1101,7 +1101,7 @@ def cargar_archivo(idMateria, idPersona, docente, admin):
 @router.route('/home/notas/<idMateria>/<idPersona>/<docente>/<admin>/<tabla>/<idPeriodo>', methods=["POST"])
 def verificar_exel(idMateria, idPersona, docente, admin, tabla, idPeriodo):
 
-
+    print("\n\nVERIFICANDO EXEL\n\n")
     
     data = request.form
     unidad = data["unidad"]
@@ -1125,9 +1125,18 @@ def verificar_exel(idMateria, idPersona, docente, admin, tabla, idPeriodo):
     idEstudiantes = []
     
     cursas = asignacion._cursas
+    print("Asignacion")
+    print(asignacion)
+    print("Cursas")
+    print(cursas._length)
     for i in range(0, cursas._length): 
         cursa = cursas.getData(i)
-        if cursa._paralelo == paralelo and cursa._periodoAcademico == periodo._id:
+        print("Comprobando")
+        print(cursa._paralelo)
+        print(paralelo)
+        print(cursa._periodoAcademico)
+        print(periodo._id)
+        if cursa._paralelo == paralelo: #and cursa._periodoAcademico == periodo._id:
             idEstudiantes.append(cursa._idEstudiante)
             
    
@@ -1165,15 +1174,25 @@ def verificar_exel(idMateria, idPersona, docente, admin, tabla, idPeriodo):
                 rec._reporte._codigoUnidad = unidad._codigo
                 rec._reporte._codigoMateria = materia._codigo
                 rec._reporte._nota = nota
-                rec._reporte._numMatricula = len(cursaArr)
+                rec._reporte._numMatricula = 2 #len(cursaArr)
                 rec._reporte._asistencia = 100
                 rec._reporte._idAsignacion = asignacion._id
                 rec.save
-                asignacion._reportes.print
-                reportes.addNode(rec._reporte)
-                asignacion._reportes.addNode(rec._reporte)
-                ac._asignacion = asignacion
-                ac.merge(int(asignacion._id)-1)
+                print("Reporte Datos")
+                print("cedula: ", rec._reporte._cedulaEstudiante)
+                print("codigoUnidad: ", rec._reporte._codigoUnidad)
+                print("codigoMateria: ", rec._reporte._codigoMateria)
+                print("nota: ", rec._reporte._nota)
+                print("numMatricula: ", rec._reporte._numMatricula)
+                print("asistencia: ", rec._reporte._asistencia)
+                print("idAsignacion: ", rec._reporte._idAsignacion)
+                
+                # rec.save
+                # asignacion._reportes.print
+                # reportes.addNode(rec._reporte)
+                # asignacion._reportes.addNode(rec._reporte)
+                # ac._asignacion = asignacion
+                # ac.merge(int(asignacion._id)-1)
                 
                 
         else:
