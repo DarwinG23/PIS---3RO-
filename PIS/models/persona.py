@@ -1,5 +1,7 @@
 from controls.tda.linked.linkedList import Linked_List
 from models.rol import Rol
+from datetime import datetime
+from controls.login.rolDaoControl import RolDaoControl
 class Persona:
     def __init__(self):
         self.__id = 0
@@ -87,23 +89,30 @@ class Persona:
             "apellido": self.__apellido,
             "fechaNacimiento": self.__fechaNacimiento,
             "numTelefono": self.__numTelefono,
-            "idCuenta": self.__idCuenta,
-            "roles": self.__roles.serializable
+            #"idCuenta": self.__idCuenta,
+            #QUITAMOS ROLES POR QUE NO ESTA EN LA BASE
         }
     
 
     @classmethod
-    def deserializar(self, data):
-        persona = Persona()
+    def deserializar(cls, data):
+        persona = cls()
         persona._id = data["id"]
         persona._dni = data["dni"]
         persona._nombre = data["nombre"]
         persona._apellido = data["apellido"]
-        persona._fechaNacimiento = data["fechaNacimiento"]
-        persona._numTelefono = data["numTelefono"]
-        persona._idCuenta = data["idCuenta"]
-        clase = Rol()
-        persona._roles = Linked_List().deserializar(data["roles"], clase)
+        persona._fechaNacimiento = data["fechanacimiento"]
+        persona._numTelefono = data["numtelefono"]
+        
+        #HACER CONSULTA
+        rc = RolDaoControl()
+        if rc._list().isEmpty:
+            roles = Linked_List()
+        else:
+            roles = rc._list()
+            roles = roles.lineal_binary_search_models(str(persona._id),"_idPersona")
+        persona._roles = roles
+        
         return persona
     
     def __str__(self):

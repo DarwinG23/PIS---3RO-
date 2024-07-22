@@ -88,7 +88,7 @@ class Unidad:
             "estado": self.__estado,
             "fecha_inicio": self.__fecha_inicio,
             "fecha_limite": self.__fecha_limite,
-            "asignacion": self.__asignacion,
+            "idAsignacion": self.__asignacion,
             "nombre": self.__nombre,
             "numero": self.__numero,
         }
@@ -97,13 +97,13 @@ class Unidad:
     def deserializar(self, data):
         unidad = Unidad()
         unidad._id = data["id"]
-        unidad._codigo = data["codigo"]
+        unidad._codigo = str(data["codigo"])
         unidad._estado = data["estado"]
         unidad._fecha_inicio = data["fecha_inicio"]
         unidad._fecha_limite = data["fecha_limite"]
-        unidad._asignacion = data["asignacion"]
+        unidad._asignacion = data["idasignacion"]
         unidad._nombre = data["nombre"]
-        #unidad._numero = data["numero"]         #arreglar
+        unidad._numero = data["numero"]         
         return unidad
     
     def __str__(self) -> str:

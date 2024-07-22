@@ -1,5 +1,5 @@
 from controls.tda.linked.linkedList import Linked_List
-from models.materia import Materia
+#from controls.academico.materiaControl import MateriaControl
 
 class Ciclo:
     def __init__(self):
@@ -66,8 +66,16 @@ class Ciclo:
         ciclo._descripcion = dic["descripcion"]
         ciclo._vigencia = dic["vigencia"]
         ciclo._malla_curricular = dic["malla_curricular"]
-        clase = Materia()
-        ciclo._materias = Linked_List().deserializar(dic["materias"], clase)
+        
+        # mc = MateriaControl()
+        # if mc._list().isEmpty:
+        #     materias = Linked_List()
+        # else:
+        #     materias = mc._list()
+        #     materias = materias.lineal_binary_search_models(ciclo._id, "_idCiclo")
+        materias = Linked_List()
+        ciclo._materias = materias
+        
         return ciclo
     
     def __str__(self):

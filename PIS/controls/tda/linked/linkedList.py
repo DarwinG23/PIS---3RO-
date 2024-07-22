@@ -126,6 +126,7 @@ class Linked_List(object):
 
     def edit (self, data, poss = 0):
         if poss == 0:
+
             self.__head._data = data
         elif poss == (self.__length - 1):
             self.__last._data = data

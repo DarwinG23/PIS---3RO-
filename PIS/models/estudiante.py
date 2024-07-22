@@ -3,6 +3,10 @@ from models.cursa import Cursa
 from models.persona import Persona
 from models.rol import Rol
 
+from controls.login.personaDaoControl import PersonaDaoControl
+from controls.login.rolDaoControl import RolDaoControl
+from controls.administrativo.cursaControl import CursaControl
+
 class Estudiante(Persona):
     def __init__(self):
         super().__init__()
@@ -10,6 +14,16 @@ class Estudiante(Persona):
         self.__asistencia = ""
         self.__colegioProcedencia = ""
         self.__cursas = Linked_List()
+        self.__idPersona = 0
+
+    @property
+    def _idPersona(self):
+        return self.__idPersona
+
+    @_idPersona.setter
+    def _idPersona(self, value):
+        self.__idPersona = value
+
 
     @property
     def _cursas(self):
@@ -48,29 +62,44 @@ class Estudiante(Persona):
         data = super().serializable
         
         data.update({
-            "nota": self.__nota,
+            "promedio": self.__nota,
             "asistencia": self.__asistencia,
             "colegioProcedencia": self.__colegioProcedencia,
-            "cursas": self.__cursas.serializable
+            "idPersona": self.__idPersona,
+            #"cursas": self.__cursas.serializable
         })
         return data
     
     def deserializar(data):
         estudiante = Estudiante()
+        personas = PersonaDaoControl()._list()
+        persona = personas.binary_search_models(str(data["idpersona"]), "_id")
         estudiante._id = data["id"]
-        estudiante._dni = data["dni"]
-        estudiante._nombre = data["nombre"]
-        estudiante._apellido = data["apellido"]
-        estudiante._fechaNacimiento = data["fechaNacimiento"]
-        estudiante._numTelefono = data["numTelefono"]
-        estudiante._idCuenta = data["idCuenta"]
-        clase = Rol()
-        estudiante._roles = Linked_List().deserializar(data["roles"], clase)
-        estudiante._nota = data["nota"]
+        estudiante._dni = persona._dni
+        estudiante._nombre = persona._nombre
+        estudiante._apellido = persona._apellido
+        estudiante._fechaNacimiento = persona._fechaNacimiento
+        estudiante._numTelefono = persona._numTelefono
+        estudiante._idPersona = data["idpersona"]
+        #HACER CONSULTA
+        rc = RolDaoControl()
+        if rc._list().isEmpty:
+            roles = Linked_List()
+        else:
+            roles = rc._list()
+            roles = roles.lineal_binary_search_models(str(persona._id),"_idPersona")
+        estudiante._roles = roles
+        
+        estudiante._nota = data["promedio"]
         estudiante._asistencia = data["asistencia"]
-        estudiante._colegioProcedencia = data["colegioProcedencia"]
-        clase = Cursa()
-        estudiante._cursas = Linked_List().deserializar(data["cursas"], clase)
+        estudiante._colegioProcedencia = data["colegioprocedencia"]
+        cc = CursaControl()
+        if cc._list().isEmpty:
+            cursas = Linked_List()
+        else:
+            cursas = cc._list()
+            cursas = cursas.lineal_binary_search_models(str(estudiante._id),"_idEstudiante")
+        estudiante._cursas = cursas
         return estudiante
     
     

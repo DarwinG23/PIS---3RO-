@@ -25,9 +25,6 @@ class AsignacionDaoControl(DaoAdapter):
         return self._save(self._asignacion)
     
     def merge(self, pos):
-        print("AsignacionDaoControl.merge")
-        print(self._asignacion)
-        self._asignacion._reportes.print
         self._merge(self._asignacion, pos)
 
 

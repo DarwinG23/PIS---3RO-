@@ -1,5 +1,7 @@
 from controls.tda.linked.linkedList import Linked_List
 from models.asignacion import Asignacion
+from controls.seguimiento.asignacionControl import AsignacionDaoControl
+from controls.academico.cicloControl import CicloControl
 
 
 class Materia:
@@ -68,8 +70,9 @@ class Materia:
             "nombre": self.__nombre,
             "codigo": self.__codigo,
             "horas": self.__horas,
-            "asignaciones": self.__asignaciones.serializable,
-            "id_ciclo": self.__id_ciclo
+            "idCiclo": self.__id_ciclo
+            #"asignaciones": self.__asignaciones.serializable,
+            #"id_ciclo": self.__id_ciclo
         }
         
     @classmethod
@@ -79,13 +82,21 @@ class Materia:
         materia._nombre = dic["nombre"]
         materia._codigo = dic["codigo"]
         materia._horas = dic["horas"]
-        asignaciones_data = dic.get("asignaciones", [])
-        if isinstance(asignaciones_data, list):
-            clase = Asignacion()
-            materia._asignaciones = Linked_List().deserializar(dic["asignaciones"], clase)
+        ac = AsignacionDaoControl()
+        if ac._list().isEmpty:
+            asignaciones = Linked_List()
         else:
-            materia._asignaciones = Linked_List()
-        materia._id_ciclo = dic["id_ciclo"]
+            asignaciones = ac._list()
+            asignaciones = asignaciones.lineal_binary_search_models(materia._id, "_id_materia")
+        
+        cc = CicloControl()
+        if cc._list().isEmpty:
+            ciclo = "s/n"
+        else:
+            ciclos = cc._list()
+            ciclo = ciclos.binary_search_models(materia._id_ciclo, "_id")
+        
+        materia._id_ciclo = ciclo
         return materia
     
     def __str__(self):

@@ -66,7 +66,7 @@ class Rol:
         rol._nombre = dic["nombre"]
         rol._descripcion = dic["descripcion"]
         rol._estado = dic["estado"]
-        rol._idPersona = dic["idPersona"]
+        rol._idPersona = dic["idpersona"]
         return rol
     
     def __str__(self):
