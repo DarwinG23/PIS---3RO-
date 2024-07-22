@@ -3,6 +3,10 @@ from models.unidad import Unidad
 from models.reporte import Reporte
 from models.cursa import Cursa
 
+from controls.administrativo.cursaControl import CursaControl
+from controls.seguimiento.reporteControl import ReporteControl
+from controls.seguimiento.unidadControl import UnidadControl
+
 class Asignacion:
     def __init__(self):
         self.__id = 0
@@ -80,9 +84,9 @@ class Asignacion:
             "numero_unidades": self.__numero_unidades,
             "cedula_docente": self.__cedula_docente,
             "id_materia": self.__id_materia,
-            "cursas": self.__cursas.serializable,
-            "unidades": self.__unidades.serializable, 
-            "reportes": self.__reportes.serializable
+            #"cursas": self.__cursas.serializable,
+            #"unidades": self.__unidades.serializable, 
+            #"reportes": self.__reportes.serializable
         }
 
     @classmethod
@@ -92,21 +96,33 @@ class Asignacion:
         asignacion._numero_unidades = data["numero_unidades"]
         asignacion._cedula_docente = data["cedula_docente"]
         asignacion._id_materia = data["id_materia"]
-        clase = Cursa()
-        reportes_data = data.get("cursas", [])
-        if isinstance(reportes_data, list):
-            asignacion._cursas = Linked_List.deserializar(data["cursas"], clase)
-            clase = Unidad()
+        #CONSULTAS
+        cc = CursaControl()
+        if cc._list().isEmpty:
+            cursas = Linked_List()
         else:
-            asignacion._cursas = Linked_List()
-        asignacion._unidades = Linked_List().deserializar(data["unidades"], clase)
-        reportes_data = data.get("reportes", [])
-        if isinstance(reportes_data, list):
-            clase_reporte = Reporte()
-            asignacion._reportes = Linked_List().deserializar(reportes_data, clase_reporte)
+            cursas = cc._list()
+            cursas = cursas.lineal_binary_search_models(asignacion._id,"_asignacion")        
+        asignacion._cursas = cursas
+        
+        uc = UnidadControl()
+        if uc._list().isEmpty:
+            unidades = Linked_List()
         else:
-            asignacion._reportes = Linked_List() 
+            unidades = uc._list()
+            unidades = unidades.lineal_binary_search_models(asignacion._id,"_asignacion")
+        asignacion._unidades = unidades
+        
+        rc = ReporteControl()
+        if rc._list().isEmpty:
+            reportes = Linked_List()
+        else:
+            reportes = rc._list()
+            reportes = reportes.lineal_binary_search_models(asignacion._id,"_idAsignacion")
+        asignacion._reportes = reportes
+        
         return asignacion
+    
     
     
     

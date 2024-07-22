@@ -101,3 +101,20 @@ class DaoAdapter(Generic[T]):
         print("LOG:" + sql)
         cur.execute(sql)
         self.conn._db.commit()
+    
+    
+    def dic_to_list(self, data, clase):
+        print("dic to list")
+        print(type(data))
+        print(type(clase))
+        for i in range(0, len(data)):
+            self.lista.addNode(clase.deserializar(data[i]), self.lista._length)
+        return self.lista
+    
+    
+    def to_dic_lista(self, lista):
+        aux = []
+        arreglo = lista.toArray
+        for i in range(0, lista._length):
+            aux.append(arreglo[i].serializable)
+        return aux

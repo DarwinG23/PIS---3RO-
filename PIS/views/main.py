@@ -33,6 +33,16 @@ rec = ReporteControl()
 con = Connection()
 
 try:
+   # mac._materia._nombre = "Base de Datos"
+   # mac._materia._codigo = "2464"
+   # mac._materia._horas = 275
+   # mac.save
+   
+   ac._asignacion._numero_unidades = 3
+   ac._asignacion._cedula_docente = "1106006123"
+   ac._asignacion._id_materia = 1
+   ac.save
+   
    # pc._persona._apellido = "Granda"
    # pc._persona._nombre = "Darwin"
    # pc._persona._dni = "1106006123"
@@ -49,11 +59,11 @@ try:
    # cc._cuenta = None
    # pc._persona = None
    
-   rc._rol._nombre = "Docente"
-   rc._rol._descripcion = "Rol de docente"
-   rc._rol._estado = 1
-   rc._rol._idPersona = pc._list()._length
-   rc.save
+   # rc._rol._nombre = "Docente"
+   # rc._rol._descripcion = "Rol de docente"
+   # rc._rol._estado = 1
+   # rc._rol._idPersona = pc._list()._length
+   # rc.save
    
    # lista = pc._list()
    # print("^^^^^^^^^^^^^^^^^^^^^^^^^")

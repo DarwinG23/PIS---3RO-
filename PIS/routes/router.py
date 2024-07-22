@@ -76,7 +76,14 @@ def login():
             for i in range(0, len(arrayasignaciones)):
                 
                 idMateria = arrayasignaciones[i]._id_materia
-                materia = mc._list().binary_search_models(idMateria, "_id")
+                print("^^^^^^^^^^^^^^^^^^^^^")
+                print(idMateria)
+                print(mc._list()._length)
+                
+                try:
+                   materia = mc._list().binary_search_models(idMateria, "_id")
+                except:
+                    materia = -1
 
                 if materia != -1:
                     listaMaterias.addNode(materia)
@@ -101,7 +108,10 @@ def docenteMaterias(idPersona, docente, admin):
         
     ac = AsignacionDaoControl()
     listaAsignaciones = ac._list()
-    arrayasignaciones = listaAsignaciones.lineal_binary_search_models(persona._dni, "_cedula_docente").toArray
+    if listaAsignaciones._length != 0:
+        arrayasignaciones = listaAsignaciones.lineal_binary_search_models(persona._dni, "_cedula_docente").toArray
+    else:
+        arrayasignaciones = []
     mc = MateriaControl()
     listaMaterias = Linked_List()
 
