@@ -1174,7 +1174,7 @@ def verificar_exel(idMateria, idPersona, docente, admin, tabla, idPeriodo):
                 rec._reporte._codigoUnidad = unidad._codigo
                 rec._reporte._codigoMateria = materia._codigo
                 rec._reporte._nota = nota
-                rec._reporte._numMatricula = 2 #len(cursaArr)
+                rec._reporte._numMatricula = len(cursaArr)
                 rec._reporte._asistencia = 100
                 rec._reporte._idAsignacion = asignacion._id
                 rec.save
