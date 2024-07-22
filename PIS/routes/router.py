@@ -66,7 +66,10 @@ def login():
         else:
             ac = AsignacionDaoControl()
             listaAsignaciones = ac._list()
-            arrayasignaciones = listaAsignaciones.lineal_binary_search_models(persona._dni, "_cedula_docente").toArray
+            if listaAsignaciones._length != 0:
+                arrayasignaciones = listaAsignaciones.lineal_binary_search_models(persona._dni, "_cedula_docente").toArray
+            else:
+                arrayasignaciones = []
             mc = MateriaControl()
             listaMaterias = Linked_List()
             #recooremos el array de asignaciones

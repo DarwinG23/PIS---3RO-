@@ -66,7 +66,8 @@ class Cuenta:
         cuenta._correo = dic["correo"]
         cuenta._contrasenia = dic["contrasenia"]
         cuenta._estado = dic["estado"]
-        cuenta._idPersona = dic["idPersona"]
+        #PONER EN LA BASE   
+        cuenta._idPersona = dic["idpersona"]
         return cuenta
     
     
