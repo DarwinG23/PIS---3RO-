@@ -1,8 +1,8 @@
 [
     {
         "id": 1,
-        "fecha_inicio": "2023-10-23",
-        "fecha_fin": "2024-3-30",
+        "fecha_inicio": "23/10/2023",
+        "fecha_fin": "30/03/2024",
         "cursas": [
             {
                 "id": 1,
@@ -36,8 +36,8 @@
     },
     {
         "id": 2,
-        "fecha_inicio": "2022-2-23",
-        "fecha_fin": "2022-7-20",
+        "fecha_inicio": "23/02/2022",
+        "fecha_fin": "20/07/2022",
         "cursas": [
             {
                 "id": 1,
@@ -71,8 +71,8 @@
     },
     {
         "id": 3,
-        "fecha_inicio": "2021-11-15",
-        "fecha_fin": "2022-2-23",
+        "fecha_inicio": "15/11/2022",
+        "fecha_fin": "23/04/2023",
         "cursas": [
             {
                 "id": 1,

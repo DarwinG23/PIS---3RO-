@@ -58,6 +58,26 @@
         "asignacion": 1,
         "nombre": "SQL",
         "numero": 0
+    },
+    {
+        "id": 7,
+        "codigo": "2022",
+        "estado": true,
+        "fecha_inicio": "2021-06-01",
+        "fecha_limite": "2021-06-30",
+        "asignacion": 1,
+        "nombre": "Modelo Relacional",
+        "numero": 0
+    },
+    {
+        "id": 8,
+        "codigo": "1010",
+        "estado": true,
+        "fecha_inicio": "2021-06-01",
+        "fecha_limite": "2021-06-30",
+        "asignacion": 1,
+        "nombre": "Normalizacion",
+        "numero": 0
     }
     
 ]

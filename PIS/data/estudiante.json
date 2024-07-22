@@ -60,14 +60,14 @@
             {
                 "id": 1,
                 "paralelo": "A",
-                "idEstudiante": 1,
+                "idEstudiante": 2,
                 "asignacion": 1,
                 "periodoAcademico": 1
             },
             {
                 "id": 2,
                 "paralelo": "B",
-                "idEstudiante": 1,
+                "idEstudiante": 2,
                 "asignacion": 4,
                 "periodoAcademico": 1
             }
@@ -97,14 +97,14 @@
             {
                 "id": 2,
                 "paralelo": "A",
-                "idEstudiante": 1,
+                "idEstudiante": 4,
                 "asignacion": 3,
                 "periodoAcademico": 1
             },
             {
                 "id": 4,
                 "paralelo": "A",
-                "idEstudiante": 1,
+                "idEstudiante": 4,
                 "asignacion": 4,
                 "periodoAcademico": 2
             }

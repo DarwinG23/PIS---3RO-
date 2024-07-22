@@ -1,6 +1,7 @@
 from controls.tda.linked.linkedList import Linked_List
 from models.unidad import Unidad
 from models.reporte import Reporte
+from models.cursa import Cursa
 
 class Asignacion:
     def __init__(self):
@@ -8,7 +9,7 @@ class Asignacion:
         self.__numero_unidades = 0
         self.__cedula_docente = ""
         self.__id_materia = 0
-        self.__id_cursa = 0
+        self.__cursas = Linked_List()
         self.__unidades = Linked_List()
         self.__reportes = Linked_List()
         
@@ -64,12 +65,12 @@ class Asignacion:
         self.__id_materia = value
 
     @property
-    def _id_cursa(self):
-        return self.__id_cursa
+    def _cursas(self):
+        return self.__cursas
 
-    @_id_cursa.setter
-    def _id_cursa(self, value):
-        self.__id_cursa = value
+    @_cursas.setter
+    def _cursas(self, value):
+        self.__cursas = value
 
 
     @property
@@ -79,7 +80,7 @@ class Asignacion:
             "numero_unidades": self.__numero_unidades,
             "cedula_docente": self.__cedula_docente,
             "id_materia": self.__id_materia,
-            "id_cursa": self.__id_cursa,
+            "cursas": self.__cursas.serializable,
             "unidades": self.__unidades.serializable, 
             "reportes": self.__reportes.serializable
         }
@@ -91,8 +92,13 @@ class Asignacion:
         asignacion._numero_unidades = data["numero_unidades"]
         asignacion._cedula_docente = data["cedula_docente"]
         asignacion._id_materia = data["id_materia"]
-        asignacion._id_cursa = data["id_cursa"]
-        clase = Unidad()
+        clase = Cursa()
+        reportes_data = data.get("cursas", [])
+        if isinstance(reportes_data, list):
+            asignacion._cursas = Linked_List.deserializar(data["cursas"], clase)
+            clase = Unidad()
+        else:
+            asignacion._cursas = Linked_List()
         asignacion._unidades = Linked_List().deserializar(data["unidades"], clase)
         reportes_data = data.get("reportes", [])
         if isinstance(reportes_data, list):
@@ -105,4 +111,4 @@ class Asignacion:
     
     
     def __str__(self):
-        return self._cedula_docente
+        return "docente: " + str(self._cedula_docente) + " id: " + str(self._id) 

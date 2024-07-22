@@ -132,6 +132,7 @@ class Linked_List(object):
         else:
             node = self.getNode(poss)
             node._data = data
+            node._data._reportes.print
 
 
     @property

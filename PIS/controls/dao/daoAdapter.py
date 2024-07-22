@@ -110,7 +110,7 @@ class DaoAdapter(Generic[T]):
 
 
     def _merge(self, data: T, pos) -> T:
-        data = self.lista.getData(pos)  #para obtener el id
+        data._id = self.lista.getData(pos)._id + 1 
         self._list()
         self.lista.edit(data, pos)
         a = open(self.URL+self.file, "w")

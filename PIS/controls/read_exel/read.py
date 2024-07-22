@@ -1,6 +1,6 @@
 import openpyxl
 from tabulate import tabulate
-
+import ast
 
 class Read:
     def __init__(self, file):
@@ -66,4 +66,8 @@ class Read:
             return 
         headers = ["Nro","cedula","nombres", "apellidos", "notas"]
         print(tabulate(self.__info, headers=headers, tablefmt="fancy_grid"))
-
+        
+    
+    def str_to_dict(self, data):
+       data = ast.literal_eval(data)
+       return data

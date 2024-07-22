@@ -10,7 +10,7 @@
                 "numero_unidades": 2,
                 "cedula_docente": "1106006123",
                 "id_materia": 1,
-                "id_cursa": 1,
+                "cursas": [],
                 "unidades": [
                     {
                         "id": 1,
@@ -78,7 +78,7 @@
                 "numero_unidades": 2,
                 "cedula_docente": "1106006123",
                 "id_materia": 2,
-                "id_cursa": 1,
+                "cursas": [],
                 "unidades": [
                     {
                         "id": 1,
@@ -117,7 +117,7 @@
                 "numero_unidades": 2,
                 "cedula_docente": "1104754521",
                 "id_materia": 3,
-                "id_cursa": 1,
+                "cursas": [],
                 "unidades": [
                     {
                         "id": 1,

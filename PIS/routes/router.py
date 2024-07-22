@@ -14,10 +14,11 @@ from controls.login.rolDaoControl import RolDaoControl
 from controls.seguimiento.unidadControl import UnidadControl
 from controls.tda.linked.linkedList import Linked_List
 from controls.administrativo.periodoAcademicoControl import PeriodoAcademicoControl
-import time, math
+import time, math, datetime 
 from controls.read_exel.read import Read
 from io import BytesIO
 from scipy import stats
+
 router = Blueprint('router', __name__)
 
 
@@ -956,7 +957,6 @@ def filtrar_estudiantes(periodo, paralelo, nota, matricula, idMateria, idPersona
                         
     #Filtro por nota
     if int(nota) != 0:
-        print("Filtro por nota")
         auxAlumnos = []
         for i in range(0, alumnos._length):
             alumno = alumnos.getData(i)
@@ -1011,5 +1011,149 @@ def cargar_archivo(idMateria, idPersona, docente, admin):
             r.leer_archivo()
             r.imprimir()
             tabla = r.info_to_dict()
+            
+     
+    pec = PeriodoAcademicoControl()
+    periodos = pec._list()
     
-    return render_template('vista_docente/notas.html',  idMateria=idMateria, idPersona=idPersona, docente = docente, admin = admin, tabla = tabla)
+    peridoActual = None 
+    for i in range(0, periodos._length):
+        fechaFin = periodos.getData(i)._fecha_fin
+        #transforma a data time en dia mes año
+        fechaFin = datetime.datetime.strptime(fechaFin, '%d/%m/%Y')
+        for j in range(0, periodos._length):
+            fecha_inicio = periodos.getData(j)._fecha_inicio
+            fecha_inicio = datetime.datetime.strptime(fecha_inicio, '%d/%m/%Y')
+            if fecha_inicio > fechaFin or fecha_inicio == fechaFin:
+                peridoActual = periodos.getData(j)
+    
+    
+    
+    ac = AsignacionDaoControl()
+    pc = PersonaDaoControl()
+    persona = pc._list().binary_search_models(idPersona, "_id")
+
+
+    asignaciones = ac._list().lineal_binary_search_models(idMateria, "_id_materia")
+    asignaciones = asignaciones.lineal_binary_search_models(persona._dni, "_cedula_docente")
+    
+    unidades = Linked_List()
+    
+    paralelos = []
+
+    if asignaciones._length != 0:
+        ec = EstudianteControl()
+        estudiantes = ec._list().toArray
+        idAsignacion = None
+        for i in range(0, len(estudiantes)):
+            cursas = estudiantes[i]._cursas
+            for j in range(0, asignaciones._length):
+                cursa = cursas.binary_search_models(asignaciones.getData(j)._id, "_asignacion")
+                existe = False
+
+                for unidad in asignaciones.getData(j)._unidades.toArray:
+                        if idAsignacion != asignaciones.getData(j)._id:
+                            unidades.addLast(unidad)
+                        
+                idAsignacion = asignaciones.getData(j)._id
+                if cursa != -1:
+                    for paralelo in paralelos:
+                        if paralelo == cursa._paralelo:
+                            existe = True
+                            break                
+                if cursa != -1:
+                    if not existe:
+                       paralelos.append(cursa._paralelo)
+                    
+    
+    
+    return render_template('vista_docente/notas.html',  idMateria=idMateria, idPersona=idPersona, docente = docente, admin = admin, tabla = tabla, paralelos = paralelos, unidades = ec.to_dic_lista(unidades), periodo = peridoActual._id)
+
+
+#"/home/notas/{{idMateria}}/{{idPersona}}/{{docente}}/{{admin}}"
+@router.route('/home/notas/<idMateria>/<idPersona>/<docente>/<admin>/<tabla>/<idPeriodo>', methods=["POST"])
+def verificar_exel(idMateria, idPersona, docente, admin, tabla, idPeriodo):
+
+
+    
+    data = request.form
+    unidad = data["unidad"]
+    paralelo = data["paralelo"]
+
+    unidad = UnidadControl()._list().binary_search_models(unidad, "_id")
+    materia = MateriaControl()._list().binary_search_models(idMateria, "_id")
+
+    r = Read(None)
+    tabla = r.str_to_dict(tabla)
+    ac = AsignacionDaoControl()
+    pc = PersonaDaoControl()
+    profesor = pc._list().binary_search_models(idPersona, "_id")
+    periodo = PeriodoAcademicoControl()._list().binary_search_models(int(idPeriodo), "_id")
+    
+    asignaciones = ac._list().lineal_binary_search_models(idMateria, "_id_materia")
+    asignacion = asignaciones.binary_search_models(profesor._dni, "_cedula_docente")
+
+
+    
+    idEstudiantes = []
+    
+    cursas = asignacion._cursas
+    for i in range(0, cursas._length): 
+        cursa = cursas.getData(i)
+        if cursa._paralelo == paralelo and cursa._periodoAcademico == periodo._id:
+            idEstudiantes.append(cursa._idEstudiante)
+            
+   
+    for i in range(0, len(idEstudiantes)):
+        existe = False
+        reporteExiste = False
+        estudante = EstudianteControl()._list().binary_search_models(idEstudiantes[i], "_id")
+        for registro in tabla:
+            cedula = registro['cedula']
+            nota = registro['notas']
+            if estudante._dni == cedula:
+                existe = True
+                break
+        if existe:
+            print("El estudiante existe")
+            rec = ReporteControl()
+            reportes = rec._list()
+            for j in range(0, reportes._length):
+                reporte = reportes.getData(j)
+                if reporte._cedulaEstudiante == cedula and reporte._codigoUnidad == unidad._codigo  and reporte._codigoMateria == materia._codigo:
+                    print("El reporte existe")
+                    reporteExiste = True
+                    break
+            
+            if not reporteExiste:
+                cursasEstudiante = cursas.lineal_binary_search_models(idEstudiantes[i], "_idEstudiante")
+                cursaArr = []
+                
+                for i in range (0, asignaciones._length):
+                    for j in range(0, cursasEstudiante._length):
+                        if asignaciones.getData(i)._id == cursasEstudiante.getData(j)._asignacion:
+                            cursaArr.append(cursasEstudiante.getData(j))
+                
+                rec._reporte._cedulaEstudiante = cedula
+                rec._reporte._codigoUnidad = unidad._codigo
+                rec._reporte._codigoMateria = materia._codigo
+                rec._reporte._nota = nota
+                rec._reporte._numMatricula = len(cursaArr)
+                rec._reporte._asistencia = 100
+                rec._reporte._idAsignacion = asignacion._id
+                rec.save
+                asignacion._reportes.print
+                reportes.addNode(rec._reporte)
+                asignacion._reportes.addNode(rec._reporte)
+                ac._asignacion = asignacion
+                ac.merge(int(asignacion._id)-1)
+                
+                
+        else:
+            print("El estudiante no Existe")
+            
+            
+        
+
+    
+    return redirect("/home/materias/estudiantes/unidades/notas/"+idMateria+"/"+idPersona+"/"+docente+"/"+admin, code=302)
